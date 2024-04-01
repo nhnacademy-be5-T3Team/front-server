@@ -8,6 +8,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 public class indexController {
     @GetMapping("/")
     public String test() {
-        return "main/index.html";
+        return "main/page/home.html";
     }
 }
