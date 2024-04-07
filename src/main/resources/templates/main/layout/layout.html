@@ -2,24 +2,24 @@
 <html lagn="ko" xmlns:th="https://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 
 <!-- 공통 헤더-->
-<th:block th:replace="/main/component/head :: headFragment"></th:block>
+<th:block th:replace="/main/fragment/head :: headFragment"></th:block>
 
 <body id="page-top">
 <div id="wrapper">
 
     <!-- 상단바-->
-    <th:block th:replace="/main/component/topbar :: topbarFragment"></th:block>
+    <th:block th:replace="/main/fragment/topbar :: topbarFragment"></th:block>
 
     <div id="content-wrapper" class="d-flex flex-column">
         <div id="content" style="display: flex; flex-direction: row;">
             <!-- 사이드바-->
-            <th:block th:replace="/main/component/sidebar :: sidebarFragment"></th:block>
+            <th:block th:replace="/main/fragment/sidebar :: sidebarFragment"></th:block>
 
             <!-- 본문-->
             <th:block layout:fragment="content"></th:block>
         </div>
         <!-- 공통 하단-->
-        <th:block th:replace="/main/component/footer :: footerFragment"></th:block>
+        <th:block th:replace="/main/fragment/footer :: footerFragment"></th:block>
     </div>
 </div>
 <!-- jQuery -->

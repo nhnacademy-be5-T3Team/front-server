@@ -12,7 +12,6 @@
                         Books
                     </h2>
                 </div>
-
                 <ul class="filters_menu">
                     <li data-filter=".recentlyPublished">이 주의 도서</li>
                     <li data-filter=".mostLike">독자의 선택</li>
@@ -21,9 +20,20 @@
 
                 <div class="filters-content">
                     <div class="row grid">
-                        <!-- Item 시작 -->
-                        <th:block th:replace="/main/component/itembox :: itemFragment ('recentlyPublished')"></th:block>
-                        <!-- Item 끝 -->
+                        <!-- 이 주의 도서 -->
+                        <th:block th:each="book : ${recentlyPublishedBookList}">
+                            <th:block th:replace="/main/fragment/itembox :: itemFragment ('recentlyPublished', ${book.name}, ${book.coverImageUrl})"></th:block>
+                        </th:block>
+
+                        <!-- 독자의 선택 -->
+                        <th:block th:each="book : ${mostLikeBookList}">
+                            <th:block th:replace="/main/fragment/itembox :: itemFragment ('mostLike', ${book.name}, ${book.coverImageUrl})"></th:block>
+                        </th:block>
+
+                        <!-- 역대 베스트 셀러 -->
+                        <th:block th:each="book : ${bestSellerBookList}">
+                            <th:block th:replace="/main/fragment/itembox :: itemFragment ('bestSeller', ${book.name}, ${book.coverImageUrl})"></th:block>
+                        </th:block>
                     </div>
                 </div>
                 <div class="btn-box">

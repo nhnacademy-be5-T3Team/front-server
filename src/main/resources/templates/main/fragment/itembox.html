@@ -1,17 +1,17 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<th:block th:fragment="itemFragment (type)">
-<!-- 이 주의 도서 시작 -->
+<th:block th:fragment="itemFragment (type, bookName, coverImageUrl)">
 <div class="col-sm-6 col-lg-4 all" th:classappend="${type}">
     <div class="box">
         <div>
             <div class="img-box">
-                <img src="" alt="">
+                <!-- 책의 이미지를 표시하는 부분 -->
+                <img th:if="${coverImageUrl != 'no-image'}" th:src="${coverImageUrl}" alt="Book Image">
+                <img th:unless="${coverImageUrl != 'no-image'}" th:src="@{/main/assets/images/no-image.png}" alt="Default Book Image">
             </div>
             <div class="detail-box">
-                <h5>
-                    도서명
-                </h5>
+                <!-- 책의 이름을 표시하는 부분 -->
+                <h5 th:text="${bookName}">Book Name</h5>
                 <div class="options">
                     <a href="">
                         <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg"
@@ -27,6 +27,5 @@
     </div>
 
 </div>
-<!-- 이 주의 도서 끝 -->
 </th:block>
 </html>
