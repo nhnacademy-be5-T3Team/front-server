@@ -38,7 +38,7 @@ public class MainController {
         model.addAttribute("recentlyPublishedBookList", recentlyPublishedBookList);
         model.addAttribute("mostLikeBookList", mostLikeBookList);
         model.addAttribute("bestSellerBookList", bestSellerBookList);
-        
+
         return "main/page/home.html";
     }
 }

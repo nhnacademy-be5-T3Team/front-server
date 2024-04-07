@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
+//TODO : url 변경
 @FeignClient(name = "recommendationAdaptor", url = "http://localhost:8081")
 public interface RecommendationAdaptor {
     @GetMapping(value = "/recommendations/recentlyPublished")
