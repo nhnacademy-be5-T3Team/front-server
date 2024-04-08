@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <aside th:fragment="sidebarFragment" id="sidebar" class="sidebar">
+        <ul class="sidebar-nav" id="sidebar-nav">
+            <th:block th:each="parentCategory : ${categoryList}">
+                <li class="nav-item">
+                    <a class="nav-link collapsed" data-bs-target="#components-nav" data-bs-toggle="collapse" th:href="@{'/category/'+${parentCategory.parent.id}+'/books'}">
+                        <i class="bi bi-menu-button-wide"></i><span th:text="${parentCategory.parent.name}">상단카테고리이름</span><i class="bi bi-chevron-down ms-auto"></i>
+                    </a>
+                    <ul id="components-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+                        <th:block th:each="childCategory : ${parentCategory.childCategoryList}">
+                            <li>
+                                <a th:href="@{'/category/'+${childCategory.id}+'/books'}">
+                                    <i class="bi bi-circle"></i><span th:text="${childCategory.name}">자식카테고리이름</span>
+                                </a>
+                            </li>
+                        </th:block>
+                    </ul>
+                </li>
+            </th:block>
+        </ul>
+
+    </aside>
+</html>
+
+

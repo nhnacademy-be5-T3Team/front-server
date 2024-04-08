@@ -2,24 +2,24 @@
 <html lagn="ko" xmlns:th="https://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 
 <!-- 공통 헤더-->
-<th:block th:replace="/main/component/head :: headFragment"></th:block>
+<th:block th:replace="/main/fragment/head :: headFragment"></th:block>
 
 <body id="page-top">
 <div id="wrapper">
 
     <!-- 상단바-->
-    <th:block th:replace="/main/component/topbar :: topbarFragment"></th:block>
+    <th:block th:replace="/main/fragment/topbar :: topbarFragment"></th:block>
 
     <div id="content-wrapper" class="d-flex flex-column">
         <div id="content" style="display: flex; flex-direction: row;">
             <!-- 사이드바-->
-            <th:block th:replace="/main/component/sidebar :: sidebarFragment"></th:block>
+            <th:block th:replace="/main/fragment/sidebar :: sidebarFragment"></th:block>
 
             <!-- 본문-->
             <th:block layout:fragment="content"></th:block>
         </div>
         <!-- 공통 하단-->
-        <th:block th:replace="/main/component/footer :: footerFragment"></th:block>
+        <th:block th:replace="/main/fragment/footer :: footerFragment"></th:block>
     </div>
 </div>
 <!-- jQuery -->
@@ -38,5 +38,19 @@
 <script th:src="@{https://cdnjs.cloudflare.com/ajax/libs/jquery-nice-select/1.1.0/js/jquery.nice-select.min.js}"></script>
 <!-- Custom JS -->
 <script th:src="@{/main/assets/js/custom.js}"></script>
+
+<!-- Vendor JS Files -->
+<script th:src="@{/admin/assets/vendor/apexcharts/apexcharts.min.js}"></script>
+<script th:src="@{/admin/assets/vendor/bootstrap/js/bootstrap.bundle.min.js}"></script>
+<script th:src="@{/admin/assets/vendor/chart.js/chart.umd.js}"></script>
+<script th:src="@{/admin/assets/vendor/echarts/echarts.min.js}"></script>
+<script th:src="@{/admin/assets/vendor/quill/quill.min.js}"></script>
+<script th:src="@{/admin/assets/vendor/simple-datatables/simple-datatables.js}"></script>
+<script th:src="@{/admin/assets/vendor/tinymce/tinymce.min.js}"></script>
+<script th:src="@{/admin/assets/vendor/php-email-form/validate.js}"></script>
+
+<!-- Template Main JS File -->
+<script th:src="@{/admin/assets/js/main.js}"></script>
+
 </body>
 </html>
