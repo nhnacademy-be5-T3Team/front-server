@@ -1,56 +1,31 @@
 <!DOCTYPE html>
 <html lagn="ko" xmlns:th="https://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 
-<!-- 공통 헤더-->
-<th:block th:replace="/main/fragment/head :: headFragment"></th:block>
+    <!-- 공통 head (css link 등) -->
+    <th:block th:replace="/main/fragment/head :: headFragment"></th:block>
 
-<body id="page-top">
-<div id="wrapper">
-
-    <!-- 상단바-->
-    <th:block th:replace="/main/fragment/topbar :: topbarFragment"></th:block>
-
-    <div id="content-wrapper" class="d-flex flex-column">
-        <div id="content" style="display: flex; flex-direction: row;">
-            <!-- 사이드바-->
-            <th:block th:replace="/main/fragment/sidebar :: sidebarFragment"></th:block>
-
-            <!-- 본문-->
-            <th:block layout:fragment="content"></th:block>
+    <!-- body -->
+    <body id="page-top">
+        <div id="wrapper">
+            <!-- 상단바-->
+            <th:block th:replace="/main/fragment/topbar :: topbarFragment"></th:block>
+            <div id="content-wrapper" class="d-flex flex-column">
+                <div id="content" style="display: flex; flex-direction: row;">
+                    <!-- 사이드바-->
+                    <th:block th:replace="/main/fragment/sidebar :: sidebarFragment"></th:block>
+                    <div style="display: flex; flex-direction: column; width: 100%;">
+                        <!-- search bar -->
+                        <th:block th:replace="/main/fragment/searchbar :: searchbarFragment"></th:block>
+                        <!-- 본문-->
+                        <th:block layout:fragment="content"></th:block>
+                    </div>
+                </div>
+                <!-- 공통 하단 (footer) -->
+                <th:block th:replace="/main/fragment/footer :: footerFragment"></th:block>
+            </div>
         </div>
-        <!-- 공통 하단-->
-        <th:block th:replace="/main/fragment/footer :: footerFragment"></th:block>
-    </div>
-</div>
-<!-- jQuery -->
-<script th:src="@{/main/assets/js/jquery-3.4.1.min.js}"></script>
-<!-- Popper.js -->
-<script th:src="@{https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js}"
-        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
-        crossorigin="anonymous"></script>
-<!-- Bootstrap JS -->
-<script th:src="@{/main/assets/js/bootstrap.js}"></script>
-<!-- Owl Carousel -->
-<script th:src="@{https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js}"></script>
-<!-- Isotope JS -->
-<script th:src="@{https://unpkg.com/isotope-layout@3.0.4/dist/isotope.pkgd.min.js}"></script>
-<!-- jQuery Nice Select -->
-<script th:src="@{https://cdnjs.cloudflare.com/ajax/libs/jquery-nice-select/1.1.0/js/jquery.nice-select.min.js}"></script>
-<!-- Custom JS -->
-<script th:src="@{/main/assets/js/custom.js}"></script>
 
-<!-- Vendor JS Files -->
-<script th:src="@{/admin/assets/vendor/apexcharts/apexcharts.min.js}"></script>
-<script th:src="@{/admin/assets/vendor/bootstrap/js/bootstrap.bundle.min.js}"></script>
-<script th:src="@{/admin/assets/vendor/chart.js/chart.umd.js}"></script>
-<script th:src="@{/admin/assets/vendor/echarts/echarts.min.js}"></script>
-<script th:src="@{/admin/assets/vendor/quill/quill.min.js}"></script>
-<script th:src="@{/admin/assets/vendor/simple-datatables/simple-datatables.js}"></script>
-<script th:src="@{/admin/assets/vendor/tinymce/tinymce.min.js}"></script>
-<script th:src="@{/admin/assets/vendor/php-email-form/validate.js}"></script>
-
-<!-- Template Main JS File -->
-<script th:src="@{/admin/assets/js/main.js}"></script>
-
-</body>
+        <!-- 공통 script-->
+        <th:block th:replace="/main/fragment/script :: scriptFragment"></th:block>
+    </body>
 </html>
