@@ -1,6 +1,5 @@
 package com.t3t.frontserver.book.model.response;
 
-import lombok.Builder;
 import lombok.Getter;
 
 @Getter
