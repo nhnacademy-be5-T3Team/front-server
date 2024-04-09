@@ -1,16 +1,18 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<th:block th:fragment="itemFragment (type, bookName, imageUrl)">
+<th:block th:fragment="itemFragment (type, book)">
 <!-- 이 주의 도서 시작 -->
 <div class="col-sm-6 col-lg-4 all" th:classappend="${type}">
     <div class="box">
         <div>
             <div class="img-box">
-                <img th:if="${imageUrl != 'no-image'}" th:src="${imageUrl}" alt="Book Image">
-                <img th:unless="${imageUrl != 'no-image'}" th:src="@{/main/assets/images/no-image.png}" alt="Default Book Image">
+                <img th:if="${book.coverImageUrl != 'no-image'}" th:src="${book.coverImageUrl}" alt="Book Image">
+                <img th:unless="${book.coverImageUrl != 'no-image'}" th:src="@{/main/assets/images/no-image.png}" alt="Default Book Image">
             </div>
             <div class="detail-box d-flex justify-content-between">
-                <h5 th:text="${bookName}">도서명</h5>
+                <a th:href="@{'/books/' + ${book.bookId}}">
+                    <span th:text="${book.name}">도서명</span>
+                </a>
                 <div>
                     <button class="btn btn-primary rounded-circle" style="background-color: rgb(245, 193, 82);">
                     <i class="bi bi-cart-fill"></i>
