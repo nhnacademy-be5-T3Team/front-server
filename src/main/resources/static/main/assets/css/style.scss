@@ -227,31 +227,17 @@ a:focus {
 
   .user_link {
     color: $white;
-
-
     &:hover {
       color: $primary1;
 
     }
   }
 
-  .cart_link {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-    svg {
-      width: 17px;
-      height: auto;
-      fill: $white;
-      margin-bottom: 2px;
-    }
-
+  .user_link {
+    color: $white;
     &:hover {
+      color: $primary1;
 
-      svg {
-        fill: $primary1;
-      }
     }
   }
 
