@@ -2,3 +2,7 @@ spring:
     thymeleaf:
         prefix : classpath:templates/
         suffix : .html
+        cache: false
+    devtools:
+      restart:
+          enabled: true
