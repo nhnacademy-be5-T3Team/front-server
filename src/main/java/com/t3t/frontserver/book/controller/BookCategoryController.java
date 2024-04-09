@@ -1,4 +1,4 @@
-package com.t3t.frontserver.book;
+package com.t3t.frontserver.book.controller;
 
 
 import org.springframework.stereotype.Controller;
