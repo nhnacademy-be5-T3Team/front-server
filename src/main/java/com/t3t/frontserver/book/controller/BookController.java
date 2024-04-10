@@ -5,7 +5,12 @@ import com.t3t.frontserver.book.model.response.BookDetailResponse;
 import com.t3t.frontserver.category.adaptor.CategoryAdaptor;
 import com.t3t.frontserver.category.response.CategoryListResponse;
 import com.t3t.frontserver.model.response.BaseResponse;
+import com.t3t.frontserver.review.adaptor.ReviewAdaptor;
+import com.t3t.frontserver.review.response.ReviewResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -21,15 +26,18 @@ import static com.t3t.frontserver.util.ServiceUtils.handleResponse;
 public class BookController {
     private final CategoryAdaptor categoryAdaptor;
     private final BookAdaptor bookAdaptor;
+    private final ReviewAdaptor reviewAdaptor;
 
     @GetMapping("books/{bookId}")
-    public String test(Model model, @PathVariable Long bookId) {
+    public String test(Model model, @PathVariable Long bookId, @PageableDefault(page = 0, size = 10) Pageable pageable) {
 
         List<CategoryListResponse> categoryList = getDataFromCategoryAdaptor();
-        BookDetailResponse bookDetailResponse = getDataFromBookAdaptor(bookId);
+        BookDetailResponse bookDetailList = getDataFromBookAdaptor(bookId);
+        //Page<ReviewResponse> reviewPage = getDataFromReviewAdaptor(bookId, pageable);
 
         model.addAttribute("categoryList", categoryList);
-        model.addAttribute("bookDetailResponse", bookDetailResponse);
+        model.addAttribute("bookDetailList", bookDetailList);
+        //model.addAttribute("reviewList", reviewList);
 
         return "main/page/detail.html";
     }
@@ -42,5 +50,10 @@ public class BookController {
     private BookDetailResponse getDataFromBookAdaptor(Long bookId) {
         ResponseEntity<BaseResponse<BookDetailResponse>> bookDetailResponse = bookAdaptor.getBook(bookId);
         return handleResponse(bookDetailResponse);
+    }
+
+    private Page<ReviewResponse> getDataFromReviewAdaptor(Long bookId, Pageable pageable) {
+        ResponseEntity<BaseResponse<Page<ReviewResponse>>> reviewsResponse = reviewAdaptor.getBook(bookId, pageable);
+        return handleResponse(reviewsResponse);
     }
 }
