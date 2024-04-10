@@ -10824,3 +10824,8 @@ textarea.form-control-lg {
     display: none !important;
   }
 }
+
+.carousel-item img {
+  width: 600px;
+  height: 700px;
+}
