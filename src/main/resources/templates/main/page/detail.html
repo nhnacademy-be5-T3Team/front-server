@@ -120,6 +120,16 @@
 
                     <h2>도서 목차</h2>
                     <p class="lead" th:utext="${bookDetailResponse.bookIndex}"></p>
+
+                    <h2>도서 카테고리 목록</h2>
+                    <th:block th:each="category : ${bookDetailResponse.catgoryInfoList}">
+                        <p th:text="${category.name}"></p>
+                    </th:block>
+
+                    <h2>도서 태그 목록</h2>
+                    <th:block th:each="tag : ${bookDetailResponse.tagList}">
+                        <p th:text="${tag.name}"></p>
+                    </th:block>
                 </div>
             </div>
         </section>
