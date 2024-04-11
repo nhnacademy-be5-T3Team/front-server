@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="main/layout/tossLayout"
+>
+<th:block layout:fragment="content">
+
+    <div class="container-fluid">
+    <div class="box_section">
+        <h2 style="padding: 20px 0px 10px 0px">
+            <img
+                    width="35px"
+                    src="https://static.toss.im/3d-emojis/u1F389_apng.png"
+            />
+            결제 성공
+        </h2>
+        <p id="paymentKey" th:text="'결제번호: ' + ${paymentKey}"></p>
+        <p id="orderId" th:text="'주문번호: ' + ${orderId}"></p>
+        <p id="amount" th:text="'결제 금액: ' + ${amount}"></p>
+    </div>
+</div>
+<script>
+    // 쿼리 파라미터 값이 결제 요청할 때 보낸 데이터와 동일한지 반드시 확인하세요.
+    // 클라이언트에서 결제 금액을 조작하는 행위를 방지할 수 있습니다.
+    const urlParams = new URLSearchParams(window.location.search);
+
+    // 서버로 결제 승인에 필요한 결제 정보를 보내세요.
+    async function confirm() {
+        var requestData = {
+            paymentKey: urlParams.get("paymentKey"),
+            orderId: urlParams.get("orderId"),
+            amount: urlParams.get("amount"),
+        };
+
+        const response = await fetch("http://localhost:8081/confirm", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(requestData),
+        });
+        const json = await response.json();
+        if (!response.ok) {
+            console.log(json);
+            window.location.href = `/fail?message=${json.message}&code=${json.code}`;
+        }
+        console.log(json);
+    }
+    confirm();
+</script>
+</th:block>
+</html>
