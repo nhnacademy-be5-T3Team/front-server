@@ -10,7 +10,7 @@
                 <ul th:id="'components-nav-' + ${parentCategory.parent.id}" class="nav-content collapse " data-bs-parent="#sidebar-nav">
                     <th:block th:each="childCategory, childIndex : ${parentCategory.childCategoryList}">
                         <li>
-                            <a th:href="@{'/category/'+${childCategory.id}+'/books'}">
+                            <a th:href="@{'/category/'+${childCategory.id}+'/books'}" style="text-decoration: none;">
                                 <i class="bi bi-circle"></i><span th:text="${childCategory.name}">자식카테고리이름</span>
                             </a>
                         </li>
