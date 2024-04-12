@@ -1,7 +1,7 @@
-    package com.t3t.frontserver.payment.controller;
+    package com.t3t.frontserver.payments.controller;
 
 
-    import com.t3t.frontserver.payment.adaptor.ExternalServiceAdapter;
+    import com.t3t.frontserver.payments.adaptor.ExternalServiceAdapter;
     import org.springframework.beans.factory.annotation.Autowired;
     import org.springframework.stereotype.Controller;
     import org.springframework.ui.Model;
@@ -27,7 +27,7 @@
             return "/main/payments/checkout";
         }
 
-        @RequestMapping(value = "/success", method = RequestMethod.GET)
+        @GetMapping("/success")
         public String paymentRequest(HttpServletRequest request, Model model) throws Exception {
             String paymentKey = request.getParameter("paymentKey");
             String orderId = request.getParameter("orderId");
@@ -40,7 +40,7 @@
         }
 
 
-        @RequestMapping(value = "/fail", method = RequestMethod.GET)
+        @GetMapping("/fail")
         public String failPayment(HttpServletRequest request, Model model) throws Exception {
             String failCode = request.getParameter("code");
             String failMessage = request.getParameter("message");

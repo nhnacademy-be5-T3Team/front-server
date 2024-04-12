@@ -1,4 +1,4 @@
-package com.t3t.frontserver.payment.config;
+package com.t3t.frontserver.payments.config;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.CacheControl;
