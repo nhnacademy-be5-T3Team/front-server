@@ -1,8 +1,9 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="main/layout/tossLayout"
->
+      layout:decorate="main/layout/layout"
+      >
+<head th:replace="/main/component/tossHead :: headFragment"></head>
 <th:block layout:fragment="content">
 <!-- 주문서 영역 -->
     <div class="container-fluid">
@@ -27,7 +28,8 @@ margin-right: 30px">
             </div>
         </div>
     </div>
-
+</th:block>>
+</html>
 <script  th:inline="javascript">
     const button = document.getElementById("payment-button");
     const generateRandomString = () =>
@@ -53,5 +55,4 @@ margin-right: 30px">
         });
     });
 </script>
-</th:block>>
-</html>
+

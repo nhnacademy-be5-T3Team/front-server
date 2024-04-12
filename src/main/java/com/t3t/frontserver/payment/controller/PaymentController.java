@@ -1,5 +1,8 @@
     package com.t3t.frontserver.payment.controller;
 
+
+    import com.t3t.frontserver.payment.adaptor.ExternalServiceAdapter;
+    import org.springframework.beans.factory.annotation.Autowired;
     import org.springframework.stereotype.Controller;
     import org.springframework.ui.Model;
     import org.springframework.web.bind.annotation.*;
@@ -9,7 +12,13 @@
 
 
     @Controller
-    public class WidgetController {
+    public class PaymentController {
+        private final ExternalServiceAdapter externalServiceAdapter;
+
+        @Autowired
+        public PaymentController(ExternalServiceAdapter externalServiceAdapter) {
+            this.externalServiceAdapter = externalServiceAdapter;
+        }
 
         @GetMapping("/payments")
         public String index(HttpServletRequest request, Model model) throws Exception {
@@ -27,15 +36,6 @@
             model.addAttribute("paymentKey", paymentKey);
             model.addAttribute("orderId", orderId);
             model.addAttribute("amount", amount);
-           /* PaymentConfirmationRequest paymentRequest = new PaymentConfirmationRequest(paymentKey, orderId, amount);
-
-            ResponseEntity<String> responseEntity = externalServiceAdapter.confirmPayment(paymentRequest);
-            if (responseEntity.getStatusCode().is2xxSuccessful()) {
-                ResponseEntity.ok().body(responseEntity.getBody());
-                return "/main/payments/success";
-            }else{
-                return "/main/payments/fail";
-                }*/
             return  "/main/payments/success";
         }
 
