@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="main/layout/tossLayout"
+      layout:decorate="main/layout/layout"
 >
 <head th:replace="/main/component/tossHead :: headFragment"></head>
 <th:block layout:fragment="content">
@@ -31,7 +31,7 @@
             amount: urlParams.get("amount"),
         };
 
-        const response = await fetch("http://localhost:8081/confirm", {
+        const response = await fetch("http://133.186.153.38:8081/confirm", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
