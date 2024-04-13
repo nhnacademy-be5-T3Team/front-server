@@ -25,3 +25,22 @@ $(window).on('load', function () {
         })
     });
 });
+
+document.addEventListener('DOMContentLoaded', function() {
+    let stars = document.querySelectorAll('.stars');
+
+    stars.forEach(function(star) {
+        let rating = parseInt(star.getAttribute('data-rating'));
+        let starsHTML = '';
+
+        for (let i = 1; i <= 5; i++) {
+            if (i <= rating) {
+                starsHTML += '<span class="star">&#9733;</span>';
+            } else {
+                starsHTML += '<span class="star">&#9734;</span>';
+            }
+        }
+
+        star.innerHTML = starsHTML;
+    });
+});

@@ -136,40 +136,13 @@
                     </th:block>
 
                     <h2>도서 리뷰</h2>
+                    <!-- 리뷰가 있는 경우에 리뷰 목록을 띄움 -->
                     <div th:if="${reviewList}">
-                        <div class="row row-cols-1 row-cols-md-3 g-4">
-                            <div class="col">
-                                <div class="card">
-                                    <img src="..." class="card-img-top" alt="...">
-                                    <div class="card-body">
-                                        <h5 class="card-title">Card title</h5>
-                                        <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <nav aria-label="Page navigation example">
-                            <ul class="pagination">
-                                <li class="page-item">
-                                    <a class="page-link" href="#" aria-label="Previous">
-                                        <span aria-hidden="true">&laquo;</span>
-                                    </a>
-                                </li>
-                                <li class="page-item"><a class="page-link" href="#">1</a></li>
-                                <li class="page-item"><a class="page-link" href="#">2</a></li>
-                                <li class="page-item"><a class="page-link" href="#">3</a></li>
-                                <li class="page-item">
-                                    <a class="page-link" href="#" aria-label="Next">
-                                        <span aria-hidden="true">&raquo;</span>
-                                    </a>
-                                </li>
-                            </ul>
-                        </nav>
+                        <th:block th:replace="/main/fragment/review :: reviewFragment(${reviewList} ,${reviewNowPage}, ${reviewStartPage}, ${reviewEndPage})"></th:block>
                     </div>
                     <div th:unless="${reviewList}">
                         <h2>등록된 리뷰가 없습니다.</h2>
                     </div>
-
                 </div>
             </div>
         </section>
