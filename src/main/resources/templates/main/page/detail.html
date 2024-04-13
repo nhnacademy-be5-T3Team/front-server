@@ -72,23 +72,23 @@
                         <p class="lead" th:utext="${bookDetailList.bookDesc}">Lorem ipsum dolor sit amet consectetur adipisicing elit. Praesentium at dolorem quidem modi. Nam sequi consequatur obcaecati excepturi alias magni, accusamus eius blanditiis delectus ipsam minima ea iste laborum vero?</p>
                         <!-- 주문 option 선택 -->
                         <div th:if="${bookDetailList.orderAvailableStatus}">
-                            <form action="/" method="post">
+                            <form th:object="${orderFormRequest}" method="post">
                                 <!-- 주문 수량 선택 -->
                                 <div class="mb-3 row">
-                                    <label for="orderQuantity" class="col-sm-2 col-form-label">주문 수량</label>
+                                    <label th:for="orderQuantity" class="col-sm-2 col-form-label">주문 수량</label>
                                     <div class="col-sm-10">
-                                        <input type="number" class="form-control" id="orderQuantity" value="1" min="1">
+                                        <input type="number" class="form-control" th:field="*{orderQuantity}" min="1">
                                     </div>
                                 </div>
                                 <!-- 포장 선택 -->
                                 <div th:if="${bookDetailList.packagingAvailableStatus}">
                                     <div class="mb-3 row">
-                                        <label for="package" class="col-sm-2 col-form-label">포장 선택</label>
+                                        <label th:for="packageId" class="col-sm-2 col-form-label">포장 선택</label>
                                         <div class="col-sm-10">
-                                            <select id="package" class="form-select form-select-sm" aria-label="Small select example">
-                                                <option selected>포장 선택하기</option>
+                                            <select class="form-select form-select-sm" aria-label="Small select example" th:field="*{packageId}">
+                                                <option th:value="0">포장 안함</option>
                                                 <th:block th:each="package : ${bookDetailList.packagingInfoList}">
-                                                    <option th:value="${package.id}" th:text="${package.name}"></option>
+                                                    <option th:value="${package.id}" th:text="${package.name}" ></option>
                                                 </th:block>
                                             </select>
                                         </div>
@@ -97,11 +97,11 @@
                                 <div th:unless="${bookDetailList.packagingAvailableStatus}">
                                     <p>포장 선택이 불가능합니다.</p>
                                 </div>
-                                <button class="btn btn-outline-dark flex-shrink-0" type="submit">
+                                <button class="btn btn-outline-dark flex-shrink-0" type="submit" formaction="/test1">
                                     <i class="bi bi-check2-square"></i>
                                     바로 주문하기
                                 </button>
-                                <button class="btn btn-outline-dark flex-shrink-0" type="submit">
+                                <button class="btn btn-outline-dark flex-shrink-0" type="submit" formaction="/test2">
                                     <i class="bi-cart-fill me-1"></i>
                                     장바구니 담기
                                 </button>
@@ -136,34 +136,40 @@
                     </th:block>
 
                     <h2>도서 리뷰</h2>
-                    <div class="row row-cols-1 row-cols-md-3 g-4">
-                        <div class="col">
-                            <div class="card">
-                                <img src="..." class="card-img-top" alt="...">
-                                <div class="card-body">
-                                    <h5 class="card-title">Card title</h5>
-                                    <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+                    <div th:if="${reviewList}">
+                        <div class="row row-cols-1 row-cols-md-3 g-4">
+                            <div class="col">
+                                <div class="card">
+                                    <img src="..." class="card-img-top" alt="...">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Card title</h5>
+                                        <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+                                    </div>
                                 </div>
                             </div>
                         </div>
+                        <nav aria-label="Page navigation example">
+                            <ul class="pagination">
+                                <li class="page-item">
+                                    <a class="page-link" href="#" aria-label="Previous">
+                                        <span aria-hidden="true">&laquo;</span>
+                                    </a>
+                                </li>
+                                <li class="page-item"><a class="page-link" href="#">1</a></li>
+                                <li class="page-item"><a class="page-link" href="#">2</a></li>
+                                <li class="page-item"><a class="page-link" href="#">3</a></li>
+                                <li class="page-item">
+                                    <a class="page-link" href="#" aria-label="Next">
+                                        <span aria-hidden="true">&raquo;</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </nav>
                     </div>
-                    <nav aria-label="Page navigation example">
-                        <ul class="pagination">
-                            <li class="page-item">
-                                <a class="page-link" href="#" aria-label="Previous">
-                                    <span aria-hidden="true">&laquo;</span>
-                                </a>
-                            </li>
-                            <li class="page-item"><a class="page-link" href="#">1</a></li>
-                            <li class="page-item"><a class="page-link" href="#">2</a></li>
-                            <li class="page-item"><a class="page-link" href="#">3</a></li>
-                            <li class="page-item">
-                                <a class="page-link" href="#" aria-label="Next">
-                                    <span aria-hidden="true">&raquo;</span>
-                                </a>
-                            </li>
-                        </ul>
-                    </nav>
+                    <div th:unless="${reviewList}">
+                        <h2>등록된 리뷰가 없습니다.</h2>
+                    </div>
+
                 </div>
             </div>
         </section>
