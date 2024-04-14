@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout(categoryList)"
+      layout:decorate="main/layout/layout">
+
+<th:block layout:fragment="content">
+    <div class="container-fluid">
+        <section class="food_section layout_padding-bottom">
+            <div class="container">
+                <div class="heading_container heading_center">
+                    <h2 style="margin-top: 20px;">
+                        검색 결과
+                    </h2>
+                </div>
+
+                <th:block th:each="book : ${bookList}">
+                    <div class="col">
+                        <div class="card">
+                            <div class="row g-0">
+                                <!-- 도서 썸네일 이미지 -->
+                                <div class="col-md-4 d-flex justify-content-center align-items-center" style="padding: 30px;">
+                                    <img th:if="${imgUrl != 'no-image'}" th:src="${book.coverImageUrl}" class="img-fluid rounded-start" style="width: 200px; max-height: 100%; margin: auto;" alt="...">
+                                    <img th:unless="${imgUrl != 'no-image'}" th:src="@{/main/assets/images/no-image.png}" class="img-fluid rounded-start" style="width: 200px; max-height: 100%; margin: auto;" alt="...">
+                                </div>
+                                <div class="col-md-8">
+                                    <div class="card-body">
+                                        <p>도서 제목 : <span th:text="${book.name}"></span></p>
+                                        <p>정가 : <span th:text="${book.price}"></span></p>
+                                        <p>할인율 : <span th:text="${book.discountRate}"></span></p>
+                                        <p>할인가 : <span th:text="${book.discountedPrice}"></span></p>
+                                        <p>출판 일시 : <span th:text="${#temporals.format(book.published, 'yyyy-MM-dd')}"></span></p>
+                                        <p>출판사 : <span th:text="${book.publisher}"></span></p>
+                                        <p>평균 평점 : <span th:text="${book.averageScore}"></span></p>
+                                        <p>좋아요 수 : <span th:text="${book.likeCount}"></span></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </th:block>
+
+                <!-- 페이지네이션 바 -->
+                <nav aria-label="Page navigation example">
+                    <ul class="pagination">
+                        <li class="page-item" th:classappend="${nowPage == 1} ? 'disabled'">
+                            <a class="page-link" th:href="@{'/?pageNo=' + ${nowPage - 1}}" aria-label="Previous">
+                                <span aria-hidden="true">&laquo;</span>
+                            </a>
+                        </li>
+                        <th:block th:each="page : ${#numbers.sequence(startPage, endPage)}">
+                            <li class="page-item" th:classappend="${page == nowPage} ? 'active'">
+                                <a class="page-link" th:href="@{'?pageNo=' + ${page - 1}}" th:text="${page}"></a>
+                            </li>
+                        </th:block>
+                        <li class="page-item" th:classappend="${nowPage == endPage} ? 'disabled'">
+                            <a class="page-link" th:href="@{'?pageNo=' + ${nowPage + 1}}" aria-label="Next">
+                                <span aria-hidden="true">&raquo;</span>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </section>
+    </div>
+</th:block>
+</html>

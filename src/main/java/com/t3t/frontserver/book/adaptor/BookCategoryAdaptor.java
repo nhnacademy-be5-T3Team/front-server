@@ -13,5 +13,5 @@ import org.springframework.web.bind.annotation.RequestParam;
 @FeignClient(name = "bookCategoryAdaptor", url = "http://localhost:8081")
 public interface BookCategoryAdaptor {
     @GetMapping(value = "/category/{categoryId}/books")
-    ResponseEntity<BaseResponse<PageResponse<BookSearchResultResponse>>> getBooksByCategoryId(@PathVariable Long categoryId, @RequestParam int pageNo);
+    ResponseEntity<BaseResponse<PageResponse<BookSearchResultResponse>>> getBooksByCategoryId(@PathVariable Integer categoryId, @RequestParam int pageNo);
 }
