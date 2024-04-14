@@ -10829,3 +10829,7 @@ textarea.form-control-lg {
   width: 600px;
   height: 700px;
 }
+
+a {
+  text-decoration: none;
+}
