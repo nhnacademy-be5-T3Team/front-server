@@ -12,8 +12,10 @@
                         검색 결과
                     </h2>
                 </div>
-
-                <th:block th:each="book : ${bookList}">
+                <div th:unless="${bookList}">
+                    <h2>검색 결과가 없습니다..</h2>
+                </div>
+                <th:block th:if ="bookList" th:each="book : ${bookList}">
                     <div class="col">
                         <div class="card">
                             <div class="row g-0">
