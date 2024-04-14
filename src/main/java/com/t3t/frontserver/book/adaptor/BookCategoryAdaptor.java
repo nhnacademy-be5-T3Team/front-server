@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 
 //TODO : url 변경
-@FeignClient(name = "bookCategoryAdaptor", url = "http://localhost:8081")
+@FeignClient(name = "bookCategoryAdaptor", url = "http://localhost:8082/bookstore")
 public interface BookCategoryAdaptor {
     @GetMapping(value = "/category/{categoryId}/books")
     ResponseEntity<BaseResponse<PageResponse<BookSearchResultResponse>>> getBooksByCategoryId(@PathVariable Integer categoryId, @RequestParam int pageNo);
