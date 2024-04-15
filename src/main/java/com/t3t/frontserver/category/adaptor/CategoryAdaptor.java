@@ -11,6 +11,6 @@ import java.util.List;
 //TODO : url 변경
 @FeignClient(name = "categoryAdaptor", url = "http://localhost:8081")
 public interface CategoryAdaptor {
-    @GetMapping(value = "/categories")
+    @GetMapping(value = "/bookstore/categories")
     ResponseEntity<BaseResponse<List<CategoryListResponse>>> getCategories();
 }
