@@ -25,4 +25,4 @@ eureka:
 
 t3t:
     feignClient:
-        url: http://localhost:8081
+        url: http://localhost:9090
