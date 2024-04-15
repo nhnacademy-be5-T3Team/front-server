@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="main/layout/layout">
+<body>
+<th:block layout:fragment="content">
+    <div class="container">
+        <h1>알림</h1>
+        <span class="message mt-4" th:text="${message}"></span><br/>
+        <button class="btn btn-primary mt-4 mb-5" onclick="location.href='/'">메인으로</button>
+    </div>
+</th:block>
+</body>
+</html>
