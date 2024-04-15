@@ -13,34 +13,26 @@
 
     @Controller
     public class PaymentController {
-        private final ExternalServiceAdapter externalServiceAdapter;
-
-        @Autowired
-        public PaymentController(ExternalServiceAdapter externalServiceAdapter) {
-            this.externalServiceAdapter = externalServiceAdapter;
-        }
-
         @GetMapping("/payments")
-        public String index(HttpServletRequest request, Model model) throws Exception {
+        public String index(HttpServletRequest request ,Model model) throws Exception {
 
             model.addAttribute("amount", 50000);
-            return "/main/payments/checkout";
+            return "main/payments/checkout";
         }
 
-        @GetMapping("/success")
-        public String paymentRequest(HttpServletRequest request, Model model) throws Exception {
-            String paymentKey = request.getParameter("paymentKey");
-            String orderId = request.getParameter("orderId");
-            String amount = request.getParameter("amount");
+        @GetMapping("payments/success")
+        public String paymentRequest(@RequestParam String paymentKey,
+                                     @RequestParam  String orderId,
+                                     @RequestParam String amount, Model model) throws Exception {
 
             model.addAttribute("paymentKey", paymentKey);
             model.addAttribute("orderId", orderId);
             model.addAttribute("amount", amount);
-            return  "/main/payments/success";
+            return  "main/payments/success";
         }
 
 
-        @GetMapping("/fail")
+        @GetMapping("payments/fail")
         public String failPayment(HttpServletRequest request, Model model) throws Exception {
             String failCode = request.getParameter("code");
             String failMessage = request.getParameter("message");
@@ -48,7 +40,7 @@
             model.addAttribute("code", failCode);
             model.addAttribute("message", failMessage);
 
-            return "/main/payments/fail";
+            return "main/payments/fail";
         }
 
 

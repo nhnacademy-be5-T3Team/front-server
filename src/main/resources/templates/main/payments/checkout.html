@@ -50,8 +50,8 @@ margin-right: 30px">
         paymentWidget.requestPayment({
             orderId: generateRandomString(),
             orderName: "상품 결제",
-            successUrl: window.location.origin + "/success",
-            failUrl: window.location.origin + "/fail",
+            successUrl: window.location.origin + "/payments/success",
+            failUrl: window.location.origin + "/payments/fail",
         });
     });
 </script>

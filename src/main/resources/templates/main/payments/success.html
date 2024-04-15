@@ -31,7 +31,7 @@
             amount: urlParams.get("amount"),
         };
 
-        const response = await fetch("http://133.186.153.38:8081/confirm", {
+        const response = await fetch("${t3t.feignClient.url}/confirm", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -41,7 +41,7 @@
         const json = await response.json();
         if (!response.ok) {
             console.log(json);
-            window.location.href = `/fail?message=${json.message}&code=${json.code}`;
+            window.location.href = `/payments/fail?message=${json.message}&code=${json.code}`;
         }
         console.log(json);
     }
