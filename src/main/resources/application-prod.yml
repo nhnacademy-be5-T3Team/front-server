@@ -1,0 +1,21 @@
+t3t:
+  feignClient:
+    url: ${feignClientUrl}
+
+spring:
+  thymeleaf:
+    prefix : classpath:templates/
+    suffix : .html
+    cache: false
+  devtools:
+    restart:
+      enabled: true
+
+eureka:
+  instance:
+    prefer-ip-address: true
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: ${eurekaServiceUrlDefaultZone}
