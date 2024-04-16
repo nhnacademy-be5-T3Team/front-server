@@ -29,7 +29,7 @@ public class BookController {
     private final ReviewAdaptor reviewAdaptor;
 
     @GetMapping("books/{bookId}")
-    public String test(Model model, @PathVariable Long bookId,
+    public String getBook(Model model, @PathVariable Long bookId,
                        @RequestParam(value = "pageNo", defaultValue = "0", required = false) int pageNo) {
 
         List<CategoryListResponse> categoryList = getDataFromCategoryAdaptor();
@@ -53,7 +53,7 @@ public class BookController {
         model.addAttribute("bookDetailList", bookDetailList);
 
         // 주문 페이지로 넘기기 위한 객체 (도서 id, 주문 수량, 포장 id)
-        model.addAttribute("orderFormRequest", new OrderFormRequest(bookId));
+        model.addAttribute("orderFormRequest", new OrderFormRequest());
 
         return "main/page/detail.html";
     }
