@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="main/layout/layout"
+      >
+<head th:replace="/main/component/tossHead :: headFragment"></head>
+<th:block layout:fragment="content">
+<!-- 주문서 영역 -->
+    <div class="container-fluid">
+        <div
+                class="box_section"
+                style="
+          padding: 40px 30px 50px 30px;
+          margin-top: 30px;
+          margin-bottom: 30px;
+          margin-left: 30px;
+margin-right: 30px">
+
+            <!-- 결제 UI -->
+            <div id="payment-method"></div>
+            <!-- 이용약관 UI -->
+            <div id="agreement"></div>
+            <!-- 결제하기 버튼 -->
+            <div class="result wrapper">
+                <button class="button" id="payment-button" style="margin-top: 30px">
+                    결제하기
+                </button>
+            </div>
+        </div>
+    </div>
+</th:block>>
+</html>
+<script  th:inline="javascript">
+    const button = document.getElementById("payment-button");
+    const generateRandomString = () =>
+        window.btoa(Math.random()).slice(0, 20);
+        var amount = [[${amount}]];
+    const clientKey = "test_ck_mBZ1gQ4YVX4d9NKWRJRRVl2KPoqN";
+    const customerKey = generateRandomString();
+    const paymentWidget = PaymentWidget(clientKey, customerKey);
+    paymentMethodWidget = paymentWidget.renderPaymentMethods(
+        "#payment-method",
+        {value: amount},
+        {variantKey: "DEFAULT"}
+    );
+    paymentWidget.renderAgreement("#agreement", {variantKey: "AGREEMENT"});
+
+    paymentMethodWidget.updateAmount(amount);
+    button.addEventListener("click", function () {
+        paymentWidget.requestPayment({
+            orderId: generateRandomString(),
+            orderName: "상품 결제",
+            successUrl: window.location.origin + "/payments/success",
+            failUrl: window.location.origin + "/payments/fail",
+        });
+    });
+</script>
+

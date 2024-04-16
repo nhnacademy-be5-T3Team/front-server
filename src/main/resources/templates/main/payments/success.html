@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="main/layout/layout"
+>
+<head th:replace="/main/component/tossHead :: headFragment"></head>
+<th:block layout:fragment="content">
+    <div class="container-fluid">
+        <div class="box_section">
+            <h2 style="padding: 20px 0px 10px 0px">
+                <img
+                        width="35px"
+                        src="https://static.toss.im/3d-emojis/u1F389_apng.png"
+                />
+                결제 성공
+            </h2>
+            <p id="paymentKey"></p>
+            <p id="orderId"></p>
+            <p id="amount"></p>
+        </div>
+    </div>
+    <input type="hidden" id="feignClientUrl" th:value="${feignClientUrl}"/>
+</th:block>
+</html>
+<script>
+    const urlParams = new URLSearchParams(window.location.search);
+
+    async function confirm() {
+        var requestData = {
+            paymentKey: urlParams.get("paymentKey"),
+            orderId: urlParams.get("orderId"),
+            amount: urlParams.get("amount"),
+        };
+        const feignClientUrl = document.getElementById("feignClientUrl").value;
+        const confirmUrl = feignClientUrl + "/confirm";
+
+        const response = await fetch(confirmUrl, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(requestData),
+        });
+        const json = await response.json();
+        if (!response.ok) {
+            console.log(json);
+            window.location.href = `/payments/fail?message=${json.message}&code=${json.code}`;
+        }
+        console.log(json);
+    }
+
+    confirm();
+
+    const paymentKeyElement = document.getElementById("paymentKey");
+    const orderIdElement = document.getElementById("orderId");
+    const amountElement = document.getElementById("amount");
+
+    orderIdElement.textContent = "주문번호: " + urlParams.get("orderId");
+    amountElement.textContent = "결제 금액: " + urlParams.get("amount");
+    paymentKeyElement.textContent =
+        "paymentKey: " + urlParams.get("paymentKey");
+</script>
+
