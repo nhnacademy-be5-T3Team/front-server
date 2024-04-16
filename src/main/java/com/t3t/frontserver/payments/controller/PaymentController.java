@@ -1,8 +1,5 @@
     package com.t3t.frontserver.payments.controller;
 
-
-    import com.t3t.frontserver.payments.adaptor.ExternalServiceAdapter;
-    import org.springframework.beans.factory.annotation.Autowired;
     import org.springframework.beans.factory.annotation.Value;
     import org.springframework.stereotype.Controller;
     import org.springframework.ui.Model;
