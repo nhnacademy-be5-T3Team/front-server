@@ -1,4 +1,28 @@
+server:
+    port: 8080
+
 spring:
+    profiles:
+        active: dev
+
     thymeleaf:
         prefix : classpath:templates/
         suffix : .html
+        cache: false
+    devtools:
+      restart:
+          enabled: true
+
+eureka:
+    instance:
+        prefer-ip-address: true
+    client:
+        register-with-eureka: true
+        fetch-registry: true
+        service-url:
+            defaultZone: http://127.0.0.1:8761/eureka
+
+
+t3t:
+    feignClient:
+        url: http://localhost:9090

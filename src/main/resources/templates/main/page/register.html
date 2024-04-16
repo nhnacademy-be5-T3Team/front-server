@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="main/layout/layout">
+
+<th:block layout:fragment="content">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-5">
+                <h1>회원가입</h1>
+                <p>회원가입을 위해 정보를 입력해주세요</p>
+                <form action="/member/register" method="post" th:object="${memberRegisterRequest}">
+                    <div class="form-group">
+                        <label for="accountId">아이디</label>
+                        <input id="accountId" class="form-control" name="accountId" type="text" placeholder="아이디">
+                    </div>
+                    <div class="form-group">
+                        <label for="password">비밀번호</label>
+                        <input id="password" class="form-control" name="password" type="password" placeholder="비밀번호">
+                    </div>
+                    <div class="form-group">
+                        <label for="name">이름</label>
+                        <input id="name" class="form-control" name="name" type="text" placeholder="이름">
+                    </div>
+                    <div class="form-group">
+                        <label for="birthDate">생년월일</label>
+                        <input id="birthDate" class="form-control" name="birthDate" type="date" placeholder="생년월일">
+                    </div>
+                    <div class="form-group">
+                        <label for="email">이메일</label>
+                        <input id="email" class="form-control" name="email" type="email" placeholder="example@mail.com">
+                    </div>
+                    <div class="form-group">
+                        <label for="phone">휴대폰 번호</label>
+                        <input id="phone" class="form-control" name="phone" type="text" placeholder="010-1234-5678">
+                    </div>
+                    <button class="btn btn-primary mb-5" type="submit">회원가입</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</th:block>
+</html>

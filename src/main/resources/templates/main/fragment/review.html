@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<th:block th:fragment="reviewFragment(reviewList, nowPage, startPage, endPage)">
+    <div class="row row-cols-1 row-cols-md-3 g-4">
+        <th:block th:each="review : ${reviewList}">
+            <div class="col">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="stars card-title" th:attr="data-rating=${review.reviewScore}">
+                            <span class="star">&#9733;</span>
+                            <span class="star">&#9733;</span>
+                            <span class="star">&#9733;</span>
+                            <span class="star">&#9733;</span>
+                            <span class="star">&#9733;</span>
+                        </div>
+                        <p> 작성자 : <span th:text="${review.name}">작성자 이름</span></p>
+                        <p class="card-text" th:text="${review.comment}">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+                        <p> 등록일 : <span th:text="${#temporals.format(review.createdAt, 'yyyy-MM-dd')}">리뷰 등록일</span></p>
+                        <p> 수정일 : <span th:text="${#temporals.format(review.updatedAt, 'yyyy-MM-dd')}">리뷰 등록일</span></p>
+                        <div th:if="${#lists.size(review.reviewImgUrlList) > 0}">
+                            <div id="carouselExampleControlsNoTouching" class="carousel slide" data-bs-touch="false">
+                                <div class="carousel-inner">
+                                    <th:block th:each="imgUrl, imgUrlStat : ${review.reviewImgUrlList}">
+                                        <div th:classappend="${imgUrlStat.index == 0} ? 'carousel-item active' : 'carousel-item'">
+                                            <img th:if="${imgUrl != 'no-image'}" th:src="${imgUrl}" class="d-block w-100" style="height: 300px;" alt="...">
+                                            <img th:unless="${imgUrl != 'no-image'}" th:src="@{/main/assets/images/no-image.png}" class="d-block w-100" style="height: 300px;" alt="...">
+                                        </div>
+                                    </th:block>
+                                </div>
+                                <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControlsNoTouching" data-bs-slide="prev">
+                                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                    <span class="visually-hidden">Previous</span>
+                                </button>
+                                <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControlsNoTouching" data-bs-slide="next">
+                                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                    <span class="visually-hidden">Next</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </th:block>
+    </div>
+    <nav aria-label="Page navigation example">
+        <ul class="pagination">
+            <li class="page-item" th:classappend="${nowPage == 1} ? 'disabled'">
+                <a class="page-link" th:href="@{'/?pageNo=' + ${nowPage - 1}}" aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                </a>
+            </li>
+            <th:block th:each="page : ${#numbers.sequence(startPage, endPage)}">
+                <li class="page-item" th:classappend="${page == nowPage} ? 'active'">
+                    <a class="page-link" th:href="@{'?pageNo=' + ${page - 1}}" th:text="${page}"></a>
+                </li>
+            </th:block>
+            <li class="page-item" th:classappend="${nowPage == endPage} ? 'disabled'">
+                <a class="page-link" th:href="@{'?pageNo=' + ${nowPage + 1}}" aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</th:block>
+</html>
