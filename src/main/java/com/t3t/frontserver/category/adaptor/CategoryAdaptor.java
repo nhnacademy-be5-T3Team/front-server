@@ -8,9 +8,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 import java.util.List;
 
-//TODO : url 변경
-@FeignClient(name = "categoryAdaptor", url = "http://localhost:8081")
+@FeignClient(name = "categoryAdaptor", url = "${t3t.feignClient.url}")
 public interface CategoryAdaptor {
-    @GetMapping(value = "/bookstore/categories")
+    @GetMapping(value = "/t3t/bookstore/categories")
     ResponseEntity<BaseResponse<List<CategoryListResponse>>> getCategories();
 }

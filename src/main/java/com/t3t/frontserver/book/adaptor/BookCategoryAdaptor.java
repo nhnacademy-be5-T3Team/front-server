@@ -9,9 +9,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 
-//TODO : url 변경
-@FeignClient(name = "bookCategoryAdaptor", url = "http://localhost:8081")
+@FeignClient(name = "bookCategoryAdaptor", url = "${t3t.feignClient.url}")
 public interface BookCategoryAdaptor {
-    @GetMapping(value = "/bookstore/category/{categoryId}/books")
+    @GetMapping(value = "/t3t/bookstore/category/{categoryId}/books")
     ResponseEntity<BaseResponse<PageResponse<BookSearchResultResponse>>> getBooksByCategoryId(@PathVariable Integer categoryId, @RequestParam int pageNo);
 }
