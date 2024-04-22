@@ -1,5 +1,6 @@
 package com.t3t.frontserver.config;
 
+import com.t3t.frontserver.auth.error.CustomAuthenticationPoint;
 import com.t3t.frontserver.auth.filter.GlobalRefreshFilter;
 import com.t3t.frontserver.auth.filter.GlobalTokenFilter;
 import lombok.RequiredArgsConstructor;
@@ -32,6 +33,8 @@ public class SecurityConfig {
                 .formLogin().disable()
                 .httpBasic().disable()
                 .authorizeRequests((auth) -> auth
+                        .antMatchers("/admin/**").hasAnyRole("ROLE_ADMIN")
+                        .antMatchers("/myPage/**").authenticated()
                         .antMatchers("/**").permitAll())
                 .addFilterAt(new GlobalTokenFilter(), UsernamePasswordAuthenticationFilter.class)
                 .addFilterAfter(new GlobalRefreshFilter(), GlobalTokenFilter.class)
@@ -41,6 +44,10 @@ public class SecurityConfig {
                     response.sendRedirect("/");
                 })
                 .deleteCookies("t3t");
+        http
+                .exceptionHandling()
+                .authenticationEntryPoint(new CustomAuthenticationPoint());
+
         return http.build();
     }
 }
