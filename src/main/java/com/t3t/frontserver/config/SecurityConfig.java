@@ -1,5 +1,7 @@
 package com.t3t.frontserver.config;
 
+import com.t3t.frontserver.auth.filter.GlobalRefreshFilter;
+import com.t3t.frontserver.auth.filter.GlobalTokenFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -9,6 +11,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
 @EnableWebSecurity
@@ -29,7 +32,15 @@ public class SecurityConfig {
                 .formLogin().disable()
                 .httpBasic().disable()
                 .authorizeRequests((auth) -> auth
-                        .antMatchers("/**").permitAll());
+                        .antMatchers("/**").permitAll())
+                .addFilterAt(new GlobalTokenFilter(), UsernamePasswordAuthenticationFilter.class)
+                .addFilterAfter(new GlobalRefreshFilter(), GlobalTokenFilter.class)
+                .logout()
+                .logoutUrl("/logout")
+                .logoutSuccessHandler((request, response, authentication) -> {
+                    response.sendRedirect("/");
+                })
+                .deleteCookies("t3t");
         return http.build();
     }
 }

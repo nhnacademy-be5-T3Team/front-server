@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 @RequiredArgsConstructor
 public class LogoutController {
     private final LogoutService logoutService;
+
     @PostMapping("/logout")
     public String doLogout(HttpServletResponse response){
         if(logoutService.doLogout().is2xxSuccessful()){
