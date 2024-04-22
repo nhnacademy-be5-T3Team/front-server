@@ -4,12 +4,22 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletRequestWrapper;
 import java.util.*;
 
+/**
+ * Access Token을 Cookie에서 꺼내 HttpServletRequest에 header로 넣기 위한 wrapper 클래스
+ * @author joohyun1996(이주현)
+ */
 public class RequestWrapper extends HttpServletRequestWrapper {
     private final Map<String, String> header;
     public RequestWrapper(HttpServletRequest request) {
         super(request);
         this.header = new HashMap<>();
     }
+
+    /**
+     * 헤더에 값을 넣는 메소드
+     * @param key,value
+     * @author joohyun1996(이주현)
+     */
     public void addHeader(String key, String value){
         this.header.put(key,value);
     }

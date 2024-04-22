@@ -16,6 +16,13 @@ import javax.servlet.http.HttpServletResponse;
 public class LogoutController {
     private final LogoutService logoutService;
 
+    /**
+     * 로그아웃 요청 처리
+     * 로그아웃이 성공하면 브라우저에 저장된 쿠키를 삭제한다.
+     * @param response
+     * @return 성공시 메인뷰, 실패시 에러뷰
+     * @author joohyun1996(이주현)
+     */
     @PostMapping("/logout")
     public String doLogout(HttpServletResponse response){
         if(logoutService.doLogout().is2xxSuccessful()){

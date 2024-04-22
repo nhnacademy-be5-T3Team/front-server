@@ -16,6 +16,10 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.Objects;
 
+/**
+ * 브라우저에 쿠키가 저장되어 있으면, 해당 쿠키의 value를 request.header에 넣어주는 필터
+ * @author joohyun1996(이주현)
+ */
 @Component
 public class GlobalTokenFilter extends GenericFilterBean {
 

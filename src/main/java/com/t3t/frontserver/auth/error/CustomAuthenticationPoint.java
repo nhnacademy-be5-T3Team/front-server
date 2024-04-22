@@ -10,6 +10,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+/**
+ * 401, 403 HttpStatus 가 response로 돌아오면 /login으로 redirect 하는 클래스
+ * @author joohyun1996(이주현)
+ */
 public class CustomAuthenticationPoint implements AuthenticationEntryPoint {
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException{

@@ -14,6 +14,10 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+/**
+ * 시큐리티 설정을 담당하는 config
+ * @author joohyun1996(이주현)
+ */
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
@@ -26,6 +30,15 @@ public class SecurityConfig {
     public BCryptPasswordEncoder bCryptPasswordEncoder(){
         return new BCryptPasswordEncoder();
     }
+
+    /**
+     * security filter chain 설정
+     * 권한별 url 접근 허용, global filter 처리, logout url 설정
+     * 쿠키 삭제 및 401,403 예외도 담당한다
+     * @param http
+     * @throws Exception
+     * @author joohyun1996(이주현)
+     */
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http

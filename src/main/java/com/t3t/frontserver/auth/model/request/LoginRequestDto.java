@@ -5,6 +5,11 @@ import lombok.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
+
+/**
+ * 로그인 요청을 위한 DTO 클래스
+ * @author joohyun1996(이주현)
+ */
 @Data
 @Builder
 @NoArgsConstructor

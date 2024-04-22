@@ -27,18 +27,29 @@ import javax.validation.Valid;
 import java.util.Base64;
 import java.util.Map;
 
+
 @Controller
 @RequiredArgsConstructor
 public class LoginController {
     private final LoginService loginService;
-    private final AuthenticationManager authenticationManager;
-
+    /**
+     * 로그인 페이지 뷰 반환
+     * @return 로그인 페이지 뷰
+     * @author joohyun1996(이주현)
+     */
     @GetMapping("/login")
     public String loginPage(Model model){
         model.addAttribute("loginRequestDto", new LoginRequestDto());
         return "/main/page/login";
     }
 
+    /**
+     * 로그인 요청 처리
+     * @param loginRequestDto,redirectAttributes,resp
+     * @return 성공시 : redirect:/, 실패시 : redirect:/login
+     * @throws JsonProcessingException
+     * @author joohyun1996(이주현)
+     */
     @PostMapping("/login")
     public String doLogin(@ModelAttribute @Valid LoginRequestDto loginRequestDto,
                             RedirectAttributes redirectAttributes,
@@ -63,6 +74,13 @@ public class LoginController {
         }
     }
 
+    /**
+     * Security Context Holder를 사용하기 위해 임의의 CustomUserDetails를 넣고 반환해주는 메소드
+     * @param token
+     * @return Authentication
+     * @throws JsonProcessingException
+     * @author joohyun1996(이주현)
+     */
     public UsernamePasswordAuthenticationToken getAuthentication(String token) throws JsonProcessingException {
         String payload = token.split("\\.")[1];
         byte[] decodedPayload = Base64.getDecoder().decode(payload);
