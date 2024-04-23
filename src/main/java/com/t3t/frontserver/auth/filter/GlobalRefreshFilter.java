@@ -16,7 +16,7 @@ import java.util.Arrays;
 import java.util.Objects;
 
 /**
- * access token 재발급시 재발급 받은 토큰을 브라우저에 저장하기 위한 필ㄹ터
+ * access token 재발급시 재발급 받은 토큰을 브라우저에 저장하기 위한 필터
  * @author joohyun1996(이주현)
  */
 @Component

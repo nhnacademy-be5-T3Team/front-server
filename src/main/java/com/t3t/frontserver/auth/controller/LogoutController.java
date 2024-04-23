@@ -20,7 +20,7 @@ public class LogoutController {
      * 로그아웃 요청 처리
      * 로그아웃이 성공하면 브라우저에 저장된 쿠키를 삭제한다.
      * @param response
-     * @return 성공시 메인뷰, 실패시 에러뷰
+     * @return main view
      * @author joohyun1996(이주현)
      */
     @PostMapping("/logout")
@@ -31,10 +31,8 @@ public class LogoutController {
             cookie.setMaxAge(0);
             cookie.setHttpOnly(true);
             response.addCookie(cookie);
-            return "/main/page/home";
-        }else{
-            // 팀원과 고려 필요
-            return "/main/page/error";
         }
+        return "redirect:/";
+
     }
 }

@@ -6,13 +6,20 @@ import com.t3t.frontserver.auth.filter.GlobalTokenFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 
 /**
  * 시큐리티 설정을 담당하는 config
@@ -48,6 +55,7 @@ public class SecurityConfig {
                 .authorizeRequests((auth) -> auth
                         .antMatchers("/admin/**").hasAnyRole("ROLE_ADMIN")
                         .antMatchers("/myPage/**").authenticated()
+                        .antMatchers("/logout").authenticated()
                         .antMatchers("/**").permitAll())
                 .addFilterAt(new GlobalTokenFilter(), UsernamePasswordAuthenticationFilter.class)
                 .addFilterAfter(new GlobalRefreshFilter(), GlobalTokenFilter.class)
@@ -59,8 +67,18 @@ public class SecurityConfig {
                 .deleteCookies("t3t");
         http
                 .exceptionHandling()
+                .accessDeniedHandler(new AccessDeniedHandler() {
+                    @Override
+                    public void handle(HttpServletRequest request, HttpServletResponse response, AccessDeniedException accessDeniedException) throws IOException, ServletException {
+                        if (request.getRequestURI().startsWith("/admin")){
+                            response.sendRedirect("/");
+                        }
+                        if (request.getRequestURI().startsWith("/myPage")){
+                            response.sendRedirect("/login");
+                        }
+                    }
+                })
                 .authenticationEntryPoint(new CustomAuthenticationPoint());
-
         return http.build();
     }
 }
