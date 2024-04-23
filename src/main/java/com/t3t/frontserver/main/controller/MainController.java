@@ -32,7 +32,7 @@ public class MainController {
         // 현재 날짜를 기준으로 date 값을 생성
         LocalDate currentDate = LocalDate.now();
         //String formattedDate = currentDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-        String formattedDate = "2024-04-06";
+        String formattedDate = "2024-04-06"; // 테스트를 위해 값을 고정, 실제 배포시에는 삭제 예정
         List<CategoryTreeResponse> categoryList = getDataFromCategoryAdaptor(1, 2);
         List<BookInfoBrief> recentlyPublishedBookList = getDataFromRecommendationAdaptor(() -> recommendationAdaptor.getRecentlyPublishedBooks(formattedDate, defaultMaxCount));
         List<BookInfoBrief> mostLikeBookList = getDataFromRecommendationAdaptor(() -> recommendationAdaptor.getBooksByMostLikedAndHighAverageScore(defaultMaxCount));
