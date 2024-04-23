@@ -1,7 +1,7 @@
 package com.t3t.frontserver.main.controller;
 
-import com.t3t.frontserver.category.adaptor.CategoryAdaptor;
-import com.t3t.frontserver.category.response.CategoryListResponse;
+import com.t3t.frontserver.category.client.CategoryApiClient;
+import com.t3t.frontserver.category.response.CategoryTreeResponse;
 import com.t3t.frontserver.main.adaptor.RecommendationAdaptor;
 import com.t3t.frontserver.main.response.BookInfoBrief;
 import com.t3t.frontserver.model.response.BaseResponse;
@@ -22,7 +22,7 @@ import static com.t3t.frontserver.util.ServiceUtils.handleResponse;
 @RequiredArgsConstructor
 public class MainController {
     private final RecommendationAdaptor recommendationAdaptor;
-    private final CategoryAdaptor categoryAdaptor;
+    private final CategoryApiClient categoryAdaptor;
 
     @GetMapping("/")
     public String homeView(Model model) {
@@ -33,21 +33,21 @@ public class MainController {
         LocalDate currentDate = LocalDate.now();
         String formattedDate = currentDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 
-        List<CategoryListResponse> categoryList = getDataFromCategoryAdaptor();
-        List<BookInfoBrief> recentlyPublishedBookList = getDataFromRecommendationAdaptor(() -> recommendationAdaptor.getRecentlyPublishedBooks(formattedDate, defaultMaxCount));
-        List<BookInfoBrief> mostLikeBookList = getDataFromRecommendationAdaptor(() -> recommendationAdaptor.getMostLikeBooks(defaultMaxCount));
-        List<BookInfoBrief> bestSellerBookList = getDataFromRecommendationAdaptor(() -> recommendationAdaptor.getBestSellerBooks(defaultMaxCount));
+        List<CategoryTreeResponse> categoryList = getDataFromCategoryAdaptor(1, 2);
+//        List<BookInfoBrief> recentlyPublishedBookList = getDataFromRecommendationAdaptor(() -> recommendationAdaptor.getRecentlyPublishedBooks(formattedDate, defaultMaxCount));
+//        List<BookInfoBrief> mostLikeBookList = getDataFromRecommendationAdaptor(() -> recommendationAdaptor.getMostLikeBooks(defaultMaxCount));
+//        List<BookInfoBrief> bestSellerBookList = getDataFromRecommendationAdaptor(() -> recommendationAdaptor.getBestSellerBooks(defaultMaxCount));
 
         model.addAttribute("categoryList", categoryList);
-        model.addAttribute("recentlyPublishedBookList", recentlyPublishedBookList);
-        model.addAttribute("mostLikeBookList", mostLikeBookList);
-        model.addAttribute("bestSellerBookList", bestSellerBookList);
+//        model.addAttribute("recentlyPublishedBookList", recentlyPublishedBookList);
+//        model.addAttribute("mostLikeBookList", mostLikeBookList);
+//        model.addAttribute("bestSellerBookList", bestSellerBookList);
 
         return "main/page/home.html";
     }
 
-    private List<CategoryListResponse> getDataFromCategoryAdaptor() {
-        ResponseEntity<BaseResponse<List<CategoryListResponse>>> categoriesResponse = categoryAdaptor.getCategories();
+    private List<CategoryTreeResponse> getDataFromCategoryAdaptor(Integer startDepth, Integer maxDepth ) {
+        ResponseEntity<BaseResponse<List<CategoryTreeResponse>>> categoriesResponse = categoryAdaptor.getCategoryTreeByDepth(startDepth, maxDepth);
         return handleResponse(categoriesResponse);
     }
 
