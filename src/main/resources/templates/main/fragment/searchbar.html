@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <th:block th:fragment="searchbarFragment">
+        <div class="container mt-5">
+            <div class="row d-flex justify-content-center">
+                <div class="col-md-10">
+                    <div class="card p-3  py-4">
+                        <h5>찾고 싶으신 도서가 있으신가요?</h5>
+                        <form th:action="@{/search}" method="post">
+                        <div class="row g-3 mt-2">
+                            <div class="col-md-3">
+                                <div class="dropdown">
+                                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-expanded="false">
+                                        Any Status
+                                    </button>
+                                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                        <li><a class="dropdown-item" href="#">drop1</a></li>
+                                        <li><a class="dropdown-item" href="#">drop2</a></li>
+                                        <li><a class="dropdown-item" href="#">drop3</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <input type="text" class="form-control" placeholder="도서 검색하기" th:name="query" required>
+                            </div>
+                            <div class="col-md-3">
+                                <button class="btn btn-secondary btn-block">검색하기</button>
+                            </div>
+                        </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </th:block>
+</html>
