@@ -1,9 +1,9 @@
 package com.t3t.frontserver.book.controller;
 
-import com.t3t.frontserver.book.adaptor.BookAdaptor;
+import com.t3t.frontserver.book.client.BookApiClient;
 import com.t3t.frontserver.book.model.response.BookDetailResponse;
-import com.t3t.frontserver.category.adaptor.CategoryAdaptor;
-import com.t3t.frontserver.category.response.CategoryListResponse;
+import com.t3t.frontserver.category.client.CategoryApiClient;
+import com.t3t.frontserver.category.response.CategoryTreeResponse;
 import com.t3t.frontserver.index.OrderFormRequest;
 import com.t3t.frontserver.model.response.BaseResponse;
 import com.t3t.frontserver.model.response.PageResponse;
@@ -24,15 +24,15 @@ import static com.t3t.frontserver.util.ServiceUtils.handleResponse;
 @Controller
 @RequiredArgsConstructor
 public class BookController {
-    private final CategoryAdaptor categoryAdaptor;
-    private final BookAdaptor bookAdaptor;
+    private final CategoryApiClient categoryAdaptor;
+    private final BookApiClient bookApiClient;
     private final ReviewAdaptor reviewAdaptor;
 
     @GetMapping("books/{bookId}")
     public String getBook(Model model, @PathVariable Long bookId,
                        @RequestParam(value = "pageNo", defaultValue = "0", required = false) int pageNo) {
 
-        List<CategoryListResponse> categoryList = getDataFromCategoryAdaptor();
+        List<CategoryTreeResponse> categoryList = getDataFromCategoryAdaptor(1, 2);
         BookDetailResponse bookDetailList = getDataFromBookAdaptor(bookId);
         PageResponse<ReviewResponse> reviewList = getDataFromReviewAdaptor(bookId, pageNo);
 
@@ -58,13 +58,13 @@ public class BookController {
         return "main/page/detail.html";
     }
 
-    private List<CategoryListResponse> getDataFromCategoryAdaptor() {
-        ResponseEntity<BaseResponse<List<CategoryListResponse>>> categoriesResponse = categoryAdaptor.getCategories();
+    private List<CategoryTreeResponse> getDataFromCategoryAdaptor(Integer startDepth, Integer maxDepth ) {
+        ResponseEntity<BaseResponse<List<CategoryTreeResponse>>> categoriesResponse = categoryAdaptor.getCategoryTreeByDepth(startDepth, maxDepth);
         return handleResponse(categoriesResponse);
     }
 
     private BookDetailResponse getDataFromBookAdaptor(Long bookId) {
-        ResponseEntity<BaseResponse<BookDetailResponse>> bookDetailResponse = bookAdaptor.getBook(bookId);
+        ResponseEntity<BaseResponse<BookDetailResponse>> bookDetailResponse = bookApiClient.getBook(bookId);
         return handleResponse(bookDetailResponse);
     }
 

@@ -1,9 +1,9 @@
-package com.t3t.frontserver.book.model.response;
+package com.t3t.frontserver.book.model.dto;
 
 import lombok.Getter;
 
 @Getter
-public class PackagingInfo {
+public class PackagingDto {
     private Long id;
     private String name;
 }

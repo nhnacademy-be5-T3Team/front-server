@@ -4,7 +4,7 @@ import lombok.Getter;
 
 @Getter
 public class BookInfoBrief {
+    private Long id; // 도서 id
     private String name; // 도서 제목
-    private String coverImageUrl; // 도서 커버 이미지 url
-    private Long bookId;
+    private String thumbnailImageUrl; // 도서 커버 이미지 url
 }
