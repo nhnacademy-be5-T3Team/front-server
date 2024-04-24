@@ -71,6 +71,7 @@ public class SecurityConfig {
                     @Override
                     public void handle(HttpServletRequest request, HttpServletResponse response, AccessDeniedException accessDeniedException) throws IOException, ServletException {
                         if (request.getRequestURI().startsWith("/admin")){
+                            // 관리자 권한이 없습니다. 메시지 추가
                             response.sendRedirect("/");
                         }
                         if (request.getRequestURI().startsWith("/myPage")){

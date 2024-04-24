@@ -27,7 +27,6 @@ public class LoginService {
      * @author joohyun1996(이주현)
      */
     public ResponseEntity<BaseResponse<String>> login(LoginRequestDto loginRequestDto){
-        loginRequestDto.setPassword(bCryptPasswordEncoder.encode(loginRequestDto.getPassword()));
         ResponseEntity<String> resp = loginApiClient.doLogin(loginRequestDto);
         String access = resp.getHeaders().getFirst(HttpHeaders.AUTHORIZATION);
         if(Objects.nonNull(access)){
