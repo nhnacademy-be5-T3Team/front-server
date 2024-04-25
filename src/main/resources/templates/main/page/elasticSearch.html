@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout(categoryList)"
+      layout:decorate="main/layout/layout">
+
+<th:block layout:fragment="content">
+    <div class="container-fluid">
+        <section class="food_section layout_padding-bottom">
+            <div class="container">
+                <div class="heading_container heading_center">
+                    <h2 style="margin-top: 10px; margin-bottom: 10px;">
+                        검색 결과
+                    </h2>
+                    <div class="sorting_options" style="margin-bottom: 20px;">
+                        <div class="btn-group" role="group" aria-label="Sort options">
+                            <button type="button" class="btn btn-secondary sort-option" id="sort_score"
+                                    onclick="updateSortBy('_score')">정확도순
+                            </button>
+                            <button type="button" class="btn btn-secondary sort-option" id="sort_price"
+                                    onclick="updateSortBy('book_price')">가격순
+                            </button>
+                            <button type="button" class="btn btn-secondary sort-option" id="sort_published"
+                                    onclick="updateSortBy('book_published')">출판일순
+                            </button>
+                            <button type="button" class="btn btn-secondary sort-option" id="book_average_score"
+                                    onclick="updateSortBy('book_average_score')">평점순
+                            </button>
+                            <button type="button" class="btn btn-secondary sort-option" id="sort_likes"
+                                    onclick="updateSortBy('book_like_count')">좋아요순
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="search_results">
+                <div th:unless="${bookList}">
+                    <h2>검색 결과가 없습니다..</h2>
+                </div>
+                <th:block th:if="bookList" th:each="book : ${bookList}">
+                    <div class="col">
+                        <div class="card">
+                            <div class="row g-0">
+                                <!-- 도서 썸네일 이미지 -->
+                                <div class="col-md-4 d-flex justify-content-center align-items-center"
+                                     style="padding: 30px;">
+                                    <img th:if="${imgUrl != 'no-image'}" th:src="${book.coverImageUrl}"
+                                         class="img-fluid rounded-start"
+                                         style="width: 200px; max-height: 100%; margin: auto;" alt="...">
+                                    <img th:unless="${imgUrl != 'no-image'}"
+                                         th:src="@{/main/assets/images/no-image.png}" class="img-fluid rounded-start"
+                                         style="width: 200px; max-height: 100%; margin: auto;" alt="...">
+                                </div>
+                                <div class="col-md-8">
+                                    <div class="card-body">
+                                        <a th:href="@{'/books/' + ${book.bookId}}">
+                                            <p>도서 제목 : <span th:text="${book.name}"></span></p>
+                                        </a>
+                                        <div class="fs-5 mb-5">
+                                            <th:block th:if="${book.discountRate > 0}">
+                                                <span class="text-decoration-line-through"
+                                                      th:text="${#numbers.formatInteger(book.price, 0, 'COMMA')}">$45</span>
+                                                <span style="font-size: smaller; color: blue;"><span
+                                                        th:text="${book.discountRate}"></span>% OFF</span>
+                                                <span th:text="${#numbers.formatInteger(book.discountedPrice, 0, 'COMMA')}">$40.00</span>
+                                            </th:block>
+                                            <th:block th:unless="${book.discountRate > 0}">
+                                                <span th:text="${#numbers.formatInteger(book.price, 0, 'COMMA')}">$40.00</span>
+                                            </th:block>
+                                        </div>
+                                        <p>출판 일시 : <span
+                                                th:text="${#temporals.format(book.published, 'yyyy-MM-dd')}"></span></p>
+                                        <p>출판사 : <span th:text="${book.publisher}"></span></p>
+                                        <p>평균 평점 : <span th:text="${book.averageScore}"></span></p>
+                                        <p>좋아요 수 : <span th:text="${book.likeCount}"></span></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </th:block>
+                </div>
+
+                <!-- 페이지네이션 바 -->
+                <nav aria-label="Page navigation example" th:if="${bookList}">
+                    <ul class="pagination">
+                        <li class="page-item" th:classappend="${nowPage == 1} ? 'disabled'">
+                            <a class="page-link"
+                               th:href="@{'/search'(query=${query},searchType=${searchType}, pageNo = ${nowPage - 2}) }"
+                               aria-label="Previous">
+                                <span aria-hidden="true">&laquo;</span>
+                            </a>
+                        </li>
+                        <th:block th:each="page : ${#numbers.sequence(startPage, endPage)}">
+                            <li class="page-item" th:classappend="${page == nowPage} ? 'active'">
+                                <a class="page-link"
+                                   th:href="@{'/search'(query=${query}, searchType=${searchType}, pageNo = ${page - 1})}"
+                                   th:text="${page}"></a>
+                            </li>
+                        </th:block>
+                        <li class="page-item" th:classappend="${nowPage == endPage} ? 'disabled'">
+                            <a class="page-link"
+                               th:href="@{'/search'(query=${query}, searchType=${searchType}, pageNo = ${nowPage})}"
+                               aria-label="Next">
+                                <span aria-hidden="true">&raquo;</span>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </section>
+    </div>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            updateActiveButton();
+        });
+
+        function updateSortBy(sortBy) {
+            var currentUrl = new URL(window.location.href);
+            currentUrl.searchParams.set('sortBy', sortBy);
+            window.location.href = currentUrl.toString();
+        }
+
+        function updateActiveButton() {
+            var currentUrl = new URL(window.location.href);
+            var sortBy = currentUrl.searchParams.get('sortBy') || '_score'; // 기본값 설정
+
+            document.querySelectorAll('.sort-option').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            if (sortBy === 'book_price') {
+                document.getElementById('sort_price').classList.add('active');
+            } else if (sortBy === 'book_published') {
+                document.getElementById('sort_published').classList.add('active');
+            } else if (sortBy === 'book_like_count') {
+                document.getElementById('sort_likes').classList.add('active');
+            } else if (sortBy === 'book_average_score') {
+                document.getElementById('book_average_score').classList.add('active');
+            } else {
+                document.getElementById('sort_score').classList.add('active');
+            }
+        }
+    </script>
+</th:block>
+</html>

@@ -14,7 +14,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 @FeignClient(name = "ElasticAdaptor", url = "${t3t.feignClient.url}")
 public interface ElasticAdaptor {
-    @PostMapping("/search")
-    ResponseEntity<BaseResponse<PageResponse<ElasticResponse>>> getSearchPage(@RequestParam String query,
-                                                                              @RequestParam int pageNo);
+    @GetMapping("/t3t/bookstore/search")
+    ResponseEntity<BaseResponse<PageResponse<ElasticResponse>>>
+    getSearchPage(@RequestParam String query,
+                  @RequestParam String searchType,
+                  @RequestParam int pageNo,
+                  @RequestParam(value = "sortBy", defaultValue = "_score", required = false) String sortBy);
 }

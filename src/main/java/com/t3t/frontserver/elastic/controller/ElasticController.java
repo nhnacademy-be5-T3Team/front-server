@@ -21,10 +21,15 @@ import static com.t3t.frontserver.util.ServiceUtils.handleResponse;
 @RequiredArgsConstructor
 public class ElasticController {
     private final ElasticAdaptor elasticAdaptor;
-    @PostMapping("/search")
+
+    @GetMapping("/t3t/bookstore/search")
     public String searchBooks(@RequestParam(value = "query") String query,
-                              @RequestParam(value = "pageNo", defaultValue = "0", required = false) int pageNo, Model model) {
-        PageResponse<ElasticResponse> bookList = getSearchPageAdaptor(query,pageNo);
+                              @RequestParam("searchType") String searchType,
+                              @RequestParam(value = "pageNo", defaultValue = "0", required = false) int pageNo,
+                              @RequestParam(value = "sortBy", defaultValue = "_score", required = false) String sortBy,
+                              Model model) {
+
+        PageResponse<ElasticResponse> bookList = getSearchPageAdaptor(query, searchType, pageNo, sortBy);
 
         if (bookList != null) {
             int blockLimit = 3;
@@ -32,17 +37,26 @@ public class ElasticController {
             int startPage = Math.max(nowPage - blockLimit, 1);
             int endPage = Math.min(nowPage + blockLimit, bookList.getTotalPages());
 
-            model.addAttribute("hNowPage", nowPage);
-            model.addAttribute("StartPage", startPage);
-            model.addAttribute("EndPage", endPage);
+            model.addAttribute("nowPage", nowPage);
+            model.addAttribute("startPage", startPage);
+            model.addAttribute("endPage", endPage);
             model.addAttribute("bookList", bookList.getContent());
+            model.addAttribute("query",query); //페이징을 위한 검색어
+            model.addAttribute("searchType",searchType);//페이징을 위한 검색유형
+            model.addAttribute("sortBy",sortBy); //정렬 방식을 위한 객체
         }
 
-        return "main/page/search";
+        return "main/page/elasticSearch";
     }
-    private PageResponse<ElasticResponse> getSearchPageAdaptor(String query, int pageNo) {
-        ResponseEntity<BaseResponse<PageResponse<ElasticResponse>>> elasticResponse = elasticAdaptor.getSearchPage(query,
-                pageNo);
+
+    private PageResponse<ElasticResponse> getSearchPageAdaptor(String query,
+                                                               String searchType,
+                                                               int pageNo,
+                                                               String sortBy) {
+
+        ResponseEntity<BaseResponse<PageResponse<ElasticResponse>>> elasticResponse
+                = elasticAdaptor.getSearchPage(query, searchType, pageNo, sortBy);
+
         return handleResponse(elasticResponse);
     }
 }
