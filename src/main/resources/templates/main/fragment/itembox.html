@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<th:block th:fragment="itemFragment (type, book)">
+<!-- 이 주의 도서 시작 -->
+<div class="col-sm-6 col-lg-4 all" th:classappend="${type}">
+    <div class="box">
+        <div>
+            <div class="img-box">
+                <img th:if="${book.thumbnailImageUrl != 'no-image'}" th:src="${book.thumbnailImageUrl}" alt="Book Image">
+                <img th:unless="${book.thumbnailImageUrl != 'no-image'}" th:src="@{/main/assets/images/no-image.png}" alt="Default Book Image">
+            </div>
+            <div class="detail-box d-flex justify-content-between">
+                <a th:href="@{'/books/' + ${book.id}}" style="color:white;">
+                    <span th:text="${book.name}">도서명</span>
+                </a>
+            </div>
+        </div>
+    </div>
+
+</div>
+<!-- 이 주의 도서 끝 -->
+</th:block>
+</html>

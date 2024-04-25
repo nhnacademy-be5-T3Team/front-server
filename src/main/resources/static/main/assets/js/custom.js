@@ -1,15 +1,20 @@
-// to get current year
-function getYear() {
-    var currentDate = new Date();
-    var currentYear = currentDate.getFullYear();
-    document.querySelector("#displayYear").innerHTML = currentYear;
-}
-
-getYear();
-
-
 // isotope js
 $(window).on('load', function () {
+    // 첫 번째 메뉴의 data-filter 값을 가져와서 초기 필터로 설정
+    var initialFilter = $('.filters_menu li:first-child').attr('data-filter');
+    $('.filters_menu li:first-child').addClass('active');
+
+    // Isotope 초기화
+    var $grid = $(".grid").isotope({
+        itemSelector: ".all",
+        percentPosition: false,
+        masonry: {
+            columnWidth: ".all"
+        },
+        filter: initialFilter // 초기 필터로 첫 번째 data-filter 값 선택
+    });
+
+    // 필터 메뉴 클릭 시 동작
     $('.filters_menu li').click(function () {
         $('.filters_menu li').removeClass('active');
         $(this).addClass('active');
@@ -19,52 +24,23 @@ $(window).on('load', function () {
             filter: data
         })
     });
-
-    var $grid = $(".grid").isotope({
-        itemSelector: ".all",
-        percentPosition: false,
-        masonry: {
-            columnWidth: ".all"
-        }
-    })
 });
 
-// nice select
-$(document).ready(function() {
-    $('select').niceSelect();
-  });
+document.addEventListener('DOMContentLoaded', function() {
+    let stars = document.querySelectorAll('.stars');
 
-/** google_map js **/
-function myMap() {
-    var mapProp = {
-        center: new google.maps.LatLng(40.712775, -74.005973),
-        zoom: 18,
-    };
-    var map = new google.maps.Map(document.getElementById("googleMap"), mapProp);
-}
+    stars.forEach(function(star) {
+        let rating = parseInt(star.getAttribute('data-rating'));
+        let starsHTML = '';
 
-// client section owl carousel
-$(".client_owl-carousel").owlCarousel({
-    loop: true,
-    margin: 0,
-    dots: false,
-    nav: true,
-    navText: [],
-    autoplay: true,
-    autoplayHoverPause: true,
-    navText: [
-        '<i class="fa fa-angle-left" aria-hidden="true"></i>',
-        '<i class="fa fa-angle-right" aria-hidden="true"></i>'
-    ],
-    responsive: {
-        0: {
-            items: 1
-        },
-        768: {
-            items: 2
-        },
-        1000: {
-            items: 2
+        for (let i = 1; i <= 5; i++) {
+            if (i <= rating) {
+                starsHTML += '<span class="star">&#9733;</span>';
+            } else {
+                starsHTML += '<span class="star">&#9734;</span>';
+            }
         }
-    }
+
+        star.innerHTML = starsHTML;
+    });
 });
