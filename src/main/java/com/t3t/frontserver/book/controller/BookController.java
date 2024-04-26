@@ -55,7 +55,7 @@ public class BookController {
         // 주문 페이지로 넘기기 위한 객체 (도서 id, 주문 수량, 포장 id)
         model.addAttribute("orderFormRequest", new OrderFormRequest());
 
-        return "main/page/detail.html";
+        return "main/page/detail";
     }
 
     private List<CategoryTreeResponse> getDataFromCategoryAdaptor(Integer startDepth, Integer maxDepth ) {

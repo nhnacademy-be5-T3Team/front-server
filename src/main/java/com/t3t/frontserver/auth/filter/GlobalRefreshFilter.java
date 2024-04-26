@@ -1,7 +1,7 @@
 package com.t3t.frontserver.auth.filter;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
-import org.springframework.stereotype.Component;
 import org.springframework.web.filter.GenericFilterBean;
 
 import javax.servlet.FilterChain;
@@ -14,27 +14,34 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Objects;
+import java.util.Optional;
 
 /**
  * access token 재발급시 재발급 받은 토큰을 브라우저에 저장하기 위한 필터
  * @author joohyun1996(이주현)
  */
-@Component
+@Slf4j
 public class GlobalRefreshFilter extends GenericFilterBean {
-    public GlobalRefreshFilter() {
-        super();
-    }
 
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain chain) throws IOException, ServletException {
+        if("/error".equals(((HttpServletRequest)servletRequest).getRequestURI())){
+            chain.doFilter(servletRequest,servletResponse);
+        }
         HttpServletRequest request = (HttpServletRequest) servletRequest;
         HttpServletResponse response = (HttpServletResponse) servletResponse;
 
-        Cookie[] cookies = request.getCookies();
-
-        if(Objects.isNull(cookies)){
+        if(Objects.isNull(request.getCookies())){
             chain.doFilter(request,response);
-            return;
+        }
+
+        Cookie[] cookies = request.getCookies();
+        Optional<Cookie> userCookie = Arrays.stream(cookies)
+                .filter(cookie -> "t3t".equals(cookie.getName()))
+                .findFirst();
+
+        if (userCookie.isEmpty()){
+            chain.doFilter(request,response);
         }
 
         String prevToken = Arrays.stream(cookies)
