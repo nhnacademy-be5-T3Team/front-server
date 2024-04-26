@@ -3,7 +3,6 @@ package com.t3t.frontserver.config;
 import com.t3t.frontserver.auth.error.CustomAuthenticationPoint;
 import com.t3t.frontserver.auth.filter.GlobalRefreshFilter;
 import com.t3t.frontserver.auth.filter.GlobalTokenFilter;
-import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.access.AccessDeniedException;
@@ -14,7 +13,8 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.access.AccessDeniedHandler;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.access.intercept.FilterSecurityInterceptor;
+import org.springframework.security.web.session.SessionManagementFilter;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -57,8 +57,8 @@ public class SecurityConfig {
                         .antMatchers("/myPage/**").authenticated()
                         .antMatchers("/logout").authenticated()
                         .antMatchers("/**").permitAll())
-                .addFilterAt(new GlobalTokenFilter(), UsernamePasswordAuthenticationFilter.class)
-                .addFilterAfter(new GlobalRefreshFilter(), GlobalTokenFilter.class)
+                .addFilterAt(new GlobalTokenFilter(), SessionManagementFilter.class)
+                .addFilterAfter(new GlobalRefreshFilter(), FilterSecurityInterceptor.class)
                 .logout()
                 .logoutUrl("/logout")
                 .logoutSuccessHandler((request, response, authentication) -> {

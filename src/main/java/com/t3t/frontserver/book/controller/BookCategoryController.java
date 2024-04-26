@@ -46,7 +46,7 @@ public class BookCategoryController {
 
         model.addAttribute("categoryList", categoryList);
 
-        return "main/page/search.html";
+        return "main/page/search";
     }
 
     private List<CategoryTreeResponse> getDataFromCategoryAdaptor(Integer startDepth, Integer maxDepth ) {

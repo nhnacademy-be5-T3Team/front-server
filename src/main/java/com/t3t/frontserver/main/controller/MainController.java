@@ -2,9 +2,9 @@ package com.t3t.frontserver.main.controller;
 
 import com.t3t.frontserver.category.client.CategoryApiClient;
 import com.t3t.frontserver.category.response.CategoryTreeResponse;
-import com.t3t.frontserver.recommendation.client.RecommendationApiClient;
 import com.t3t.frontserver.main.response.BookInfoBrief;
 import com.t3t.frontserver.model.response.BaseResponse;
+import com.t3t.frontserver.recommendation.client.RecommendationApiClient;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -12,7 +12,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.function.Supplier;
 
@@ -44,7 +43,7 @@ public class MainController {
         model.addAttribute("mostLikeBookList", mostLikeBookList);
         model.addAttribute("bestSellerBookList", bestSellerBookList);
 
-        return "main/page/home.html";
+        return "main/page/home";
     }
 
     private List<CategoryTreeResponse> getDataFromCategoryAdaptor(Integer startDepth, Integer maxDepth ) {
