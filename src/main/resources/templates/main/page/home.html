@@ -23,17 +23,17 @@
                     <div class="row grid">
                         <!-- 이 주의 도서 -->
                         <th:block th:if="${recentlyPublishedBookList != null}" th:each="book : ${recentlyPublishedBookList}">
-                            <th:block th:replace="/main/fragment/itembox :: itemFragment ('recentlyPublished', ${book})"></th:block>
+                            <th:block th:replace="main/fragment/itembox :: itemFragment ('recentlyPublished', ${book})"></th:block>
                         </th:block>
 
                         <!-- 독자의 선택 -->
                         <th:block th:if="${mostLikeBookList != null}" th:each="book : ${mostLikeBookList}">
-                            <th:block th:replace="/main/fragment/itembox :: itemFragment ('mostLike', ${book})"></th:block>
+                            <th:block th:replace="main/fragment/itembox :: itemFragment ('mostLike', ${book})"></th:block>
                         </th:block>
 
                         <!-- 역대 베스트 셀러 -->
                         <th:block th:if="${bestSellerBookList != null}" th:each="book : ${bestSellerBookList}">
-                            <th:block th:replace="/main/fragment/itembox :: itemFragment ('bestSeller', ${book})"></th:block>
+                            <th:block th:replace="main/fragment/itembox :: itemFragment ('bestSeller', ${book})"></th:block>
                         </th:block>
                     </div>
                 </div>

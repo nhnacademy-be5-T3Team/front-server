@@ -7,7 +7,7 @@
         <div>
             <div class="img-box">
                 <img th:if="${book.thumbnailImageUrl != 'no-image'}" th:src="${book.thumbnailImageUrl}" alt="Book Image">
-                <img th:unless="${book.thumbnailImageUrl != 'no-image'}" th:src="@{/main/assets/images/no-image.png}" alt="Default Book Image">
+                <img th:unless="${book.thumbnailImageUrl != 'no-image'}" th:src="@{assets/main/images/no-image.png}" alt="Default Book Image">
             </div>
             <div class="detail-box d-flex justify-content-between">
                 <a th:href="@{'/books/' + ${book.id}}" style="color:white;">
