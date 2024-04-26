@@ -24,13 +24,13 @@
                             <!-- 썸네일 이미지 -->
                             <div class="carousel-item active">
                                 <img th:src="${bookDetailList.thumbnailImageUrl}" class="card-img-top mb-5 mb-md-0" alt="Default Book Thumbnail Image">
-                                <img th:unless="${imgUrl != 'no-image'}" th:src="@{/assets/main/images/no-image.png}" class="card-img-top mb-5 mb-md-0" alt="Default Book Thumbnail Image">
+                                <img th:unless="${imgUrl != 'no-image'}" th:src="@{assets/main/images/no-image.png}" class="card-img-top mb-5 mb-md-0" alt="Default Book Thumbnail Image">
                             </div>
                             <!-- 미리보기 이미지 -->
                             <th:block th:each="imgUrl : ${bookDetailList.bookImageUrlList}">
                                 <div class="carousel-item">
                                     <img th:if="${imgUrl != 'no-image'}" th:src="${imgUrl}" class="card-img-top mb-5 mb-md-0" alt="Default Book Image">
-                                    <img th:unless="${imgUrl != 'no-image'}" th:src="@{/assets/main/images/no-image.png}" class="card-img-top mb-5 mb-md-0" alt="Default Book Image">
+                                    <img th:unless="${imgUrl != 'no-image'}" th:src="@{assets/main/images/no-image.png}" class="card-img-top mb-5 mb-md-0" alt="Default Book Image">
                                 </div>
                             </th:block>
                         </div>
@@ -178,7 +178,7 @@
                         <h2>도서 리뷰</h2>
                         <!-- 리뷰가 있는 경우에 리뷰 목록을 띄움 -->
                         <div th:if="${reviewList}" style="padding: 30px;">
-                            <th:block th:replace="/main/fragment/review :: reviewFragment(${reviewList} ,${reviewNowPage}, ${reviewStartPage}, ${reviewEndPage})"></th:block>
+                            <th:block th:replace="main/fragment/review :: reviewFragment(${reviewList} ,${reviewNowPage}, ${reviewStartPage}, ${reviewEndPage})"></th:block>
                         </div>
                         <div th:unless="${reviewList}">
                             <h2>등록된 리뷰가 없습니다.</h2>

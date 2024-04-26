@@ -23,7 +23,7 @@
                                     <!-- 도서 썸네일 이미지 -->
                                     <div class="col-md-4 d-flex justify-content-center align-items-center" style="padding: 30px;">
                                         <img th:if="${imgUrl != 'no-image'}" th:src="${book.thumbnailImageUrl}" class="img-fluid rounded-start" style="width: 200px; max-height: 100%; margin: auto;" alt="...">
-                                        <img th:unless="${imgUrl != 'no-image'}" th:src="@{/assets/main/images/no-image.png}" class="img-fluid rounded-start" style="width: 200px; max-height: 100%; margin: auto;" alt="...">
+                                        <img th:unless="${imgUrl != 'no-image'}" th:src="@{assets/main/images/no-image.png}" class="img-fluid rounded-start" style="width: 200px; max-height: 100%; margin: auto;" alt="...">
                                     </div>
                                     <div class="col-md-8">
                                         <div class="card-body">
