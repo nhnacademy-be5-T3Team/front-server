@@ -4,7 +4,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 @Slf4j
 @Controller
@@ -18,7 +17,7 @@ public class TestController {
         log.info(String.valueOf(request.getOrderQuantity()));
         log.info(String.valueOf(request.getPackageId()));
 
-        return "index/index.html";
+        return "index/index";
     }
 
     @PostMapping("/test2")
@@ -29,7 +28,7 @@ public class TestController {
         log.info(String.valueOf(request.getOrderQuantity()));
         log.info(String.valueOf(request.getPackageId()));
 
-        return "index/index.html";
+        return "index/index";
     }
 }
 
