@@ -1,10 +1,8 @@
 package com.t3t.frontserver.auth.client;
 
-import com.t3t.frontserver.auth.model.request.LoginRequestDto;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 
 /**
  * 로그아웃 API 호출을 위한 Feign Client
