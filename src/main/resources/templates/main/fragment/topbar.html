@@ -11,12 +11,15 @@
 
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <div class="user_option ml-auto">
-                <a class="cart_link" href="#">
-                    <i class="bi bi-cart-fill" aria-hidden="true"></i>
-                </a>
-                <a class="user_link" href="#">
-                    <i class="fa fa-user" aria-hidden="true"></i>
-                </a>
+                <!-- admin 페이지인 경우 비활성화 -->
+                <div th:if="${not #httpServletRequest.getRequestURI().startsWith('/testAdmin')}">
+                    <a class="cart_link" href="#">
+                        <i class="bi bi-cart-fill" aria-hidden="true"></i>
+                    </a>
+                    <a class="user_link" href="#">
+                        <i class="fa fa-user" aria-hidden="true"></i>
+                    </a>
+                </div>
                 <div sec:authorize="!isAuthenticated()">
                     <a class="order_online" href="/login">
                         Sign In
