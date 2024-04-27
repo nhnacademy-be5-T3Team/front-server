@@ -27,12 +27,14 @@ public class GlobalRefreshFilter extends GenericFilterBean {
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain chain) throws IOException, ServletException {
         if("/error".equals(((HttpServletRequest)servletRequest).getRequestURI())){
             chain.doFilter(servletRequest,servletResponse);
+            return;
         }
         HttpServletRequest request = (HttpServletRequest) servletRequest;
         HttpServletResponse response = (HttpServletResponse) servletResponse;
 
         if(Objects.isNull(request.getCookies())){
             chain.doFilter(request,response);
+            return;
         }
 
         Cookie[] cookies = request.getCookies();
@@ -42,6 +44,7 @@ public class GlobalRefreshFilter extends GenericFilterBean {
 
         if (userCookie.isEmpty()){
             chain.doFilter(request,response);
+            return;
         }
 
         String prevToken = Arrays.stream(cookies)

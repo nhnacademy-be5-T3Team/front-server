@@ -27,10 +27,12 @@ public class GlobalTokenFilter extends GenericFilterBean {
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain chain) throws IOException, ServletException {log.debug("@@ GlobalTokenFilter servlet request uri {}", ((HttpServletRequest)servletRequest).getRequestURI());
         if("/error".equals(((HttpServletRequest)servletRequest).getRequestURI())){
             chain.doFilter(servletRequest,servletResponse);
+            return;
         }
         HttpServletRequest request = (HttpServletRequest) servletRequest;
         if(Objects.isNull(request.getCookies())){
             chain.doFilter(servletRequest,servletResponse);
+            return;
         }
         Cookie[] cookies = request.getCookies();
         Optional<Cookie> userCookie = Arrays.stream(cookies)
@@ -39,6 +41,7 @@ public class GlobalTokenFilter extends GenericFilterBean {
 
         if (userCookie.isEmpty()){
             chain.doFilter(request,servletResponse);
+            return;
         }
 
 
