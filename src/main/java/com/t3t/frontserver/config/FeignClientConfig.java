@@ -9,7 +9,8 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.Objects;
+import java.util.Arrays;
+import java.util.Optional;
 
 /**
  * FeignClient에서 동작할 Interceptor를 정의하는 config 클래스
@@ -22,14 +23,20 @@ public class FeignClientConfig {
     @Bean
     public RequestInterceptor requestInterceptor() {
         return requestTemplate -> {
-            ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
+            /*ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
             if (Objects.nonNull(attributes)) {
                 HttpServletRequest request = attributes.getRequest();
                 String authHeader = request.getHeader(HttpHeaders.AUTHORIZATION);
                 if (Objects.nonNull(authHeader)) {
                     requestTemplate.header(HttpHeaders.AUTHORIZATION, authHeader);
                 }
-            }
+            }*/
+            HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+            Optional.ofNullable(request.getCookies())
+                    .ifPresent(cookies -> Arrays.stream(cookies)
+                            .filter(cookie -> cookie.getName().equals("t3t"))
+                            .findFirst()
+                            .ifPresent(cookie -> requestTemplate.header(HttpHeaders.AUTHORIZATION, cookie.getValue())));
         };
     }
 }
