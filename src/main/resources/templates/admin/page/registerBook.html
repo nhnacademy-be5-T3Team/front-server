@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="admin/layout/layout">
+
+<th:block layout:fragment="content">
+
+    <!-- WYSIWYG(위즈윅) Editor css -->
+    <head>
+        <link rel="stylesheet" href="https://uicdn.toast.com/editor/latest/toastui-editor.min.css"/>
+    </head>
+
+    <div class="card">
+        <div class="card-body">
+            <h5 class="card-title">도서 등록하기</h5>
+            <!-- 도서 등록 form -->
+            <form method="post" th:action="@{/testAdmin/books}" th:object="${bookRegisterRequest}">
+
+                <!-- 도서 제목 입력 -->
+                <div class="row mb-3">
+                    <label th:for="bookTitle" class="col-sm-2 col-form-label">도서 제목</label>
+                    <div class="col-sm-10">
+                        <div id="titleValidationMessage"></div>
+                        <input type="text" class="form-control" th:field="*{bookTitle}" required>
+                    </div>
+                </div>
+
+                <!-- 도서 목차 입력 -->
+                <div class="row mb-3">
+                    <label th:for="bookIndex" class="col-sm-2 col-form-label">도서 목차</label>
+                    <div class="col-sm-10">
+                        <div id="bookIndexEditor"></div>
+                    </div>
+                </div>
+
+                <!-- 도서 설명 입력 -->
+                <div class="row mb-3">
+                    <label for="bookDescEditor" class="col-sm-2 col-form-label">도서 설명</label>
+                    <div class="col-sm-10">
+                        <div id="bookDescEditor"></div>
+                    </div>
+                </div>
+
+                <!-- 도서 ISBN 입력 -->
+                <div class="row mb-3">
+                    <label th:for="bookIsbn" class="col-sm-2 col-form-label">13-ISBN(국제 표준 도서 번호)</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" th:field="*{bookIsbn}" required>
+                        <div id="isbnValidationMessage"></div>
+                    </div>
+                </div>
+
+                <!-- 도서 정가 입력 -->
+                <div class="row mb-3">
+                    <label th:for="bookPrice" class="col-sm-2 col-form-label">도서 정가</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" th:field="*{bookPrice}" required>
+                        <div id="priceValidationMessage"></div>
+                    </div>
+                </div>
+
+                <!-- 도서 할인율 입력 -->
+                <div class="row mb-3">
+                    <label th:for="bookDiscountRate" class="col-sm-2 col-form-label">할인율</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" th:field="*{bookDiscountRate}" required>
+                        <div id="discountRateValidationMessage"></div>
+                    </div>
+                </div>
+
+                <!-- 포장 가능 여부 선택 -->
+                <fieldset class="row mb-3">
+                    <legend class="col-form-label col-sm-2 pt-0">포장 가능 여부 선택</legend>
+                    <div class="col-sm-10">
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="gridRadios" id="option1" value="1"
+                                   checked>
+                            <label class="form-check-label" for="option1">
+                                포장 가능
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="gridRadios" id="option2" value="0">
+                            <label class="form-check-label" for="option2">
+                                포장 불가능
+                            </label>
+                        </div>
+                    </div>
+                </fieldset>
+
+                <!-- 도서 출판일 입력 -->
+                <div class="row mb-3">
+                    <label th:for="bookPublished" class="col-sm-2 col-form-label">도서 출판일</label>
+                    <div class="col-sm-10">
+                        <input type="date" class="form-control" th:field="*{bookPublished}" required>
+                    </div>
+                </div>
+
+                <!-- 도서 재고 입력 -->
+                <div class="row mb-3">
+                    <label th:for="bookStock" class="col-sm-2 col-form-label">재고</label>
+                    <div class="col-sm-10">
+                        <input type="number" class="form-control" th:field="*{bookStock}" min="0" required>
+                    </div>
+                </div>
+
+                <!-- 도서 출판사 선택 -->
+                <div class="row mb-3">
+                    <label class="col-sm-2 col-form-label">도서 출판사 선택</label>
+                    <div class="col-sm-10">
+                        <button type="button" class="btn btn-primary" style="margin-bottom: 20px" data-bs-toggle="modal" data-bs-target="#publisherModal" id="openPublisherModal">출판사 선택</button>
+                        <div id="selectedPublisher" class="list-group">
+                        </div>
+                    </div>
+                </div>
+                <!-- 출판사 선택을 위한 모달 -->
+                <th:block th:replace="admin/fragment/publisherModal :: publisherModalFragment"></th:block>
+
+                <!-- 도서 참여자 선택 -->
+                <div class="row mb-3">
+                    <label class="col-sm-2 col-form-label">도서 참여자 선택</label>
+                    <div class="col-sm-3">
+                        <div class="row g-3">
+                            <h6>도서 참여자 수를 선택해주세요.</h6>
+                            <div class="col-auto">
+                                <input id="participantCount" type="number" class="form-control"  min="1" max="10" required>
+                            </div>
+                            <div class="col-auto">
+                                <button id="confirmBtn" type="button" class="btn btn-primary">확인</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-5">
+                        <table id="participantButtonTable" class="table">
+                            <thead class="table-light">
+                            <tr>
+                                <th scope="col">참여자 선택</th>
+                                <th scope="col">참여자 역할 선택</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <!-- 참여자 선택을 위한 모달 -->
+                <th:block th:replace="admin/fragment/participantModal :: participantModalFragment"></th:block>
+                <!-- 참여자 역할 선택을 위한 모달 -->
+                <th:block th:replace="admin/fragment/participantRoleModal :: participantRoleModalFragment"></th:block>
+
+                <!-- 도서 썸네일 이미지 선택 -->
+                <div class="row mb-3">
+                    <label for="inputThumbnailImage" class="col-sm-2 col-form-label">도서 썸네일 이미지</label>
+                    <div class="col-sm-10">
+                        <input class="form-control" type="file" id="inputThumbnailImage">
+                    </div>
+                </div>
+
+                <!-- 도서 미리보기 이미지 선택 -->
+                <div class="row mb-3">
+                    <label for="inputBookImage" class="col-sm-2 col-form-label">도서 미리보기 이미지</label>
+                    <div class="col-sm-10">
+                        <input class="form-control" type="file" id="inputBookImage" multiple>
+                    </div>
+                </div>
+
+                <!-- 카테고리 선택 -->
+                <div class="row mb-3">
+                    <label class="col-sm-2 col-form-label">카테고리 선택</label>
+                    <div class="col-sm-10">
+                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#categoryModal" id="openCategoryModal">카테고리 선택</button>
+                        <div id="selectedCategory" class="list-group">
+                        </div>
+                    </div>
+                </div>
+                <!-- 카테고리 선택을 위한 모달 -->
+                <th:block th:replace="admin/fragment/categoryModal :: categoryModalFragment"></th:block>
+
+                <!-- 태그 선택 -->
+                <div class="row mb-3">
+                    <label class="col-sm-2 col-form-label">태그 선택</label>
+                    <div class="col-sm-10">
+                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#tagModal" id="openTagModal">태그 선택</button>
+                        <div id="selectedTag" class="list-group">
+                        </div>
+                    </div>
+                </div>
+                <!-- 태그 선택을 위한 모달 -->
+                <th:block th:replace="admin/fragment/tagModal :: tagModalFragment"></th:block>
+
+                <div class="row mb-3">
+                    <label class="col-sm-2 col-form-label">Submit Button</label>
+                    <div class="col-sm-10">
+                        <button type="submit" class="btn btn-primary" id="submitBtn">Submit</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- TOAST UI Editor CDN URL(JS) -->
+    <script th:src="@{https://uicdn.toast.com/editor/latest/toastui-editor-all.min.js}"></script>
+    <script th:src="@{/assets/admin/js/adminBook.js}"></script>
+    <script th:src="@{/assets/admin/js/api.js}"></script>
+    
+</th:block>
+</html>
