@@ -22,7 +22,7 @@ import static com.t3t.frontserver.util.ServiceUtils.handleResponse;
 public class ElasticController {
     private final ElasticAdaptor elasticAdaptor;
 
-    @GetMapping("/t3t/bookstore/search")
+    @GetMapping("/search")
     public String searchBooks(@RequestParam(value = "query") String query,
                               @RequestParam("searchType") String searchType,
                               @RequestParam(value = "pageNo", defaultValue = "0", required = false) int pageNo,
