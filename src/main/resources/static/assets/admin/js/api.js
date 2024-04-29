@@ -6,7 +6,7 @@
 // 출판사 목록 요청을 보내는 함수
 function fetchPublishersAndUpdateModal() {
     $.ajax({
-        url: 'http://localhost:8081/publishers',
+        url: apiUrl+'/t3t/bookstore/publishers',
         type: 'GET',
         data: {
             pageNo: currentPage,
@@ -36,7 +36,7 @@ function fetchPublishersAndUpdateModal() {
 // 참여자 목록 요청을 보내는 함수
 function fetchParticipantsAndUpdateModal() {
     $.ajax({
-        url: 'http://localhost:8081/participants',
+        url: apiUrl+'/t3t/bookstore/participants',
         type: 'GET',
         data: {
             pageNo: currentPage,
@@ -66,7 +66,7 @@ function fetchParticipantsAndUpdateModal() {
 // 참여자 역할 목록 요청을 보내는 함수
 function fetchParticipantRolesAndUpdateModal() {
     $.ajax({
-        url: 'http://localhost:8081/participantRoles',
+        url: apiUrl+'/t3t/bookstore/participantRoles',
         type: 'GET',
         data: {
             pageNo: currentPage,
@@ -96,7 +96,7 @@ function fetchParticipantRolesAndUpdateModal() {
 // 카테고리 목록 요청을 보내는 함수
 function fetchCategoriesAndUpdateModal(startDepth, maxDepth) {
     $.ajax({
-        url: 'http://localhost:8081/categories',
+        url: apiUrl+'/t3t/bookstore/categories',
         type: 'GET',
         data: {
             startDepth: startDepth,
@@ -123,7 +123,7 @@ function fetchCategoriesAndUpdateModal(startDepth, maxDepth) {
 // 태그 목록 요청을 보내는 함수
 function fetchTagsAndUpdateModal() {
     $.ajax({
-        url: 'http://localhost:8081/tags',
+        url: apiUrl+'/t3t/bookstore/tags',
         type: 'GET',
         data: {
             pageNo: currentPage,

@@ -202,6 +202,9 @@
     <script th:src="@{https://uicdn.toast.com/editor/latest/toastui-editor-all.min.js}"></script>
     <script th:src="@{/assets/admin/js/adminBook.js}"></script>
     <script th:src="@{/assets/admin/js/api.js}"></script>
+    <script th:inline="javascript">
+        var apiUrl = /*[[${@environment.getProperty('t3t.feignClient.url')}]]*/ '';
+    </script>
 
 </th:block>
 </html>
