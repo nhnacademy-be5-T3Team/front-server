@@ -315,3 +315,60 @@ function updateTagTable(data) {
         tableBody.append(row);
     });
 }
+
+/*
+ * Pagination을 위한 전역 변수
+ */
+var currentPage = 0;
+var pageSize = 10;
+
+// 응답받은 데이터에 맞게 pagination 부분을 업데이트하는 함수
+function updatePagination(name, totalPages, action) {
+    // 매개변수로 받은 name에 해당하는 모달창의 pagination 부분을 가져온다.
+    var pagination = $('#'+name+'_pagination');
+    pagination.empty();
+
+    var maxPageButtons = 10; // 최대 페이지 버튼 수
+    var startPage = Math.max(1, currentPage - Math.floor(maxPageButtons / 2));
+    var endPage = Math.min(totalPages, startPage + maxPageButtons - 1);
+
+    var paginationList = $('<ul>').addClass('pagination');
+
+    // Previous 버튼 추가
+    var previousButton = $('<li>').addClass('page-item');
+    var previousLink = $('<a>').addClass('page-link').attr('href', '#').text('Previous').click(function() {
+        if (currentPage > 0) {
+            currentPage--;
+            action();
+        }
+    });
+    previousButton.append(previousLink);
+    paginationList.append(previousButton);
+
+    // 페이지 버튼 추가
+    for (var i = startPage; i <= endPage; i++) {
+        var pageButton = $('<li>').addClass('page-item');
+        var pageLink = $('<a>').addClass('page-link').attr('href', '#').text(i).click(function() {
+            currentPage = parseInt($(this).text()) - 1;
+            action();
+        });
+        if (i === currentPage + 1) {
+            pageButton.addClass('active');
+        }
+        pageButton.append(pageLink);
+        paginationList.append(pageButton);
+    }
+
+    // Next 버튼 추가
+    var nextButton = $('<li>').addClass('page-item');
+    var nextLink = $('<a>').addClass('page-link').attr('href', '#').text('Next').click(function() {
+        if (currentPage < totalPages - 1) {
+            currentPage++;
+            action();
+        }
+    });
+    nextButton.append(nextLink);
+    paginationList.append(nextButton);
+
+    pagination.append(paginationList);
+}
