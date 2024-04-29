@@ -372,3 +372,134 @@ function updatePagination(name, totalPages, action) {
 
     pagination.append(paginationList);
 }
+
+/**
+ * '도서 참여자 수 입력' 확인 버튼에 이벤트 리스너를 추가
+ * 버튼 클릭시 입력 필드에서 참여자 수를 가져와 참여자 수 별로 '참여자 선택 버튼'과 '참여자 역할 선택 버튼'으로 이루어진 행을 동적으로 생성
+ * '참여자 선택' 버튼을 클릭하면 {@link fetchParticipantsAndUpdateModal} 함수가 실행됨
+ * '참여자 역할 선택' 버튼을 클릭하면 {@link fetchParticipantRolesAndUpdateModal} 함수가 실행됨
+ */
+document.getElementById('confirmBtn').addEventListener('click', function() {
+    var count = document.getElementById('participantCount').value;
+    var tableBody = document.getElementById('participantButtonTable').getElementsByTagName('tbody')[0];
+    tableBody.innerHTML = '';
+
+    for (var i = 1; i <= count; i++) {
+        var row = document.createElement('tr');
+        // 첫 번째 열 : 참여자 선택 버튼
+        var participantCell = document.createElement('td');
+        var participantButton = document.createElement('button');
+        participantButton.id = 'participantButton_' + i;
+        participantButton.innerText = i + '번 참여자 선택';
+        participantButton.classList.add('btn', 'btn-secondary');
+        participantButton.dataset.bsToggle = 'modal';
+        participantButton.dataset.bsTarget = '#participantModal';
+        participantButton.dataset.index = i;
+        participantButton.addEventListener('click', function() {
+            $('#participantModal').data('index', this.dataset.index);
+            fetchParticipantsAndUpdateModal();
+        });
+        participantCell.appendChild(participantButton);
+        row.appendChild(participantCell);
+
+        // 두 번째 열 : 참여자 역할 선택 버튼
+        var roleCell = document.createElement('td');
+        var roleButton = document.createElement('button');
+        roleButton.id = 'participantRoleButton_' + i;
+        roleButton.innerText = i + '번 참여자 역할 선택';
+        roleButton.classList.add('btn', 'btn-secondary');
+        roleButton.dataset.bsToggle = 'modal';
+        roleButton.dataset.bsTarget = '#participantRoleModal';
+        roleButton.dataset.index = i;
+        roleButton.addEventListener('click', function() {
+            $('#participantRoleModal').data('index', this.dataset.index);
+            fetchParticipantRolesAndUpdateModal();
+        });
+        roleCell.appendChild(roleButton);
+        row.appendChild(roleCell);
+
+        tableBody.appendChild(row);
+    }
+});
+
+
+// '출판사 선택' 버튼 클릭 이벤트 핸들러
+document.getElementById('openPublisherModal').addEventListener('click', function() {
+    fetchPublishersAndUpdateModal();
+})
+
+// '카테고리 선택' 버튼 클릭 이벤트 핸들러
+document.getElementById('openCategoryModal').addEventListener('click', function() {
+    fetchCategoriesAndUpdateModal(1, 2);
+})
+
+// '태그 선택' 버튼 클릭 이벤트 핸들러
+document.getElementById('openTagModal').addEventListener('click', function() {
+    fetchTagsAndUpdateModal();
+})
+
+// 출판사 모달이 닫힐 때 선택된 항목을 form에 표시하는 함수
+document.getElementById('publisherModal').addEventListener('hidden.bs.modal', function () {
+    $('#selectedPublisher').empty();
+    $('input[name="publisherCheckbox"]:checked').each(function() {
+        var id = $(this).closest('tr').data('id');
+        var name = $(this).closest('tr').data('name');
+        $('#selectedPublisher').append('<h6>선택한 출판사</h6>')
+        $('#selectedPublisher').append('<li class="list-group-item">' + id + " | " + name + '</li>');
+    });
+    currentPage = 0;
+});
+
+// 참여자 선택 모달이 닫힐 때 선택된 항목을 form에 표시하는 함수
+document.getElementById('participantModal').addEventListener('hidden.bs.modal', function () {
+    $('input[name="participantCheckbox"]:checked').each(function() {
+        var id = $(this).closest('tr').data('id');
+        var name = $(this).closest('tr').data('name');
+        var index = $('#participantModal').data('index');
+
+        var buttonCell = $('#participantButtonTable tr:eq(' + index + ') td:first');
+        buttonCell.find('h6.selected-value-participant').remove();
+        buttonCell.append('<h6 class="selected-value-participant" style="margin-top: 10px">' + id + " | " + name + '</h6>');
+    });
+    currentPage = 0;
+});
+
+// 참여자 역할 선택 모달이 닫힐 때 선택된 항목을 form에 표시하는 함수
+document.getElementById('participantRoleModal').addEventListener('hidden.bs.modal', function () {
+    $('input[name="participantRoleCheckbox"]:checked').each(function() {
+        var id = $(this).closest('tr').data('id');
+        var name = $(this).closest('tr').data('name');
+        var index = $('#participantRoleModal').data('index');
+
+        var buttonCell = $('#participantButtonTable tr:eq(' + index + ') td:nth-child(2)');
+        buttonCell.find('h6.selected-value-participantRole').remove();
+        buttonCell.append('<h6 class="selected-value-participantRole" style="margin-top: 10px">' + id + " | " + name + '</h6>');
+    });
+    currentPage = 0;
+});
+
+// 카테고리 선택 모달이 닫힐 때 선택된 항목을 form에 표시하는 함수
+document.getElementById('categoryModal').addEventListener('hidden.bs.modal', function () {
+    $('#selectedCategory').empty();
+
+    $('#selectedCategoryInModal h6').each(function() {
+        var id = $(this).attr('id');
+        var value = $(this).attr('value');
+        $('#selectedCategory').append('<li class="list-group-item">' + id + ' | ' + value + '</li>');
+    });
+
+    currentPage = 0;
+});
+
+// 태그 선택 모달이 닫힐 때 선택된 항목을 form에 표시하는 함수
+document.getElementById('tagModal').addEventListener('hidden.bs.modal', function () {
+    $('#selectedTag').empty();
+
+    $('#selectedTagInModal h6').each(function() {
+        var id = $(this).attr('id');
+        var value = $(this).attr('value');
+        $('#selectedTag').append('<li class="list-group-item">' + id + ' | ' + value + '</li>');
+    });
+
+    currentPage = 0;
+});
