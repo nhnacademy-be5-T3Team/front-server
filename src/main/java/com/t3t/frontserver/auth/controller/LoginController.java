@@ -9,7 +9,6 @@ import feign.FeignException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
@@ -40,7 +39,7 @@ public class LoginController {
     @GetMapping("/login")
     public String loginPage(Model model){
         model.addAttribute("loginRequestDto", new LoginRequestDto());
-        return "/main/page/login";
+        return "main/page/login";
     }
 
     /**
