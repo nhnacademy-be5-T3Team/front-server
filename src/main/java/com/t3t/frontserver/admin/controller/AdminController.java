@@ -6,7 +6,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 public class AdminController {
 
-    @GetMapping("/testAdmin")
+    // 어드민 main dashboard 페이지 요청
+    @GetMapping("/admin")
     public String getAdminDashBoard() {
         return "admin/page/main";
     }
