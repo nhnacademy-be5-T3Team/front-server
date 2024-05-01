@@ -53,7 +53,7 @@ public class SecurityConfig {
                 .formLogin().disable()
                 .httpBasic().disable()
                 .authorizeRequests((auth) -> auth
-                        .antMatchers("/admin/**").hasAnyRole("ROLE_ADMIN")
+                        .antMatchers("/admin/**").hasRole("ADMIN")
                         .antMatchers("/myPage/**").authenticated()
                         .antMatchers("/logout").authenticated()
                         .antMatchers("/**").permitAll())
