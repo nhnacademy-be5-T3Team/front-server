@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout(categoryList)"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
       layout:decorate="main/layout/layout">
 
 <th:block layout:fragment="content">
@@ -107,6 +108,34 @@
                                     <i class="bi-cart-fill me-1"></i>
                                     장바구니 담기
                                 </button>
+                                <!--쿠폰 발급 버튼-->
+                                <button sec:authorize="isAuthenticated()" class="btn btn-outline-dark flex-shrink-0" type="button" data-bs-toggle="modal" data-bs-target="#couponModal">
+                                    <i class="ri-coupon-2-fill"></i>
+                                    쿠폰 발급받기
+                                </button>
+                                <!--쿠폰 발급 모달 적용-->
+                                <div class="modal fade" id="couponModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="couponModalLabel" >쿠폰을 발급받고 결제창에서 사용하세요</h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body">
+<!--                                                <a href="#couponModal" role="button" class="btn-box" title="bookCoupon" data-bs-content="">도서 쿠폰</a>-->
+                                                <button> <!--javascript fetch or ajax to send request to coupon batch or api-->도서 쿠폰 발급받기</button>
+
+                                                <hr>
+<!--                                                <a href="#couponModal" role="button" class="btn-block" title="categoryCoupon">카테고리 쿠폰</a>-->
+                                                <button> <!--javascript fetch or ajax to send request to coupon batch or api-->카테고리 쿠폰 발급받기</button>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                                <button type="button" class="btn btn-primary">Save changes</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </form>
                         </div>
                         <div th:unless="${bookDetailList.orderAvailableStatus}">
