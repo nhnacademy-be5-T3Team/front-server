@@ -14,8 +14,7 @@
         <div class="card-body">
             <h5 class="card-title">도서 등록하기</h5>
             <!-- 도서 등록 form -->
-            <form method="post" th:action="@{/testAdmin/books}" th:object="${bookRegisterRequest}">
-
+            <form method="post" th:action="@{/admin/books}" th:object="${bookRegisterRequest}" enctype="multipart/form-data">
                 <!-- 도서 제목 입력 -->
                 <div class="row mb-3">
                     <label th:for="bookTitle" class="col-sm-2 col-form-label">도서 제목</label>
@@ -150,17 +149,17 @@
 
                 <!-- 도서 썸네일 이미지 선택 -->
                 <div class="row mb-3">
-                    <label for="inputThumbnailImage" class="col-sm-2 col-form-label">도서 썸네일 이미지</label>
+                    <label th:for="inputThumbnailImage" class="col-sm-2 col-form-label">도서 썸네일 이미지</label>
                     <div class="col-sm-10">
-                        <input class="form-control" type="file" id="inputThumbnailImage">
+                        <input class="form-control" type="file" th:field="*{thumbnailImage}" required>
                     </div>
                 </div>
 
                 <!-- 도서 미리보기 이미지 선택 -->
                 <div class="row mb-3">
-                    <label for="inputBookImage" class="col-sm-2 col-form-label">도서 미리보기 이미지</label>
+                    <label th:for="inputBookImage" class="col-sm-2 col-form-label">도서 미리보기 이미지</label>
                     <div class="col-sm-10">
-                        <input class="form-control" type="file" id="inputBookImage" multiple>
+                        <input class="form-control" type="file" th:field="*{bookImageList}" multiple>
                     </div>
                 </div>
 
@@ -201,10 +200,8 @@
     <!-- TOAST UI Editor CDN URL(JS) -->
     <script th:src="@{https://uicdn.toast.com/editor/latest/toastui-editor-all.min.js}"></script>
     <script th:src="@{/assets/admin/js/adminBook.js}"></script>
+    <script th:src="@{/assets/admin/js/updateTable.js}"></script>
     <script th:src="@{/assets/admin/js/api.js}"></script>
-    <script th:inline="javascript">
-        var apiUrl = /*[[${@environment.getProperty('t3t.feignClient.url')}]]*/ '';
-    </script>
 
 </th:block>
 </html>
