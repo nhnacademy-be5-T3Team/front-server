@@ -3,10 +3,15 @@
  * Bookstore API 호출 함수
  */
 
-// 출판사 목록 요청을 보내는 함수
+/**
+ * 출판사 정보를 가져와서 모달을 업데이트하는 함수
+ * 현재 페이지와 페이지당 항목 수를 기준으로 출판사 목록을 가져옴
+ * @author Yujin-nKim(김유진)
+ */
 function fetchPublishersAndUpdateModal() {
     $.ajax({
-        url: apiUrl+'/t3t/bookstore/publishers',
+        // TODO : URL 변경
+        url: 'http://localhost:8081/publishers',
         type: 'GET',
         data: {
             pageNo: currentPage,
@@ -33,10 +38,15 @@ function fetchPublishersAndUpdateModal() {
     });
 }
 
-// 참여자 목록 요청을 보내는 함수
+/**
+ * 참여자 정보를 가져와서 모달을 업데이트하는 함수
+ * 현재 페이지와 페이지당 항목 수를 기준으로 참여자 목록을 가져옴
+ * @author Yujin-nKim(김유진)
+ */
 function fetchParticipantsAndUpdateModal() {
     $.ajax({
-        url: apiUrl+'/t3t/bookstore/participants',
+        // TODO : URL 변경
+        url: 'http://localhost:8081/participants',
         type: 'GET',
         data: {
             pageNo: currentPage,
@@ -63,10 +73,15 @@ function fetchParticipantsAndUpdateModal() {
     });
 }
 
-// 참여자 역할 목록 요청을 보내는 함수
+/**
+ * 참여자 역할 정보를 가져와서 모달을 업데이트하는 함수
+ * 현재 페이지와 페이지당 항목 수를 기준으로 참여자 역할 목록을 가져옴
+ * @author Yujin-nKim(김유진)
+ */
 function fetchParticipantRolesAndUpdateModal() {
     $.ajax({
-        url: apiUrl+'/t3t/bookstore/participantRoles',
+        // TODO : URL 변경
+        url: 'http://localhost:8081/participantRoles',
         type: 'GET',
         data: {
             pageNo: currentPage,
@@ -93,10 +108,14 @@ function fetchParticipantRolesAndUpdateModal() {
     });
 }
 
-// 카테고리 목록 요청을 보내는 함수
+/**
+ * 카테고리 정보를 가져와서 모달을 업데이트하는 함수
+ * @author Yujin-nKim(김유진)
+ */
 function fetchCategoriesAndUpdateModal(startDepth, maxDepth) {
     $.ajax({
-        url: apiUrl+'/t3t/bookstore/categories',
+        // TODO : URL 변경
+        url: 'http://localhost:8081/categories',
         type: 'GET',
         data: {
             startDepth: startDepth,
@@ -120,10 +139,15 @@ function fetchCategoriesAndUpdateModal(startDepth, maxDepth) {
     });
 }
 
-// 태그 목록 요청을 보내는 함수
+/**
+ * 태그 정보를 가져와서 모달을 업데이트하는 함수
+ * 현재 페이지와 페이지당 항목 수를 기준으로 태그 목록을 가져옴
+ * @author Yujin-nKim(김유진)
+ */
 function fetchTagsAndUpdateModal() {
     $.ajax({
-        url: apiUrl+'/t3t/bookstore/tags',
+        // TODO : URL 변경
+        url: 'http://localhost:8081/tags',
         type: 'GET',
         data: {
             pageNo: currentPage,
