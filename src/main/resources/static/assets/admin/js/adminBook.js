@@ -21,7 +21,7 @@ var bookDescEditor = new toastui.Editor({
  * @author Yujin-nKim(김유진)
  */
 document.addEventListener("DOMContentLoaded", function() {
-    var form = document.querySelector('form');
+    var bookRegisterForm = document.getElementsByName('BookRegisterForm')[0];
     // input 값
     var titleInput = document.getElementById('bookTitle');
     var isbnInput = document.getElementById('bookIsbn');
@@ -35,8 +35,7 @@ document.addEventListener("DOMContentLoaded", function() {
     var discountRateValidationMessage = document.getElementById('discountRateValidationMessage');
 
     // form의 submit 버튼 클릭시 입력값 유효성 검사 후 폼에 데이터 추가해서 전송
-    form.addEventListener('submit', function(event) {
-
+    bookRegisterForm.addEventListener('submit', function(event) {
         var selectedValue = getSelectedRadioValue(); // 포장 여부 선택 값
         var bookIndexInput = bookIndexEditor.getMarkdown(); // 도서 목차 입력 값
         var bookDescInput = bookDescEditor.getMarkdown(); // 도서 설명 입력 값
@@ -104,6 +103,11 @@ document.addEventListener("DOMContentLoaded", function() {
         newTagList.forEach(function(tagInput) {
             this.appendChild(tagInput);
         }, this);
+
+        // TODO : API 연동 후에 제거
+        alert("성공")
+        event.preventDefault();
+        return;
     });
 
     /**

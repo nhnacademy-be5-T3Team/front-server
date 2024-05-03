@@ -14,7 +14,7 @@
         <div class="card-body">
             <h5 class="card-title">도서 등록하기</h5>
             <!-- 도서 등록 form -->
-            <form method="post" th:action="@{/admin/books}" th:object="${bookRegisterRequest}" enctype="multipart/form-data">
+            <form name="BookRegisterForm" method="post" th:action="@{/admin/books}" th:object="${bookRegisterRequest}" enctype="multipart/form-data">
                 <!-- 도서 제목 입력 -->
                 <div class="row mb-3">
                     <label th:for="bookTitle" class="col-sm-2 col-form-label">도서 제목</label>
