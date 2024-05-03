@@ -1,13 +1,22 @@
 package com.t3t.frontserver.book.controller;
 
+import com.t3t.frontserver.book.client.BookApiClient;
 import com.t3t.frontserver.book.model.request.BookRegisterRequest;
+import com.t3t.frontserver.model.response.BaseResponse;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-@Controller
+@Slf4j
+@RequiredArgsConstructor
 @RequestMapping("/admin/books")
+@Controller
 public class AdminBookController {
+
+    private final BookApiClient bookApiClient;
 
     /**
      * 도서 등록 페이지를 요청
@@ -28,8 +37,9 @@ public class AdminBookController {
      * @author Yujin-nKim(김유진)
      */
     @PostMapping
-    public String createBook(BookRegisterRequest request) {
-        System.out.println(request.toString());
+    public String createBook(@ModelAttribute("bookRegisterRequest") BookRegisterRequest request) {
+        log.info(request.toString());
+//        ResponseEntity<BaseResponse<Void>> response = bookApiClient.createBook(request);
         return "admin/page/registerBook";
     }
 }

@@ -14,7 +14,7 @@
         <div class="card-body">
             <h5 class="card-title">도서 등록하기</h5>
             <!-- 도서 등록 form -->
-            <form method="post" th:action="@{/admin/books}" th:object="${bookRegisterRequest}" enctype="multipart/form-data">
+            <form name="BookRegisterForm" method="post" th:action="@{/admin/books}" th:object="${bookRegisterRequest}" enctype="multipart/form-data">
                 <!-- 도서 제목 입력 -->
                 <div class="row mb-3">
                     <label th:for="bookTitle" class="col-sm-2 col-form-label">도서 제목</label>
@@ -197,7 +197,7 @@
         </div>
     </div>
 
-    <!-- TOAST UI Editor CDN URL(JS) -->
+    <link id="appKey" th:data-contextPath="${@environment.getProperty('t3t.feignClient.url')}"/><!-- TOAST UI Editor CDN URL(JS) -->
     <script th:src="@{https://uicdn.toast.com/editor/latest/toastui-editor-all.min.js}"></script>
     <script th:src="@{/assets/admin/js/adminBook.js}"></script>
     <script th:src="@{/assets/admin/js/updateTable.js}"></script>

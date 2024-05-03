@@ -3,6 +3,8 @@
  * Bookstore API 호출 함수
  */
 
+const APP_KEY = document.querySelector("#appKey").getAttribute("data-contextPath");
+
 /**
  * 출판사 정보를 가져와서 모달을 업데이트하는 함수
  * 현재 페이지와 페이지당 항목 수를 기준으로 출판사 목록을 가져옴
@@ -10,8 +12,8 @@
  */
 function fetchPublishersAndUpdateModal() {
     $.ajax({
-        // TODO : URL 변경
-        url: 'http://localhost:8081/publishers',
+        // url: 'http://localhost:8081/publishers',
+        url: APP_KEY + '/t3t/bookstore/publishers',
         type: 'GET',
         data: {
             pageNo: currentPage,
@@ -45,8 +47,8 @@ function fetchPublishersAndUpdateModal() {
  */
 function fetchParticipantsAndUpdateModal() {
     $.ajax({
-        // TODO : URL 변경
-        url: 'http://localhost:8081/participants',
+        // url: 'http://localhost:8081/participants',
+        url: APP_KEY + '/t3t/bookstore/participants',
         type: 'GET',
         data: {
             pageNo: currentPage,
@@ -80,8 +82,8 @@ function fetchParticipantsAndUpdateModal() {
  */
 function fetchParticipantRolesAndUpdateModal() {
     $.ajax({
-        // TODO : URL 변경
-        url: 'http://localhost:8081/participantRoles',
+        // url: 'http://localhost:8081/participantRoles',
+        url: APP_KEY + '/t3t/bookstore/participantRoles',
         type: 'GET',
         data: {
             pageNo: currentPage,
@@ -114,8 +116,8 @@ function fetchParticipantRolesAndUpdateModal() {
  */
 function fetchCategoriesAndUpdateModal(startDepth, maxDepth) {
     $.ajax({
-        // TODO : URL 변경
-        url: 'http://localhost:8081/categories',
+        // url: 'http://localhost:8081/categories',
+        url: APP_KEY + '/t3t/bookstore/categories',
         type: 'GET',
         data: {
             startDepth: startDepth,
@@ -146,8 +148,8 @@ function fetchCategoriesAndUpdateModal(startDepth, maxDepth) {
  */
 function fetchTagsAndUpdateModal() {
     $.ajax({
-        // TODO : URL 변경
-        url: 'http://localhost:8081/tags',
+        // url: 'http://localhost:8081/tags',
+        url: APP_KEY + '/t3t/bookstore/tags',
         type: 'GET',
         data: {
             pageNo: currentPage,
