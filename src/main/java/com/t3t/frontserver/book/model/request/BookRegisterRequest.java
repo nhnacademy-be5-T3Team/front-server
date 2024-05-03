@@ -1,5 +1,6 @@
 package com.t3t.frontserver.book.model.request;
 
+import com.t3t.frontserver.book.model.dto.ParticipantMapDto;
 import lombok.Data;
 import lombok.ToString;
 import org.springframework.web.multipart.MultipartFile;
@@ -50,7 +51,7 @@ public class BookRegisterRequest {
     private Integer publisherId; // 출판사 id
 
     @NotEmpty(message = "도서 참여자를 선택해주세요.")
-    private List<ParticipantMap> participantMapList; // 도서 참여자 - 참여자 역할 선택 리스트
+    private List<ParticipantMapDto> participantMapList; // 도서 참여자 - 참여자 역할 선택 리스트
 
     @NotNull(message = "도서 썸네일을 선택해주세요.")
     private MultipartFile thumbnailImage; // 도서 썸네일 이미지

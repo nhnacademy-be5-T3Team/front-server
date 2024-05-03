@@ -1,6 +1,8 @@
-package com.t3t.frontserver.book.model.request;
+package com.t3t.frontserver.book.model.dto;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 /**
@@ -9,7 +11,9 @@ import lombok.ToString;
  */
 @Data
 @ToString
-public class ParticipantMap {
+@NoArgsConstructor
+@AllArgsConstructor
+public class ParticipantMapDto {
     private Integer participantId; // 도서 참여자 id
     private Integer participantRoleId; // 도서 참여자 역할 id
 }
