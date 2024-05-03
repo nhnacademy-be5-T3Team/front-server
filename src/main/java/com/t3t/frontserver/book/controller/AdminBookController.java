@@ -36,12 +36,12 @@ public class AdminBookController {
      * @param request 등록하고자 하는 도서 정보를 담고 있는 BookRegisterRequest 객체
      * @author Yujin-nKim(김유진)
      */
-    @PostMapping
-    public String createBook(@ModelAttribute("bookRegisterRequest") BookRegisterRequest request) {
-
-        log.info(request.toString());
-
-        ResponseEntity<BaseResponse<Void>> response = bookApiClient.createBook(request);
-        return "admin/page/registerBook";
-    }
+//    @PostMapping
+//    public String createBook(@ModelAttribute("bookRegisterRequest") BookRegisterRequest request) {
+//
+//        log.info(request.toString());
+//
+//        ResponseEntity<BaseResponse<Void>> response = bookApiClient.createBook(request);
+//        return "admin/page/registerBook";
+//    }
 }

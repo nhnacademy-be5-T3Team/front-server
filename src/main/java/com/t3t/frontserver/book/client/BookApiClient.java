@@ -15,6 +15,6 @@ public interface BookApiClient {
     @GetMapping(value = "/t3t/bookstore/books/{bookId}")
     ResponseEntity<BaseResponse<BookDetailResponse>> getBook(@PathVariable Long bookId);
 
-    @PostMapping(value = "/t3t/bookstore/books")
-    ResponseEntity<BaseResponse<Void>> createBook(@RequestBody BookRegisterRequest request);
+//    @PostMapping(value = "/t3t/bookstore/books")
+//    ResponseEntity<BaseResponse<Void>> createBook(@RequestBody BookRegisterRequest request);
 }
