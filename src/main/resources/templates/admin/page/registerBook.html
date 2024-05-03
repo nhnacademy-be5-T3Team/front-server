@@ -197,7 +197,7 @@
         </div>
     </div>
 
-    <!-- TOAST UI Editor CDN URL(JS) -->
+    <link id="appKey" th:data-contextPath="${@environment.getProperty('t3t.feignClient.url')}"/><!-- TOAST UI Editor CDN URL(JS) -->
     <script th:src="@{https://uicdn.toast.com/editor/latest/toastui-editor-all.min.js}"></script>
     <script th:src="@{/assets/admin/js/adminBook.js}"></script>
     <script th:src="@{/assets/admin/js/updateTable.js}"></script>
