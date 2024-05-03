@@ -19,7 +19,7 @@ public class AdminInterceptor implements HandlerInterceptor {
             if(request.getRequestURI().startsWith("/admin")){
                 Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
                 for (GrantedAuthority authority : authentication.getAuthorities()) {
-                    if("ROLE_ADMIN".equals(authority.getAuthority())){
+                    if("ADMIN".equals(authority.getAuthority())){
                         // 권한이 있고, 관리자인 경우
                         return true;
                     }
