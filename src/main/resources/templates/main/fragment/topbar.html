@@ -16,7 +16,7 @@
                     <a class="cart_link" href="#">
                         <i class="bi bi-cart-fill" aria-hidden="true"></i>
                     </a>
-                    <a class="user_link" href="#">
+                    <a class="user_link" sec:authorize="isAuthenticated()" href="/mypage/info">
                         <i class="fa fa-user" aria-hidden="true"></i>
                     </a>
                 </div>
