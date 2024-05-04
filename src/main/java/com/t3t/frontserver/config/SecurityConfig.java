@@ -54,7 +54,7 @@ public class SecurityConfig {
                 .httpBasic().disable()
                 .authorizeRequests((auth) -> auth
                         .antMatchers("/admin/**").hasRole("ADMIN")
-                        .antMatchers("/myPage/**").authenticated()
+                        .antMatchers("/mypage/**").authenticated()
                         .antMatchers("/logout").authenticated()
                         .antMatchers("/**").permitAll())
                 .addFilterAt(new GlobalTokenFilter(), SessionManagementFilter.class)
