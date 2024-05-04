@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="main/layout/mypageLayout">
+
+<th:block layout:fragment="content">
+
+    <div class="container mt-5">
+        <h1>회원 기본 정보</h1>
+        <table class="table">
+            <tbody>
+            <tr>
+                <th scope="row">아이디</th>
+                <td>woody1234</td>
+            </tr>
+            <tr>
+                <th scope="row">비밀번호</th>
+                <td>
+                    <small>현재 비밀번호</small>
+                    <input type="password" class="form-control mb-2" id="currentPassword">
+                    <small>변경할 비밀번호</small>
+                    <input type="password" class="form-control mb-2" id="newPassword">
+                    <small>변경할 비밀번호 다시 입력</small>
+                    <input type="password" class="form-control" id="confirmNewPassword"><br/>
+
+                        <button class="btn btn-outline-primary">비밀번호 변경</button>
+                </td>
+            </tr>
+            <tr>
+                <th scope="row">이메일</th>
+                <td>woody@mail.com</td>
+            </tr>
+            <tr>
+                <th scope="row">휴대폰 번호</th>
+                <td>010-1234-5678</td>
+            </tr>
+            <tr>
+                <th scope="row">기본 배송지</th>
+                <td>
+                    <div class="row">
+                        <div class="col-md-5">
+                            <select class="form-control" id="address">
+                                <option>학교 (ABC 대학교)</option>
+                                <option>집 (ABC 빌라 101호)</option>
+                            </select>
+                        </div>
+                        <div class="col-md-2">
+                            <button class="btn btn-outline-primary">기본주소 변경</button>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</th:block>
+</html>
