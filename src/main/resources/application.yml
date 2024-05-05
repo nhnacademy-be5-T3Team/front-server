@@ -15,6 +15,10 @@ spring:
       restart:
           enabled: true
 
+feign:
+    okhttp:
+        enabled: true
+
 eureka:
     instance:
         prefer-ip-address: true
