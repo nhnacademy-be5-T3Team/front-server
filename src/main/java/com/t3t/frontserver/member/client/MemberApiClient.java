@@ -1,17 +1,14 @@
 package com.t3t.frontserver.member.client;
 
 import com.t3t.frontserver.member.model.dto.MemberAddressDto;
-import com.t3t.frontserver.member.model.dto.MemberDto;
+import com.t3t.frontserver.member.model.request.MemberPasswordModifyRequest;
 import com.t3t.frontserver.member.model.request.MemberRegistrationRequest;
 import com.t3t.frontserver.member.model.response.MemberInfoResponse;
 import com.t3t.frontserver.member.model.response.MemberRegistrationResponse;
 import com.t3t.frontserver.model.response.BaseResponse;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -50,4 +47,13 @@ public interface MemberApiClient {
     @GetMapping("/t3t/bookstore/members/{memberId}/addresses")
     ResponseEntity<BaseResponse<List<MemberAddressDto>>> getMemberAddressListByMemberId(@PathVariable("memberId") long memberId);
 
+    /**
+     * 회원 비밀번호 변경 API
+     *
+     * @param memberId 회원 식별자
+     * @param request  비밀번호 변경 요청 정보
+     * @author woody35545(구건모)
+     */
+    @PatchMapping("/t3t/bookstore/members/{memberId}")
+    ResponseEntity<BaseResponse<Void>> modifyMemberPassword(@PathVariable("memberId") long memberId, @RequestBody MemberPasswordModifyRequest request);
 }
