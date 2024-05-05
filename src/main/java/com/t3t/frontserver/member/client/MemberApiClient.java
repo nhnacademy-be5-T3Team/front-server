@@ -28,7 +28,7 @@ public interface MemberApiClient {
      * @param memberRegistrationRequest 회원 가입 요청 정보
      * @author woody35545(구건모)
      */
-    @PostMapping(value = "/bookstore/members")
+    @PostMapping(value = "/t3t/bookstore/members")
     ResponseEntity<BaseResponse<MemberRegistrationResponse>> registerMember(@RequestBody MemberRegistrationRequest memberRegistrationRequest);
 
     /**
@@ -47,7 +47,7 @@ public interface MemberApiClient {
      * @return 회원 주소 목록
      * @author woody35545(구건모)
      */
-    @GetMapping("/members/{memberId}/addresses")
+    @GetMapping("/t3t/bookstore/members/{memberId}/addresses")
     ResponseEntity<BaseResponse<List<MemberAddressDto>>> getMemberAddressListByMemberId(@PathVariable("memberId") long memberId);
 
 }
