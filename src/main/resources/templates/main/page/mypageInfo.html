@@ -11,19 +11,28 @@
             <tbody>
             <tr>
                 <th scope="row">아이디</th>
-                <td th:value="${myPageInfoViewDto.getAccountId()}"></td>
+                <td th:text="${myPageInfoViewDto.getAccountId()}"></td>
             </tr>
             <tr>
                 <th scope="row">비밀번호</th>
                 <td>
-                    <small>현재 비밀번호</small>
-                    <input type="password" class="form-control mb-2" id="currentPassword">
-                    <small>변경할 비밀번호</small>
-                    <input type="password" class="form-control mb-2" id="newPassword">
-                    <small>변경할 비밀번호 다시 입력</small>
-                    <input type="password" class="form-control" id="confirmNewPassword"><br/>
+                    <form id="passwordForm" action="/member/password" method="post" onsubmit="return validateForm()">
+                        <small>현재 비밀번호</small>
+                        <input type="password" class="form-control mb-2" name="currentPassword" id="currentPassword">
+                        <small>변경할 비밀번호</small>
+                        <input type="password" class="form-control mb-2" name="newPassword" id="newPassword">
+                        <small>변경할 비밀번호 다시 입력</small>
+                        <input type="password" class="form-control" name="confirmNewPassword" id="confirmNewPassword"><br/>
+                        <button class="btn btn-outline-primary" type="submit">비밀번호 변경</button>
 
-                    <button class="btn btn-outline-primary">비밀번호 변경</button>
+                        <div class="alert alert-danger mt-2" id="passwordError" style="display: none;" role="alert">
+                            변경할 비밀번호가 일치하지 않습니다.
+                        </div>
+
+                        <div class="alert alert-danger mt-2" id="emptyFieldError" style="display: none;" role="alert">
+                            입력되지 않은 항목이 있습니다.
+                        </div>
+                    </form>
                 </td>
             </tr>
             <tr>
@@ -67,5 +76,31 @@
             </tbody>
         </table>
     </div>
+    <script>
+        function validateForm() {
+            let newPassword = document.getElementById("newPassword").value;
+            let confirmNewPassword = document.getElementById("confirmNewPassword").value;
+            let currentPassword = document.getElementById("currentPassword").value;
+            let errorElement = document.getElementById("passwordError");
+            let emptyFieldErrorElement = document.getElementById("emptyFieldError");
+            let isValid = true;
+
+            if (newPassword === '' || confirmNewPassword === '' || currentPassword === '') {
+                emptyFieldErrorElement.style.display = "block";
+                isValid = false;
+            } else {
+                emptyFieldErrorElement.style.display = "none";
+            }
+
+            if (newPassword !== confirmNewPassword) {
+                errorElement.style.display = "block";
+                isValid = false;
+            } else {
+                errorElement.style.display = "none";
+            }
+
+            return isValid;
+        }
+    </script>
 </th:block>
 </html>
