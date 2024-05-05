@@ -28,6 +28,13 @@
                         Sign Up
                     </a>
                 </div>
+                <div sec:authorize="hasRole('ADMIN')" style="margin-right: 10px; margin-left: 10px">
+                    <form action="/admin" method="get">
+                        <button type="submit" class="order_online">
+                            Admin-Page
+                        </button>
+                    </form>
+                </div>
                 <div sec:authorize="isAuthenticated()">
                     <form action="/logout" method="post">
                         <button type="submit" class="order_online">
