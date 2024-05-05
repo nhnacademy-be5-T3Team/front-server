@@ -1,14 +1,17 @@
 package com.t3t.frontserver.book.controller;
 
 import com.t3t.frontserver.book.client.BookApiClient;
+import com.t3t.frontserver.book.client.BookFormApiClient;
 import com.t3t.frontserver.book.model.request.BookRegisterRequest;
 import com.t3t.frontserver.model.response.BaseResponse;
+import feign.FeignException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -17,6 +20,7 @@ import org.springframework.web.bind.annotation.*;
 public class AdminBookController {
 
     private final BookApiClient bookApiClient;
+    private final BookFormApiClient bookFormApiClient;
 
     /**
      * 도서 등록 페이지를 요청
@@ -37,9 +41,23 @@ public class AdminBookController {
      * @author Yujin-nKim(김유진)
      */
     @PostMapping
-    public String createBook(@ModelAttribute("bookRegisterRequest") BookRegisterRequest request) {
-        log.info(request.toString());
-//        ResponseEntity<BaseResponse<Void>> response = bookApiClient.createBook(request);
-        return "admin/page/registerBook";
+    public String createBook(@ModelAttribute(value = "bookRegisterRequest") BookRegisterRequest request, RedirectAttributes redirectAttributes) {
+
+        log.info("도서 등록 요청 = {}", request.toString());
+
+        try {
+            ResponseEntity<BaseResponse<Long>> response = bookFormApiClient.createBook(request);
+
+            Long bookId = response.getBody().getData();
+            String message = response.getBody().getMessage();
+            redirectAttributes.addFlashAttribute("successMessage", message + "\n저장된 도서 Id : " + bookId);
+            return "redirect:/admin/books/new";
+
+        } catch (FeignException e) {
+            log.error(e.getMessage());
+            redirectAttributes.addFlashAttribute("bookRegisterRequest", request);
+            redirectAttributes.addFlashAttribute("errorMessage", "도서 등록에 실패했습니다.");
+            return "redirect:/admin/books/new";
+        }
     }
 }
