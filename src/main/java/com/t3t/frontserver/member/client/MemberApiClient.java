@@ -1,5 +1,6 @@
 package com.t3t.frontserver.member.client;
 
+import com.t3t.frontserver.member.model.dto.MemberAddressDto;
 import com.t3t.frontserver.member.model.dto.MemberDto;
 import com.t3t.frontserver.member.model.request.MemberRegistrationRequest;
 import com.t3t.frontserver.member.model.response.MemberInfoResponse;
@@ -11,6 +12,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+
+import java.util.List;
 
 /**
  * 회원 가입 요청 API 호출을 위한 Feign Client
@@ -36,5 +39,15 @@ public interface MemberApiClient {
      */
     @GetMapping(value = "/t3t/bookstore/members/{memberId}")
     ResponseEntity<BaseResponse<MemberInfoResponse>> getMemberById(@PathVariable("memberId") long memberId);
+
+    /**
+     * 회원 식별자로 특정 회원이 등록한 모든 회원 주소 정보들을 조회하는 API
+     *
+     * @param memberId 조회하려는 회원의 식별자
+     * @return 회원 주소 목록
+     * @author woody35545(구건모)
+     */
+    @GetMapping("/members/{memberId}/addresses")
+    ResponseEntity<BaseResponse<List<MemberAddressDto>>> getMemberAddressListByMemberId(@PathVariable("memberId") long memberId);
 
 }
