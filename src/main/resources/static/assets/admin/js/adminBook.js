@@ -104,10 +104,6 @@ document.addEventListener("DOMContentLoaded", function() {
             this.appendChild(tagInput);
         }, this);
 
-        // TODO : API 연동 후에 제거
-        alert("성공")
-        event.preventDefault();
-        return;
     });
 
     /**

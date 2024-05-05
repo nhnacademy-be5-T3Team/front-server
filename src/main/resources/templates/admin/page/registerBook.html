@@ -11,6 +11,19 @@
     </head>
 
     <div class="card">
+        <script th:inline="javascript">
+            /* 성공 메시지가 있는 경우 */
+            var successMessage = /*[[${successMessage}]]*/ null;
+            if(successMessage) {
+                alert(successMessage);
+            }
+            /* 성공 메시지가 있는 경우 */
+            var errorMessage = /*[[${errorMessage}]]*/ null;
+            if(errorMessage) {
+                alert(errorMessage);
+            }
+        </script>
+
         <div class="card-body">
             <h5 class="card-title">도서 등록하기</h5>
             <!-- 도서 등록 form -->
@@ -20,7 +33,7 @@
                     <label th:for="bookTitle" class="col-sm-2 col-form-label">도서 제목</label>
                     <div class="col-sm-10">
                         <div id="titleValidationMessage"></div>
-                        <input type="text" class="form-control" th:field="*{bookTitle}" required>
+                        <input type="text" class="form-control" th:field="*{bookTitle}" required >
                     </div>
                 </div>
 
