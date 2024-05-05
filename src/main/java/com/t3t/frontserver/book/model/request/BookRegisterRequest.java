@@ -7,6 +7,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.constraints.*;
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.List;
 
 /**
@@ -14,7 +15,6 @@ import java.util.List;
  * @author Yujin-nKim(김유진)
  */
 @Data
-@ToString
 public class BookRegisterRequest {
     @NotBlank(message = "도서 제목을 입력해주세요.")
     private String bookTitle; // 도서 제목
@@ -48,7 +48,7 @@ public class BookRegisterRequest {
     private String bookDesc; // 도서 설명
 
     @NotNull(message = "출판사 ID를 입력해주세요.")
-    private Integer publisherId; // 출판사 id
+    private Long publisherId; // 출판사 id
 
     @NotEmpty(message = "도서 참여자를 선택해주세요.")
     private List<ParticipantMapDto> participantMapList; // 도서 참여자 - 참여자 역할 선택 리스트
@@ -62,5 +62,5 @@ public class BookRegisterRequest {
     private List<Integer> categoryList; // 카테고리 id 리스트
 
     @NotEmpty(message = "태그를 선택해주세요.")
-    private List<Integer> tagList; // 태그 id 리스트
+    private List<Long> tagList; // 태그 id 리스트
 }
