@@ -2,6 +2,7 @@ package com.t3t.frontserver.member.client;
 
 import com.t3t.frontserver.member.model.dto.MemberDto;
 import com.t3t.frontserver.member.model.request.MemberRegistrationRequest;
+import com.t3t.frontserver.member.model.response.MemberInfoResponse;
 import com.t3t.frontserver.member.model.response.MemberRegistrationResponse;
 import com.t3t.frontserver.model.response.BaseResponse;
 import org.springframework.cloud.openfeign.FeignClient;
@@ -34,6 +35,6 @@ public interface MemberApiClient {
      * @author woody35545(구건모)
      */
     @GetMapping(value = "/t3t/bookstore/members/{memberId}")
-    ResponseEntity<BaseResponse<MemberDto>> getMemberById(@PathVariable("memberId") long memberId);
+    ResponseEntity<BaseResponse<MemberInfoResponse>> getMemberById(@PathVariable("memberId") long memberId);
 
 }

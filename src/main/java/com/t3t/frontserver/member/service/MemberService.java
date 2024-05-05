@@ -2,8 +2,8 @@ package com.t3t.frontserver.member.service;
 
 import com.t3t.frontserver.member.client.MemberApiClient;
 import com.t3t.frontserver.member.exception.MemberApiClientException;
-import com.t3t.frontserver.member.model.dto.MemberDto;
 import com.t3t.frontserver.member.model.request.MemberRegistrationRequest;
+import com.t3t.frontserver.member.model.response.MemberInfoResponse;
 import com.t3t.frontserver.member.model.response.MemberRegistrationResponse;
 import com.t3t.frontserver.model.response.BaseResponse;
 import lombok.RequiredArgsConstructor;
@@ -45,8 +45,8 @@ public class MemberService {
      * @param memberId 조회하려는 회원의 식별자
      * @author woody35545(구건모)
      */
-    public MemberDto getMemberById(long memberId) {
-        ResponseEntity<BaseResponse<MemberDto>> responseEntity = memberApiClient.getMemberById(memberId);
+    public MemberInfoResponse getMemberInfoResponseById(long memberId) {
+        ResponseEntity<BaseResponse<MemberInfoResponse>> responseEntity = memberApiClient.getMemberById(memberId);
 
         if (!responseEntity.getStatusCode().is2xxSuccessful()) {
             throw new MemberApiClientException("status code => " + responseEntity.getStatusCodeValue());
