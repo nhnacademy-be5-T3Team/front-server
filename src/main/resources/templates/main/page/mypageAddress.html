@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="main/layout/mypageLayout">
+<th:block layout:fragment="content">
+    <div class="container mt-5">
+        <h1>주소 관리</h1>
+        <br/>
+        <!-- 주소 등록 폼 -->
+        <div>
+            <h3>주소 등록</h3>
+            <form action="/member-addresses" method="post">
+                <div class="form-group">
+                    <label for="roadNameAddress">주소</label>
+
+                    <div class="form-group d-flex">
+                        <input type="text" class="form-control col-md-1 mr-2"
+                               id="addressNumber"
+                               name="addressNumber"
+                               placeholder="우편번호"
+                               required readonly>
+
+                        <input type="text" class="form-control col-md-3 mr-2"
+                               id="roadNameAddress"
+                               name="roadNameAddress"
+                               placeholder="도로명 주소"
+                               required readonly>
+
+                        <button th:if="${myPageAddressViewDto.getMemberAddressInfoList().size() >= 10}"
+                                class="btn btn-primary"
+                                type="button"
+                                disabled>주소 검색하기
+                        </button>
+
+                        <button th:unless="${myPageAddressViewDto.getMemberAddressInfoList().size() >= 10}"
+                                class="btn btn-primary"
+                                type="button"
+                                onclick="openDaumPostcode()">주소 검색하기
+                        </button>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="addressDetail">상세 주소</label>
+                    <input type="text" class="form-control col-md-5"
+                           id="addressDetail"
+                           name="addressDetail"
+                           placeholder="상세 주소를 입력하세요"
+                           required disabled>
+                </div>
+                <div class="form-group">
+                    <label for="addressNickname">주소 별칭</label>
+                    <input type="text" class="form-control col-md-5"
+                           id="addressNickname"
+                           name="addressNickname"
+                           placeholder="예: 집, 직장 등"
+                           required disabled>
+                </div>
+                <button th:if="${myPageAddressViewDto.getMemberAddressInfoList().size() >= 10}"
+                        type="button"
+                        class="btn btn-primary"
+                        disabled>주소는 최대 10개까지 등록 가능합니다
+                </button>
+
+                <button th:unless="${myPageAddressViewDto.getMemberAddressInfoList().size() >= 10}"
+                        type="submit"
+                        class="btn btn-primary"
+                        id="registerAddress"
+                        disabled>주소 추가
+                </button>
+            </form>
+        </div>
+        <br/>
+        <br/>
+        <!-- 주소 목록 -->
+        <div class="mb-4">
+            <h3>등록된 주소</h3>
+
+            <div th:if="${myPageAddressViewDto.getMemberAddressInfoList().isEmpty()}"
+                class="alert alert-primary col-md-5" role="alert">
+
+                <span>등록된 주소가 없습니다.</span>
+            </div>
+
+            <ul class="list-group col-md-8">
+                <li th:each="address : ${myPageAddressViewDto.getMemberAddressInfoList()}"
+                    class="list-group-item d-flex justify-content-between align-items-center col-md-7">
+                    <span th:text="${address.getRoadNameAddress() + ' (' + address.getNickName() + ')'}"></span>
+                    <div>
+                        <button type="button" class="btn btn-outline-primary btn-sm mr-2">편집</button>
+                        <button type="button" class="btn btn-outline-danger btn-sm">삭제</button>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <div class="mt-5">
+            <h3>기본 주소 설정</h3>
+            <br/>
+            <div class="alert alert-primary col-md-5" role="alert">
+                <b>현재 기본 주소: </b>
+                <span th:if="${myPageAddressViewDto.defaultMemberAddressInfo != null}"
+                      th:text="${myPageAddressViewDto.defaultMemberAddressInfo.getRoadNameAddress()}"></span>
+
+                <span th:unless="${myPageAddressViewDto.defaultMemberAddressInfo != null}">설정된 기본주소가 없습니다</span>
+            </div>
+            <div class="form-group d-flex" id="defaultAddressSelectDiv">
+
+                <select th:if="${myPageAddressViewDto.defaultMemberAddressInfo == null}"
+                        class="form-control col-md-5" disabled>
+                    <option th:text="'등록된 주소가 없습니다.'"></option>
+                </select>
+
+                <select th:unless="${myPageAddressViewDto.defaultMemberAddressInfo == null}"
+                        class="form-control col-md-5"
+                        id="defaultAddress">
+
+                    <option th:each="address, iterStat : ${myPageAddressViewDto.getMemberAddressInfoList()}"
+                            th:value="${iterStat.count}"
+                            th:text="${address.getRoadNameAddress() + ' (' + address.getNickName() + ')'}"></option>
+
+                </select>
+
+                <button th:if="${myPageAddressViewDto.defaultMemberAddressInfo == null}"
+                        type="button"
+                        class="btn btn-primary ml-2" disabled>기본 주소 변경
+                </button>
+
+                <button th:unless="${myPageAddressViewDto.defaultMemberAddressInfo == null}"
+                        type="button"
+                        class="btn btn-primary ml-2">기본 주소 변경
+                </button>
+            </div>
+        </div>
+    </div>
+</th:block>
+</html>
