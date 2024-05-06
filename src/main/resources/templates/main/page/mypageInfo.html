@@ -49,28 +49,17 @@
                 <td>
                     <div class="row">
                         <div class="col-md-5">
-                            <select th:if="${myPageInfoViewDto.getAddressList().isEmpty()}"
-                                    class="form-control" disabled>
-                                <option th:text="'등록된 주소가 없습니다.'"></option>
-                            </select>
+                            <span th:if="${myPageInfoViewDto.defaultMemberAddressInfo == null}">설정된 기본 주소가 없습니다.</span>
 
-                            <select th:unless="${myPageInfoViewDto.getAddressList().isEmpty()}"
-                                    class="form-control" id="address">
-                                <option th:each="address : ${myPageInfoViewDto.getAddressList()}"
-                                        th:value="${address}"
-                                        th:text="${address}">
-                                </option>
-                            </select>
-                        </div>
-                        <div class="col-md-2">
-                            <button th:if="${myPageInfoViewDto.getAddressList().isEmpty()}"
-                                    class="btn btn-outline-primary" disabled>기본주소 변경
-                            </button>
+                            <span th:unless="${myPageInfoViewDto.defaultMemberAddressInfo == null}"
+                                  th:text="${myPageInfoViewDto.defaultMemberAddressInfo.getRoadNameAddress() + ', '
+                                  + myPageInfoViewDto.defaultMemberAddressInfo.getAddressDetail()
+                                  + ' (' + myPageInfoViewDto.defaultMemberAddressInfo.getNickName() + ')'}">
+                            </span>
+                            <a href="/mypage/address" class="btn btn-outline-primary ml-2">기본주소 관리</a>
 
-                            <button th:unless="${myPageInfoViewDto.getAddressList().isEmpty()}"
-                                    class="btn btn-outline-primary">기본주소 변경
-                            </button>
                         </div>
+
                     </div>
                 </td>
             </tr>
