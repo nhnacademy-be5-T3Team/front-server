@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="admin/layout/layout">
+<th:block layout:fragment="content">
+
+    <!-- WYSIWYG(위즈윅) Editor css -->
+    <head>
+        <link rel="stylesheet" href="https://uicdn.toast.com/editor/latest/toastui-editor.min.css"/>
+    </head>
+
+    <div class="card-body">
+        <script th:inline="javascript">
+            /* 성공 메시지가 있는 경우 */
+            var bookDetailModifySuccess = /*[[${bookDetailModifySuccess}]]*/ null;
+            if(bookDetailModifySuccess) {
+                alert(bookDetailModifySuccess);
+            }
+            /* 에러 메시지가 있는 경우 */
+            var bookDetailModifyError = /*[[${bookDetailModifyError}]]*/ null;
+            if(bookDetailModifyError) {
+                alert(bookDetailModifyError);
+            }
+        </script>
+
+        <h5 class="card-title">도서 수정하기</h5>
+        <!-- 도서 상세 정보 수정 form -->
+        <form name="BookDetailModifyForm" method="post" th:action="@{'/admin/books/' + ${bookDetail.id} + '/edit'}" th:object="${modifyBookDetailRequest}" enctype="multipart/form-data">
+            <!-- 도서 제목 입력 -->
+            <div class="row mb-3">
+                <label th:for="bookTitle" class="col-sm-2 col-form-label">도서 제목</label>
+                <div class="col-sm-10">
+                    <div id="titleValidationMessage"></div>
+                    <h6 id="beforeTitle" th:text="${bookDetail.bookName}" style="color: darkblue;"></h6>
+                    <input type="text" class="form-control" th:field="*{bookTitle}" placeholder="수정할 값을 입력해주세요.">
+                </div>
+            </div>
+            <hr class="row mb-3">
+
+            <!-- 도서 목차 입력 -->
+            <div class="row mb-3">
+                <label th:for="bookIndex" class="col-sm-2 col-form-label">도서 목차</label>
+                <div class="col-sm-10">
+                    <div id="indexViewer" th:value="${bookDetail.index}"></div>
+                    <div id="bookIndexEditor"></div>
+                </div>
+            </div>
+            <hr class="row mb-3">
+
+            <!-- 도서 설명 입력 -->
+            <div class="row mb-3">
+                <label for="bookDescEditor" class="col-sm-2 col-form-label">도서 설명</label>
+                <div class="col-sm-10">
+                    <div id="descViewer" th:value="${bookDetail.desc}"></div>
+                    <div id="bookDescEditor"></div>
+                </div>
+            </div>
+            <hr class="row mb-3">
+
+            <!-- 도서 ISBN 입력 -->
+            <div class="row mb-3">
+                <label th:for="bookIsbn" class="col-sm-2 col-form-label">13-ISBN(국제 표준 도서 번호)</label>
+                <div class="col-sm-10">
+                    <h6 id="beforeIsbn" th:text="${bookDetail.isbn}" style="color: darkblue;"></h6>
+                    <input type="text" class="form-control" th:field="*{bookIsbn}" placeholder="수정할 값을 입력해주세요.">
+                    <div id="isbnValidationMessage"></div>
+                </div>
+            </div>
+            <hr class="row mb-3">
+
+            <!-- 도서 정가 입력 -->
+            <div class="row mb-3">
+                <label th:for="bookPrice" class="col-sm-2 col-form-label">도서 정가</label>
+                <div class="col-sm-10">
+                    <h6 id="beforePrice" th:text="${bookDetail.price}" style="color: darkblue;"></h6>
+                    <input type="text" class="form-control" th:field="*{bookPrice}" placeholder="수정할 값을 입력해주세요.">
+                    <div id="priceValidationMessage"></div>
+                </div>
+            </div>
+            <hr class="row mb-3">
+
+            <!-- 도서 할인율 입력 -->
+            <div class="row mb-3">
+                <label th:for="bookDiscountRate" class="col-sm-2 col-form-label">할인율</label>
+                <div class="col-sm-10">
+                    <h6 id="beforeDiscountRate" th:text="${bookDetail.discountRate}" style="color: darkblue;"></h6>
+                    <input type="text" class="form-control" th:field="*{bookDiscountRate}" placeholder="수정할 값을 입력해주세요.">
+                    <div id="discountRateValidationMessage"></div>
+                </div>
+            </div>
+            <hr class="row mb-3">
+
+            <!-- 포장 가능 여부 선택 -->
+            <fieldset class="row mb-3">
+                <legend class="col-form-label col-sm-2 pt-0">포장 가능 여부 선택</legend>
+                <div class="col-sm-10">
+                    <input type="hidden" id="beforePackagingAvailableStatus" th:value="${bookDetail.packagingAvailableStatus ? 1 : 0}">
+                    <h6 th:if="${bookDetail.packagingAvailableStatus}" style="color: darkblue;"> 포장 가능 </h6>
+                    <h6 th:unless="${bookDetail.packagingAvailableStatus}" style="color: darkblue;"> 포장 불가능 </h6>
+                    <h6 style="color: slategray;">수정할 값을 선택해주세요.</h6>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="gridRadios" id="option1" value="1">
+                        <label class="form-check-label" for="option1">
+                            포장 가능
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="gridRadios" id="option2" value="0">
+                        <label class="form-check-label" for="option2">
+                            포장 불가능
+                        </label>
+                    </div>
+                </div>
+            </fieldset>
+            <hr class="row mb-3">
+
+            <!-- 도서 출판일 입력 -->
+            <div class="row mb-3">
+                <label th:for="bookPublished" class="col-sm-2 col-form-label">도서 출판일</label>
+                <div class="col-sm-10">
+                    <h6 id="beforePublished" th:text="${bookDetail.published}" style="color: darkblue;"></h6>
+                    <h6 style="color: slategray;">수정할 값을 선택해주세요.</h6>
+                    <input type="date" class="form-control" th:field="*{bookPublished}">
+                </div>
+            </div>
+            <hr class="row mb-3">
+
+            <!-- 도서 재고 입력 -->
+            <div class="row mb-3">
+                <label th:for="bookStock" class="col-sm-2 col-form-label">재고</label>
+                <div class="col-sm-10">
+                    <h6 id="beforeStock" th:text="${bookDetail.stock}" style="color: darkblue;"></h6>
+                    <input type="number" class="form-control" th:field="*{bookStock}" min="0" placeholder="수정할 값을 입력해주세요.">
+                </div>
+            </div>
+            <hr class="row mb-3">
+            <!-- 도서 상세 정보 수정 요청 버튼 -->
+            <div class="row mb-3">
+                <label class="col-sm-2 col-form-label">Submit Button</label>
+                <div class="col-sm-10">
+                    <button type="submit" class="btn btn-primary" id="submitBtn">도서 상세 정보 수정</button>
+                </div>
+            </div>
+            <hr class=" row mb-3 border border-primary border-3 opacity-75">
+        </form>
+
+    </div>
+
+    <link id="appKey" th:data-contextPath="${@environment.getProperty('t3t.feignClient.url')}"/><!-- TOAST UI Editor CDN URL(JS) -->
+    <script th:src="@{https://uicdn.toast.com/editor/latest/toastui-editor-all.min.js}"></script>
+    <script th:src="@{/assets/admin/js/adminBook.js}"></script>
+    <script th:src="@{/assets/admin/js/modifyBook.js}"></script>
+    <script th:src="@{/assets/admin/js/updateTable.js}"></script>
+    <script th:src="@{/assets/admin/js/api.js}"></script>
+</th:block>
+</html>

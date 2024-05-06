@@ -14,6 +14,18 @@ var bookDescEditor = new toastui.Editor({
     height: '500px',
 });
 
+var indexViewer = new toastui.Editor.factory({
+    el: document.querySelector('#indexViewer'),
+    viewer: true,
+    initialValue: document.querySelector('#indexViewer').getAttribute('value')
+});
+
+var descViewer = new toastui.Editor.factory({
+    el: document.querySelector('#descViewer'),
+    viewer: true,
+    initialValue: document.querySelector('#descViewer').getAttribute('value')
+});
+
 
 /*
  * 문서가 로드되었을 때 실행되는 이벤트 핸들러
