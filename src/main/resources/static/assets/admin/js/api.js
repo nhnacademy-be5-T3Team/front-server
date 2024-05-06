@@ -12,8 +12,8 @@ const APP_KEY = document.querySelector("#appKey").getAttribute("data-contextPath
  */
 function fetchPublishersAndUpdateModal() {
     $.ajax({
-        // url: 'http://localhost:8081/publishers',
-        url: APP_KEY + '/t3t/bookstore/publishers',
+        url: 'http://localhost:8081/publishers',
+        // url: APP_KEY + '/t3t/bookstore/publishers',
         type: 'GET',
         data: {
             pageNo: currentPage,
@@ -47,8 +47,8 @@ function fetchPublishersAndUpdateModal() {
  */
 function fetchParticipantsAndUpdateModal() {
     $.ajax({
-        // url: 'http://localhost:8081/participants',
-        url: APP_KEY + '/t3t/bookstore/participants',
+        url: 'http://localhost:8081/participants',
+        // url: APP_KEY + '/t3t/bookstore/participants',
         type: 'GET',
         data: {
             pageNo: currentPage,
@@ -82,8 +82,8 @@ function fetchParticipantsAndUpdateModal() {
  */
 function fetchParticipantRolesAndUpdateModal() {
     $.ajax({
-        // url: 'http://localhost:8081/participantRoles',
-        url: APP_KEY + '/t3t/bookstore/participantRoles',
+        url: 'http://localhost:8081/participantRoles',
+        // url: APP_KEY + '/t3t/bookstore/participantRoles',
         type: 'GET',
         data: {
             pageNo: currentPage,
@@ -116,8 +116,8 @@ function fetchParticipantRolesAndUpdateModal() {
  */
 function fetchCategoriesAndUpdateModal(startDepth, maxDepth) {
     $.ajax({
-        // url: 'http://localhost:8081/categories',
-        url: APP_KEY + '/t3t/bookstore/categories',
+        url: 'http://localhost:8081/categories',
+        // url: APP_KEY + '/t3t/bookstore/categories',
         type: 'GET',
         data: {
             startDepth: startDepth,
@@ -148,8 +148,8 @@ function fetchCategoriesAndUpdateModal(startDepth, maxDepth) {
  */
 function fetchTagsAndUpdateModal() {
     $.ajax({
-        // url: 'http://localhost:8081/tags',
-        url: APP_KEY + '/t3t/bookstore/tags',
+        url: 'http://localhost:8081/tags',
+        // url: APP_KEY + '/t3t/bookstore/tags',
         type: 'GET',
         data: {
             pageNo: currentPage,
@@ -173,6 +173,34 @@ function fetchTagsAndUpdateModal() {
         error: function(xhr, status, error) {
             // 그 외의 에러 처리
             console.error('Error:', error);
+        }
+    });
+}
+
+/**
+ * 출판사 변경 요청을 보내는 함수
+ * @param {number} bookId - 도서 ID
+ * @param {number} publisherId - 변경할 출판사 ID
+ * @author Yujin-nKim(김유진)
+ */
+function sendPublisherRequest(bookId, publisherId) {
+    $.ajax({
+        url: `http://localhost:8081/books/${bookId}/publisher`,
+        // url: APP_KEY + '/t3t/bookstore/books/${bookId}/publisher',
+        type: 'PUT',
+        data: {
+            publisherId: publisherId
+        },
+        success: function(response, textStatus, xhr) {
+            if (xhr.status === 200) {
+                // 성공적인 응답인 경우
+                alert(response.message);
+            }
+        },
+        error: function(xhr, status, error) {
+            // 그 외의 에러 처리
+            console.error('Error:', error);
+            alert("출판사 수정에 실패했습니다.");
         }
     });
 }

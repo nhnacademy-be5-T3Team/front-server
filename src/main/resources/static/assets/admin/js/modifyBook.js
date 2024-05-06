@@ -160,3 +160,17 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     }
 });
+
+/**
+ * '출판사 변경 요청' 버튼 클릭시 실행되는 이벤트 핸들러
+ * @author Yujin-nKim(김유진)
+ */
+document.getElementById('modifyPublisherBtn').addEventListener('click', function() {
+    if (!document.getElementById('selected-value-publisher')) {
+        alert('출판사를 선택하세요.');
+    } else {
+        var publisherId = document.getElementById('selected-value-publisher').value;
+        var bookId = document.getElementById('bookId').value;
+        sendPublisherRequest(bookId, publisherId);
+    }
+});

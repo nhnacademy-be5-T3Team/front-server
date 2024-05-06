@@ -143,9 +143,23 @@
             </div>
             <hr class=" row mb-3 border border-primary border-3 opacity-75">
         </form>
-
+        <!-- 도서 출판사 선택 -->
+        <div class="row mb-3">
+            <label class="col-sm-2 col-form-label">도서 출판사 선택</label>
+            <div class="col-sm-10">
+                <button type="button" class="btn btn-secondary" style="margin-bottom: 20px" data-bs-toggle="modal" data-bs-target="#publisherModal" id="openPublisherModal">출판사 선택</button>
+                <div id="selectedPublisher" class="list-group">
+                    <li class="list-group-item" th:text="${bookDetail.publisherName}" style="color: darkblue;"></li>
+                </div>
+                <button type="button" class="btn btn-primary" style="margin-top: 20px; margin-bottom: 20px;" id="modifyPublisherBtn" >출판사 변경 요청</button>
+            </div>
+        </div>
+        <!-- 출판사 선택을 위한 모달 -->
+        <th:block th:replace="admin/fragment/publisherModal :: publisherModalFragment"></th:block>
+        <hr class=" row mb-3 border border-primary border-3 opacity-75">
+        
     </div>
-
+    <input type="hidden" id="bookId" th:value="${bookDetail.id}">
     <link id="appKey" th:data-contextPath="${@environment.getProperty('t3t.feignClient.url')}"/><!-- TOAST UI Editor CDN URL(JS) -->
     <script th:src="@{https://uicdn.toast.com/editor/latest/toastui-editor-all.min.js}"></script>
     <script th:src="@{/assets/admin/js/adminBook.js}"></script>
