@@ -183,7 +183,7 @@ function fetchTagsAndUpdateModal() {
  * @param {number} publisherId - 변경할 출판사 ID
  * @author Yujin-nKim(김유진)
  */
-function sendPublisherRequest(bookId, publisherId) {
+function sendPublisherUpdateRequest(bookId, publisherId) {
     $.ajax({
         url: `http://localhost:8081/books/${bookId}/publisher`,
         // url: APP_KEY + '/t3t/bookstore/books/${bookId}/publisher',
@@ -201,6 +201,34 @@ function sendPublisherRequest(bookId, publisherId) {
             // 그 외의 에러 처리
             console.error('Error:', error);
             alert("출판사 수정에 실패했습니다.");
+        }
+    });
+}
+
+/**
+ * 도서 참여자 변경 요청을 보내는 함수
+ * @param {number} bookId - 도서 ID
+ * @param {number} participantList - 변경할 도서 참여자 맵핑 리스트
+ * @author Yujin-nKim(김유진)
+ */
+function sendParticipantUpdateRequest(bookId, participantList) {
+    var jsonData = JSON.stringify(participantList);
+    $.ajax({
+        url: `http://localhost:8081/books/${bookId}/participant`,
+        // url: APP_KEY + '/t3t/bookstore/books/${bookId}/participant',
+        type: 'PUT',
+        contentType: 'application/json',
+        data: jsonData,
+        success: function(response, textStatus, xhr) {
+            if (xhr.status === 200) {
+                // 성공적인 응답인 경우
+                alert(response.message);
+            }
+        },
+        error: function(xhr, status, error) {
+            // 그 외의 에러 처리
+            console.error('Error:', error);
+            alert("도서 참여자 수정에 실패했습니다.");
         }
     });
 }

@@ -157,7 +157,70 @@
         <!-- 출판사 선택을 위한 모달 -->
         <th:block th:replace="admin/fragment/publisherModal :: publisherModalFragment"></th:block>
         <hr class=" row mb-3 border border-primary border-3 opacity-75">
-        
+
+        <!-- 도서 참여자 -->
+        <div class="row mb-3">
+            <label class="col-sm-2 col-form-label">도서 참여자 선택</label>
+            <div class="col-sm-3">
+                <div class="row g-3">
+                    <h5 style="color: darkblue;"><span th:text="${#lists.size(bookDetail.participantList)}"></span>명</h5>
+                </div>
+            </div>
+            <div class="col-sm-5">
+                <table id="beforeParticipantTable" class="table">
+                    <thead class="table-light">
+                    <tr>
+                        <th scope="col">참여자 선택</th>
+                        <th scope="col">참여자 역할 선택</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="participant : ${bookDetail.participantList}">
+                            <td th:text="${participant.name}"></td>
+                            <td th:text="${participant.role}"></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <!-- 도서 참여자 선택 -->
+        <div class="row mb-3">
+            <label class="col-sm-2 col-form-label">도서 참여자 선택</label>
+            <div class="col-sm-10 row">
+                <div class="col-sm-3">
+                    <div class="row g-3">
+                        <h6 style="color: slategray;">도서 참여자 수를 선택해주세요.</h6>
+                        <div class="col-auto">
+                            <input id="participantCount" type="number" class="form-control"  min="1" max="10" required>
+                        </div>
+                        <div class="col-auto">
+                            <button id="confirmBtn" type="button" class="btn btn-primary">확인</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-5">
+                    <table id="participantButtonTable" class="table">
+                        <thead class="table-light">
+                        <tr>
+                            <th scope="col">참여자 선택</th>
+                            <th scope="col">참여자 역할 선택</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="col-sm-10">
+                    <button type="submit" class="btn btn-primary" style="margin-top: 20px; margin-bottom: 20px;" id="modifyParticipantBtn">도서 참여자 정보 수정</button>
+                </div>
+            </div>
+        </div>
+        <!-- 참여자 선택을 위한 모달 -->
+        <th:block th:replace="admin/fragment/participantModal :: participantModalFragment"></th:block>
+        <!-- 참여자 역할 선택을 위한 모달 -->
+        <th:block th:replace="admin/fragment/participantRoleModal :: participantRoleModalFragment"></th:block>
+        <hr class=" row mb-3 border border-primary border-3 opacity-75">
+
     </div>
     <input type="hidden" id="bookId" th:value="${bookDetail.id}">
     <link id="appKey" th:data-contextPath="${@environment.getProperty('t3t.feignClient.url')}"/><!-- TOAST UI Editor CDN URL(JS) -->

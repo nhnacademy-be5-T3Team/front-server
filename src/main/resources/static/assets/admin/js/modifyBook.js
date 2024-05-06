@@ -174,3 +174,65 @@ document.getElementById('modifyPublisherBtn').addEventListener('click', function
         sendPublisherRequest(bookId, publisherId);
     }
 });
+
+/**
+ * '도서 참여자 변경 요청' 버튼 클릭시 실행되는 이벤트 핸들러
+ * @author Yujin-nKim(김유진)
+ */
+document.getElementById('modifyParticipantBtn').addEventListener('click', function() {
+    var tbody = document.querySelector("#participantButtonTable tbody");
+
+    if (tbody.children.length === 0) {
+        alert('도서 참여자 정보를 선택하세요.');
+    } else {
+        var count = document.getElementById('participantCount').value;
+        var selectedParticipants = document.querySelectorAll('.selected-value-participant');
+        var selectedParticipantRoles = document.querySelectorAll('.selected-value-participantRole');
+        var newParticipantMapList = isParticipantMapValid(parseInt(count), selectedParticipants, selectedParticipantRoles)
+
+        if (newParticipantMapList) {
+            var bookId = document.getElementById('bookId').value;
+            sendParticipantUpdateRequest(bookId, newParticipantMapList);
+        }
+    }
+});
+
+/**
+ * 도서 참여자와 역할 매핑 입력값의 유효성을 검사하고, 유효한 경우 맵핑 리스트 생성
+ * @param {number} count 도서 참여자 수
+ * @param {NodeListOf<Element>} participantList 도서 참여자 목록
+ * @param {NodeListOf<Element>} participantRoleList 도서 참여자 역할 목록
+ * @returns {Array|undefined} - 유효한 경우 도서 참여자 및 역할의 DTO 배열을 반환
+ * @author Yujin-nKim(김유진)
+ */
+function isParticipantMapValid(count, participantList, participantRoleList) {
+    if (participantList.length !== count || participantRoleList.length !== count) {
+        alert('도서 참여자 정보를 선택하세요.');
+        return;
+    }
+
+    var pairSet = new Set();
+    var participantMapList = [];
+    // participantList와 participantRoleList를 돌면서 각 요소를 짝지어서 확인
+    for (var i = 0; i < count; i++) {
+
+        var participantValue = participantList[i].value;
+        var participantRoleValue = participantRoleList[i].value;
+        var pair = participantValue + ':' + participantRoleValue;
+
+        // 이미 존재하는 짝인지 확인하고 있다면 false를 반환
+        if (pairSet.has(pair)) {
+            alert("도서 참여자에 중복된 값이 존재합니다.");
+            return;
+        }
+        // 셋에 짝을 추가
+        pairSet.add(pair);
+
+        var participantMapDto = {
+            participantId: participantValue,
+            participantRoleId: participantRoleValue
+        };
+        participantMapList.push(participantMapDto);
+    }
+    return participantMapList;
+}
