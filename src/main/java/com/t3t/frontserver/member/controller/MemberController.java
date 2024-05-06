@@ -6,14 +6,14 @@ import com.t3t.frontserver.member.model.request.MemberRegistrationRequest;
 import com.t3t.frontserver.member.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 @Slf4j
@@ -52,7 +52,7 @@ public class MemberController {
      *
      * @author woody35545(구건모)
      */
-    @PostMapping("/member/password")
+    @PatchMapping("/members/password")
     public String modifyPassword(RedirectAttributes redirectAttributes,
                                  @RequestParam("currentPassword") String currentPassword,
                                  @RequestParam("newPassword") String newPassword,
@@ -75,6 +75,33 @@ public class MemberController {
 
         memberService.modifyPassword(SecurityContextUtils.getMemberId(), request);
         redirectAttributes.addAttribute("message", "비밀번호가 변경되었습니다.");
+        return "redirect:/message";
+    }
+
+    /**
+     * 회원 탈퇴 요청 처리
+     *
+     * @author woody35545(구건모)
+     */
+    @DeleteMapping("/members")
+    public String deleteMember(RedirectAttributes redirectAttributes, HttpServletResponse response) {
+
+        if (!SecurityContextUtils.isLoggedIn()) {
+            redirectAttributes.addAttribute("message", "로그인이 필요합니다.");
+            return "redirect:/message";
+        }
+
+        memberService.withdrawMember(SecurityContextUtils.getMemberId());
+
+        SecurityContextHolder.clearContext();
+
+        Cookie cookie = new Cookie("t3t", null);
+        cookie.setMaxAge(0);
+        cookie.setHttpOnly(true);
+        response.addCookie(cookie);
+
+        redirectAttributes.addAttribute("message", "회원 탈퇴가 완료되었습니다.");
+
         return "redirect:/message";
     }
 }
