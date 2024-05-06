@@ -12,12 +12,23 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.math.BigDecimal;
+
 @FeignClient(name = "ElasticAdaptor", url = "${t3t.feignClient.url}")
 public interface ElasticAdaptor {
-    @GetMapping("/t3t/bookstore/search")
+    /**\
+     *
+     * @param query
+     * @param searchType
+     * @param pageNo
+     * @param sortBy
+     * @return
+     */
+    @GetMapping("/search")
     ResponseEntity<BaseResponse<PageResponse<ElasticResponse>>>
     getSearchPage(@RequestParam String query,
                   @RequestParam String searchType,
                   @RequestParam int pageNo,
+                  @RequestParam(value = "categoryId",required = false) BigDecimal categoryId,
                   @RequestParam(value = "sortBy", defaultValue = "_score", required = false) String sortBy);
 }
