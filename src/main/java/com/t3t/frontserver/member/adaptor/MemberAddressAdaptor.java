@@ -34,12 +34,27 @@ public class MemberAddressAdaptor {
 
     /**
      * 회원 기본 주소 설정 및 변경
+     *
      * @param memberAddressId 변경하려는 회원 주소 식별자
      * @author woody35545(구건모)
      */
     public void modifyDefaultAddress(long memberAddressId) {
         try {
             memberAddressApiClient.modifyDefaultAddress(memberAddressId);
+        } catch (FeignException e) {
+            throw new MemberAddressApiClientException(FeignClientUtils.getMessageFromFeignException(e));
+        }
+    }
+
+    /**
+     * 회원 주소 삭제
+     *
+     * @param memberAddressId 삭제하려는 회원 주소 식별자
+     * @author woody35545(구건모)
+     */
+    public void deleteMemberAddress(long memberAddressId) {
+        try {
+            memberAddressApiClient.deleteMemberAddress(memberAddressId);
         } catch (FeignException e) {
             throw new MemberAddressApiClientException(FeignClientUtils.getMessageFromFeignException(e));
         }
