@@ -7,9 +7,7 @@ import com.t3t.frontserver.member.service.MemberAddressService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 @Slf4j
 @Controller
@@ -52,7 +50,7 @@ public class MemberAddressController {
     /**
      * 회원 기본 주소 설정 및 변경 요청 처리
      */
-    @PostMapping("/member-addresses/default")
+    @PatchMapping("/member-addresses/default")
     public String modifyDefaultAddress(@RequestParam("memberAddressId") Long memberAddressId) {
 
         if (!SecurityContextUtils.isLoggedIn()) {
@@ -65,4 +63,19 @@ public class MemberAddressController {
         return "redirect:/mypage/address";
     }
 
+    /**
+     * 회원 주소 삭제 요청 처리
+     */
+    @DeleteMapping("/member-addresses")
+    public String deleteMemberAddress(@RequestParam("memberAddressId") Long memberAddressId) {
+
+        if (!SecurityContextUtils.isLoggedIn()) {
+            return "redirect:/login";
+        }
+
+        log.info("memberAddressId => {}", memberAddressId);
+        memberAddressService.deleteMemberAddress(memberAddressId);
+
+        return "redirect:/mypage/address";
+    }
 }
