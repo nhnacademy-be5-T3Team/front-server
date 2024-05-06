@@ -22,7 +22,8 @@
                         <small>변경할 비밀번호</small>
                         <input type="password" class="form-control mb-2" name="newPassword" id="newPassword">
                         <small>변경할 비밀번호 다시 입력</small>
-                        <input type="password" class="form-control" name="confirmNewPassword" id="confirmNewPassword"><br/>
+                        <input type="password" class="form-control" name="confirmNewPassword"
+                               id="confirmNewPassword"><br/>
                         <button class="btn btn-outline-primary" type="submit">비밀번호 변경</button>
 
                         <div class="alert alert-danger mt-2" id="passwordError" style="display: none;" role="alert">
@@ -56,8 +57,8 @@
                             <select th:unless="${myPageInfoViewDto.getAddressList().isEmpty()}"
                                     class="form-control" id="address">
                                 <option th:each="address : ${myPageInfoViewDto.getAddressList()}"
-                                        th:value="${myPageInfoViewDto}"
-                                        th:text="${myPageInfoViewDto}">
+                                        th:value="${address}"
+                                        th:text="${address}">
                                 </option>
                             </select>
                         </div>
