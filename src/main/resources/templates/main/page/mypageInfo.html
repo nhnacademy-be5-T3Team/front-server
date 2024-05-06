@@ -16,7 +16,8 @@
             <tr>
                 <th scope="row">비밀번호</th>
                 <td>
-                    <form id="passwordForm" action="/member/password" method="post" onsubmit="return validateForm()">
+                    <form id="passwordForm" action="/members/password" method="post" onsubmit="return validateForm()">
+                        <input type="hidden" name="_method" value="patch">
                         <small>현재 비밀번호</small>
                         <input type="password" class="form-control mb-2" name="currentPassword" id="currentPassword">
                         <small>변경할 비밀번호</small>
