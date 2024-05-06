@@ -22,4 +22,5 @@ public class MemberAddressDto {
     private String roadNameAddress;
     private String addressNickname;
     private String addressDetail;
+    private Boolean isDefaultAddress;
 }
