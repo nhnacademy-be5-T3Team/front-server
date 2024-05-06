@@ -56,4 +56,13 @@ public interface MemberApiClient {
      */
     @PatchMapping("/t3t/bookstore/members/{memberId}")
     ResponseEntity<BaseResponse<Void>> modifyMemberPassword(@PathVariable("memberId") long memberId, @RequestBody MemberPasswordModifyRequest request);
+
+
+    /**
+     * 회원 탈퇴 API
+     * @param memberId 탈퇴할 회원 식별자
+     * @author woody35545(구건모)
+     */
+    @DeleteMapping("/t3t/bookstore/members/{memberId}")
+    BaseResponse<Void> withdrawMember(@PathVariable("memberId") long memberId);
 }
