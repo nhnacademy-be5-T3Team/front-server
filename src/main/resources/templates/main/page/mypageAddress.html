@@ -68,10 +68,9 @@
                 </button>
             </form>
         </div>
-        <br/>
-        <br/>
+
         <!-- 주소 목록 -->
-        <div class="mb-4">
+        <div class="mt-5">
             <h3>등록된 주소</h3>
 
             <div th:if="${myPageAddressViewDto.getMemberAddressInfoList().isEmpty()}"
@@ -90,9 +89,9 @@
                 </li>
             </ul>
         </div>
+
         <div class="mt-5">
             <h3>기본 주소 설정</h3>
-            <br/>
             <div class="alert alert-primary col-md-5" role="alert">
                 <b>현재 기본 주소: </b>
                 <span th:if="${myPageAddressViewDto.defaultMemberAddressInfo != null}"
