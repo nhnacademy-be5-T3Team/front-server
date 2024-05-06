@@ -130,5 +130,25 @@
             </div>
         </div>
     </div>
+    <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+    <script>
+        function openDaumPostcode() {
+            new daum.Postcode({
+                oncomplete: function (data) {
+                    let addressNumberInput = document.getElementById("addressNumber");
+                    let roadNameAddressInput = document.getElementById("roadNameAddress");
+                    let addressDetailInput = document.getElementById("addressDetail");
+                    let addressNicknameInput = document.getElementById("addressNickname");
+                    let registerAddressButton = document.getElementById("registerAddress");
+                    roadNameAddressInput.value = data.roadAddress
+                    addressNumberInput.value = data.zonecode
+                    addressDetailInput.disabled = false;
+                    addressDetailInput.focus();
+                    addressNicknameInput.disabled = false;
+                    registerAddressButton.disabled = false;
+                }
+            }).open();
+        }
+    </script>
 </th:block>
 </html>
