@@ -22,6 +22,7 @@ public class MyPageController {
 
     /**
      * 마이페이지 - 회원 기본 정보 관리 뷰
+     *
      * @author woody35545(구건모)
      */
     @GetMapping("/mypage/info")
@@ -124,10 +125,32 @@ public class MyPageController {
 
     /**
      * 마이페이지 - 회원 탈퇴 페이지 뷰
+     *
      * @author woody35545(구건모)
      */
     @GetMapping("/mypage/withdrawal")
     public String withdrawalView() {
         return "main/page/mypageWithdrawal";
     }
+
+    /**
+     * 마이페이지 - 회원 등급 페이지 뷰
+     *
+     * @author woody35545(구건모)
+     */
+
+    @GetMapping("/mypage/grade")
+    public String gradeView(Model model) {
+        if (!SecurityContextUtils.isLoggedIn()) {
+            return "redirect:/login";
+        }
+
+        long memberId = SecurityContextUtils.getMemberId();
+        MemberInfoResponse memberInfoResponse = memberService.getMemberInfoResponseById(memberId);
+
+        model.addAttribute("gradeId", memberInfoResponse.getGradeId());
+
+        return "main/page/mypageGrade";
+    }
+
 }
