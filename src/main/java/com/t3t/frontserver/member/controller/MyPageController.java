@@ -153,4 +153,13 @@ public class MyPageController {
         return "main/page/mypageGrade";
     }
 
+    /**
+     * 마이페이지 - 회원 주문 페이지 뷰
+     * @author woody35545(구건모)
+     */
+    @GetMapping("/mypage/order")
+    public String orderView() {
+        return "main/page/mypageOrder";
+    }
+
 }
