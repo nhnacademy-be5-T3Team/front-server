@@ -19,11 +19,11 @@
                     <form id="passwordForm" action="/members/password" method="post" onsubmit="return validateForm()">
                         <input type="hidden" name="_method" value="patch">
                         <small>현재 비밀번호</small>
-                        <input type="password" class="form-control mb-2" name="currentPassword" id="currentPassword">
+                        <input type="password" class="form-control mb-2 col-md-4" name="currentPassword" id="currentPassword">
                         <small>변경할 비밀번호</small>
-                        <input type="password" class="form-control mb-2" name="newPassword" id="newPassword">
+                        <input type="password" class="form-control mb-2 col-md-4" name="newPassword" id="newPassword">
                         <small>변경할 비밀번호 다시 입력</small>
-                        <input type="password" class="form-control" name="confirmNewPassword"
+                        <input type="password" class="form-control col-md-4" name="confirmNewPassword"
                                id="confirmNewPassword"><br/>
                         <button class="btn btn-outline-primary" type="submit">비밀번호 변경</button>
 
@@ -49,7 +49,7 @@
                 <th scope="row">기본 배송지</th>
                 <td>
                     <div class="row">
-                        <div class="col-md-5">
+                        <div class="col-md-6 d-flex">
                             <span th:if="${myPageInfoViewDto.defaultMemberAddressInfo == null}">설정된 기본 주소가 없습니다.</span>
 
                             <span th:unless="${myPageInfoViewDto.defaultMemberAddressInfo == null}"
