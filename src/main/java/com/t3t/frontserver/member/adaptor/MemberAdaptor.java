@@ -11,7 +11,6 @@ import com.t3t.frontserver.model.response.BaseResponse;
 import com.t3t.frontserver.util.FeignClientUtils;
 import feign.FeignException;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
