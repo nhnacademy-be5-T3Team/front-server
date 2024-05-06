@@ -86,4 +86,18 @@ public class MemberAdaptor {
         }
     }
 
+    /**
+     * 회원 탈퇴
+     *
+     * @param memberId 탈퇴할 회원 식별자
+     * @autor woody35545(구건모)
+     */
+    public void withdrawMember(long memberId) {
+        try {
+            memberApiClient.withdrawMember(memberId);
+        } catch (FeignException e) {
+            throw new MemberApiClientException("회원 탈퇴에 실패하였습니다. " + FeignClientUtils.getMessageFromFeignException(e));
+        }
+    }
+
 }
