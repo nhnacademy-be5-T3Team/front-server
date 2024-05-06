@@ -62,4 +62,14 @@ public class MemberService {
     public void modifyPassword(long memberId, MemberPasswordModifyRequest request) {
         memberAdaptor.modifyPassword(memberId, request);
     }
+
+    /**
+     * 회원 탈퇴
+     *
+     * @param memberId 탈퇴할 회원 식별자
+     * @author woody35545(구건모)
+     */
+    public void withdrawMember(long memberId) {
+        memberAdaptor.withdrawMember(memberId);
+    }
 }
