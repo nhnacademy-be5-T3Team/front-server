@@ -1,7 +1,25 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+<html lang="ko" xmlns:th="https://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="admin/layout/layout">
 
 <th:block layout:fragment="content">
+    <form id="searchForm">
+        <input type="text" id="memberNameInput" placeholder="회원 이름 입력">
+        <button type="submit">검색</button>
+    </form>
+    <table id="couponHistoryTable" class="table">
+        <thead>
+        <tr>
+            <th>쿠폰번호</th>
+            <th>회원이름</th>
+            <th>이메일</th>
+            <th>주문번호</th>
+            <th>제품명</th>
+        </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
 </th:block>
+</html>

@@ -80,3 +80,46 @@ document.getElementById('searchButton').addEventListener('click', function() {
         })
         .catch(error => console.error('Error:', error));
 });
+
+document.getElementById('searchForm').addEventListener('submit', function(event) {
+    // 기본 form 제출 동작을 막습니다.
+    event.preventDefault();
+
+    // 입력된 회원 이름을 가져옵니다.
+    var memberName = document.getElementById('memberNameInput').value;
+
+    // 회원 이름으로 쿠폰 이력을 검색합니다.
+    fetch('/at/bookstore/member/{memberId}' + encodeURIComponent(memberName))
+        .then(response => response.json())
+        .then(data => {
+            var tableBody = document.getElementById('couponHistoryTable').getElementsByTagName('tbody')[0];
+            tableBody.innerHTML = '';
+
+            data.forEach(item => {
+                var row = document.createElement('tr');
+
+                var couponNumberCell = document.createElement('td');
+                couponNumberCell.textContent = item.couponNumber;
+                row.appendChild(couponNumberCell);
+
+                var memberNameCell = document.createElement('td');
+                memberNameCell.textContent = item.memberName;
+                row.appendChild(memberNameCell);
+
+                var memberEmailCell = document.createElement('td');
+                memberEmailCell.textContent = item.memberEmail;
+                row.appendChild(memberEmailCell);
+
+                var orderNumberCell = document.createElement('td');
+                orderNumberCell.textContent = item.orderNumber;
+                row.appendChild(orderNumberCell);
+
+                var productNameCell = document.createElement('td');
+                productNameCell.textContent = item.productName;
+                row.appendChild(productNameCell);
+
+                tableBody.appendChild(row);
+            });
+        })
+        .catch(error => console.error('Error:', error));
+});
