@@ -31,4 +31,14 @@ public class MemberAddressService {
     public void modifyDefaultAddress(long memberAddressId) {
         memberAddressAdaptor.modifyDefaultAddress(memberAddressId);
     }
+
+    /**
+     * 회원 주소 삭제
+     *
+     * @param memberAddressId 삭제하려는 회원 주소 식별자
+     * @author woody35545(구건모)
+     */
+    public void deleteMemberAddress(long memberAddressId) {
+        memberAddressAdaptor.deleteMemberAddress(memberAddressId);
+    }
 }
