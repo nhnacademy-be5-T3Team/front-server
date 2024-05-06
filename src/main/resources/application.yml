@@ -14,7 +14,10 @@ spring:
     devtools:
       restart:
           enabled: true
-
+    mvc:
+        hiddenmethod:
+            filter:
+                enabled: true
 feign:
     okhttp:
         enabled: true
