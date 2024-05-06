@@ -5,10 +5,7 @@ import com.t3t.frontserver.member.model.request.MemberAddressCreationRequest;
 import com.t3t.frontserver.model.response.BaseResponse;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PatchMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.*;
 
 @FeignClient(name = "MemberAddressApiClient", url = "${t3t.feignClient.url}")
 public interface MemberAddressApiClient {
@@ -28,4 +25,13 @@ public interface MemberAddressApiClient {
      */
     @PatchMapping("/t3t/bookstore/member-addresses/{memberAddressId}/default")
     BaseResponse<Void> modifyDefaultAddress(@PathVariable("memberAddressId") long memberAddressId);
+
+    /**
+     * 회원 주소 삭제 API
+     *
+     * @param memberAddressId 삭제할 회원 주소 식별자
+     * @author woody35545(구건모)
+     */
+    @DeleteMapping("/t3t/bookstore/member-addresses/{memberAddressId}")
+    ResponseEntity<BaseResponse<Void>> deleteMemberAddress(@PathVariable("memberAddressId") long memberAddressId);
 }
