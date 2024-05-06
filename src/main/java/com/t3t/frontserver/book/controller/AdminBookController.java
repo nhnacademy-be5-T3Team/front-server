@@ -3,6 +3,8 @@ package com.t3t.frontserver.book.controller;
 import com.t3t.frontserver.book.client.BookApiClient;
 import com.t3t.frontserver.book.client.BookFormApiClient;
 import com.t3t.frontserver.book.model.request.BookRegisterRequest;
+import com.t3t.frontserver.book.model.request.ModifyBookDetailRequest;
+import com.t3t.frontserver.book.model.response.BookDetailResponse;
 import com.t3t.frontserver.book.model.response.BookListResponse;
 import com.t3t.frontserver.model.response.BaseResponse;
 import com.t3t.frontserver.model.response.PageResponse;
@@ -50,11 +52,29 @@ public class AdminBookController {
 
                 model.addAttribute("nowPage", nowPage);
                 model.addAttribute("startPage", startPage);
-                model.addAttribute("endPage2", endPage);
+                model.addAttribute("endPage", endPage);
                 model.addAttribute("bookList", bookList.getContent());
             }
         }
         return "admin/page/bookList";
+    }
+
+    /**
+     * 도서 수정 페이지를 요청
+     * @param model 데이터를 뷰에 전달하기 위한 Model 객체
+     * @param bookId  수정할 책의 ID
+     * @return 도서 수정 페이지 반환
+     * @author Yujin-nKim(김유진)
+     */
+    @GetMapping("/{bookId}/edit")
+    public String getEditBookAdminPage(Model model, @PathVariable Long bookId) {
+
+        ResponseEntity<BaseResponse<BookDetailResponse>> response = bookApiClient.getBook(bookId);
+
+        model.addAttribute("bookDetail", response.getBody().getData());
+        model.addAttribute("modifyBookDetailRequest", new ModifyBookDetailRequest());
+
+        return "admin/page/editBook";
     }
 
     /**
@@ -94,5 +114,20 @@ public class AdminBookController {
             redirectAttributes.addFlashAttribute("errorMessage", "도서 등록에 실패했습니다.");
             return "redirect:/admin/books/new";
         }
+    }
+
+    @PostMapping("/{bookId}/edit")
+    public String updateBookDetail(@PathVariable Long bookId, @ModelAttribute(value = "modifyBookDetailRequest") ModifyBookDetailRequest request, RedirectAttributes redirectAttributes) {
+
+        log.info("도서 상세 정보 수정 요청 = {}", request.toString());
+
+        try {
+            ResponseEntity<BaseResponse<Void>> response = bookApiClient.updateBookDetail(bookId, request);
+            redirectAttributes.addFlashAttribute("bookDetailModifySuccess", response.getBody().getMessage());
+        } catch (FeignException e) {
+            log.error(e.getMessage());
+            redirectAttributes.addFlashAttribute("bookDetailModifyError", "도서 상세 정보 수정에 실패했습니다.");
+        }
+        return "redirect:/admin/books/"+bookId+"/edit";
     }
 }
