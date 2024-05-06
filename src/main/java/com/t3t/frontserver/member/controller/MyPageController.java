@@ -20,6 +20,10 @@ public class MyPageController {
 
     private final MemberService memberService;
 
+    /**
+     * 마이페이지 - 회원 기본 정보 관리 뷰
+     * @author woody35545(구건모)
+     */
     @GetMapping("/mypage/info")
     public String myPageInfoView(Model model) {
 
@@ -116,5 +120,14 @@ public class MyPageController {
         model.addAttribute("myPageAddressViewDto", myPageAddressViewDto);
 
         return "main/page/mypageAddress";
+    }
+
+    /**
+     * 마이페이지 - 회원 탈퇴 페이지 뷰
+     * @author woody35545(구건모)
+     */
+    @GetMapping("/mypage/withdrawal")
+    public String withdrawalView() {
+        return "main/page/mypageWithdrawal";
     }
 }
