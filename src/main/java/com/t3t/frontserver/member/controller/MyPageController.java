@@ -2,6 +2,7 @@ package com.t3t.frontserver.member.controller;
 
 import com.t3t.frontserver.auth.util.SecurityContextUtils;
 import com.t3t.frontserver.member.model.dto.MemberAddressDto;
+import com.t3t.frontserver.member.model.dto.MyPageAddressViewDto;
 import com.t3t.frontserver.member.model.dto.MyPageInfoViewDto;
 import com.t3t.frontserver.member.model.response.MemberInfoResponse;
 import com.t3t.frontserver.member.service.MemberService;
@@ -53,5 +54,49 @@ public class MyPageController {
         model.addAttribute("myPageInfoViewDto", myPageInfoViewDto);
 
         return "main/page/mypageInfo";
+    }
+
+    /**
+     * 마이페이지 주소 관리 뷰
+     *
+     * @author woody35545(구건모)
+     */
+    @GetMapping("/mypage/address")
+    public String myPageAddressView(Model model) {
+
+        if (!SecurityContextUtils.isLoggedIn()) {
+            return "redirect:/login";
+        }
+
+        List<MemberAddressDto> memberAddressDtoList = memberService.getMemberAddressDtoListByMemberId(SecurityContextUtils.getMemberId());
+
+        MyPageAddressViewDto.MemberAddressInfo defaultMemberAddressInfo = memberAddressDtoList.stream()
+                .filter(MemberAddressDto::getIsDefaultAddress)
+                .map(memberAddressDto -> MyPageAddressViewDto.MemberAddressInfo.builder()
+                        .id(memberAddressDto.getId())
+                        .roadNameAddress(memberAddressDto.getRoadNameAddress())
+                        .nickName(memberAddressDto.getAddressNickname())
+                        .isDefault(memberAddressDto.getIsDefaultAddress())
+                        .build())
+                .findFirst()
+                .orElse(null);
+
+        MyPageAddressViewDto myPageAddressViewDto = MyPageAddressViewDto.builder()
+                .memberAddressInfoList(memberService.getMemberAddressDtoListByMemberId(SecurityContextUtils.getMemberId())
+                        .stream()
+                        .map(addressDto -> MyPageAddressViewDto.MemberAddressInfo.builder()
+                                .id(addressDto.getId())
+                                .roadNameAddress(addressDto.getRoadNameAddress())
+                                .nickName(addressDto.getAddressNickname())
+                                .isDefault(addressDto.getIsDefaultAddress())
+                                .build())
+                        .collect(Collectors.toList()))
+
+                .defaultMemberAddressInfo(defaultMemberAddressInfo)
+                .build();
+
+        model.addAttribute("myPageAddressViewDto", myPageAddressViewDto);
+
+        return "main/page/mypageAddress";
     }
 }
