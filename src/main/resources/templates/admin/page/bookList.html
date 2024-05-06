@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="admin/layout/layout">
+<th:block layout:fragment="content">
+    <div>
+        <div class="ml-3 mb-3">
+            <button type="button" class="btn btn-danger" onclick="deleteSelectedBooks()">삭제</button>
+            <button type="button" class="btn btn-primary" onclick="editSelectedBook()">수정</button>
+        </div>
+        <table id="bookTable" class="table">
+            <thead class="table-light">
+            <tr>
+                <th>CheckBox</th>
+                <th>Book Id</th>
+                <th>도서명</th>
+                <th>Isbn</th>
+                <th>정가</th>
+                <th>할인율</th>
+                <th>할인가</th>
+                <th>출판일시</th>
+                <th>평점</th>
+                <th>좋아요수</th>
+                <th>재고</th>
+                <th>포장가능 여부</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:if="${#lists.isEmpty(bookList)}">
+                <td colspan="12">등록된 도서가 없습니다.</td>
+            </tr>
+            <tr th:each="book : ${bookList}">
+                <td><input type="checkbox" th:value="${book.id}" th:id="'bookCheckbox_' + ${book.id}" name="bookCheckbox" class="bookCheckbox"></td>
+                <td th:text="${book.id}"></td>
+                <td><a th:href="@{'/admin/books/' + ${book.id}}"><span th:text="${book.bookName}"></span></a></td>
+                <td th:text="${book.isbn}"></td>
+                <td th:text="${#numbers.formatInteger(book.price, 0, 'COMMA')}"></td>
+                <td th:text="${book.discountRate}"></td>
+                <td th:text="${#numbers.formatInteger(book.discountedPrice, 0, 'COMMA')}"></td>
+                <td th:text="${book.published}"></td>
+                <td th:text="${book.averageScore}"></td>
+                <td th:text="${book.likeCount}"></td>
+                <td th:text="${book.stock}"></td>
+                <td>
+                    <span th:if="${book.packagingAvailableStatus}">포장 가능</span>
+                    <span th:unless="${book.packagingAvailableStatus}">포장 불가능</span>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <nav aria-label="Page navigation example">
+        <ul class="pagination">
+            <li class="page-item" th:classappend="${nowPage == 1} ? 'disabled'">
+                <a class="page-link" th:href="@{'/?pageNo=' + ${nowPage - 1}}" aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                </a>
+            </li>
+            <th:block th:each="page : ${#numbers.sequence(startPage, endPage)}">
+                <li class="page-item" th:classappend="${page == nowPage} ? 'active'">
+                    <a class="page-link" th:href="@{'?pageNo=' + ${page - 1}}" th:text="${page}"></a>
+                </li>
+            </th:block>
+            <li class="page-item" th:classappend="${nowPage == endPage} ? 'disabled'">
+                <a class="page-link" th:href="@{'?pageNo=' + ${nowPage + 1}}" aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <script th:inline="javascript">
+        function selectOnlyOneCheckbox() {
+            var checkboxes = document.getElementsByClassName('bookCheckbox');
+            for (var i = 0; i < checkboxes.length; i++) {
+                checkboxes[i].onclick = function() {
+                    for (var j = 0; j < checkboxes.length; j++) {
+                        if (checkboxes[j] != this) {
+                            checkboxes[j].checked = false;
+                        }
+                    }
+                };
+            }
+        }
+
+        function deleteSelectedBooks() {
+            var selectedCheckbox = document.querySelector('input[name="bookCheckbox"]:checked');
+            if (selectedCheckbox) {
+                alert("도서를 삭제하시겠습니까?");
+                var selectedBookId = selectedCheckbox.value;
+                window.location.href = '/admin/books/' + selectedBookId + '/delete';
+            } else {
+                alert("도서를 선택하세요.");
+            }
+        }
+
+        function editSelectedBook() {
+            var selectedCheckbox = document.querySelector('input[name="bookCheckbox"]:checked');
+            if (selectedCheckbox) {
+                var selectedBookId = selectedCheckbox.value;
+                window.location.href = '/admin/books/' + selectedBookId + '/edit';
+            } else {
+                alert("도서를 선택하세요.");
+            }
+        }
+
+        window.onload = function() {
+            selectOnlyOneCheckbox();
+        };
+    </script>
+</th:block>
+</html>
