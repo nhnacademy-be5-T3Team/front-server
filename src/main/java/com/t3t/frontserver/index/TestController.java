@@ -2,6 +2,8 @@ package com.t3t.frontserver.index;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
@@ -29,6 +31,11 @@ public class TestController {
         log.info(String.valueOf(request.getPackageId()));
 
         return "index/index";
+    }
+
+    @GetMapping("/mypage/coupon")
+    public String test3(Model model){
+        return "main/page/coupon";
     }
 }
 

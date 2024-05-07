@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout(categoryList)"
+      layout:decorate="main/layout/layout">
+
+<th:block layout:fragment="content" th:method="get">
+<div>
+    <h2>사용 가능한 할인권: <span id="available-coupons">0 개</span></h2>
+    <h2>미사용할인권 24시간 이내: <span id="unused-coupons">0 개</span></h2>
+</div>
+<div>
+    <label for="coupon-code">할인권 코드 입력:</label>
+    <input type="text" id="coupon-code" name="coupon-code">
+    <button type="button">적용하기</button>
+    <p>* 공백없이 바코드번호만 입력해주세요.</p>
+</div>
+<div>
+    <label for="payment">결제하기:</label>
+    <input type="text" id="payment" name="payment">
+    <div>
+        <input type="radio" id="credit-card" name="payment-method">
+        <label for="credit-card">신용카드(일반)</label><br>
+        <input type="radio" id="gift-card" name="payment-method">
+        <label for="gift-card">신용카드 / 기프트카드</label><br>
+    </div>
+</div>
+</th:block>
+</html>
