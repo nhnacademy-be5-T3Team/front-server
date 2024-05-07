@@ -171,8 +171,8 @@ document.addEventListener("DOMContentLoaded", function() {
         // 입력값이 숫자로 이루어져 있는지 확인하는 정규표현식
         var regex = /^\d+$/;
         // 숫자로만 이루어져 있고 1 이상 99 이하의 값인지 확인
-        if (discountRate !== '' && !regex.test(discountRate) || parseInt(discountRate) < 1 || parseInt(discountRate) > 99) {
-            discountRateValidationMessage.textContent = "할인율은 숫자로 이루어진 1 이상 99 이하의 정수값이어야 합니다.";
+        if (discountRate !== '' && !regex.test(discountRate) || parseInt(discountRate) < 0 || parseInt(discountRate) > 99.9) {
+            discountRateValidationMessage.textContent = "할인율은 숫자로 이루어진 0 이상 99.9 이하의 정수값이어야 합니다.";
             discountRateValidationMessage.style.color = "red";
             return false;
         } else {

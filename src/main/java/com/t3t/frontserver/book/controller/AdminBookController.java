@@ -123,6 +123,13 @@ public class AdminBookController {
         }
     }
 
+    /**
+     * 특정 도서의 상세 정보를 수정
+     * @param bookId 수정할 도서의 식별자
+     * @param request 수정할 도서의 상세 정보를 담은 요청 객체
+     * @return  200 OK, 성공 메세지
+     * @author Yujin-nKim(김유진)
+     */
     @PostMapping("/{bookId}/edit")
     public String updateBookDetail(@PathVariable Long bookId, @ModelAttribute(value = "modifyBookDetailRequest") ModifyBookDetailRequest request, RedirectAttributes redirectAttributes) {
 
@@ -130,7 +137,7 @@ public class AdminBookController {
 
         try {
             ResponseEntity<BaseResponse<Void>> response = bookApiClient.updateBookDetail(bookId, request);
-            redirectAttributes.addFlashAttribute("bookDetailModifySuccess", response.getBody().getMessage());
+            redirectAttributes.addFlashAttribute("bookDetailModifySuccess", Objects.requireNonNull(response.getBody()).getMessage());
         } catch (FeignException e) {
             log.error(e.getMessage());
             redirectAttributes.addFlashAttribute("bookDetailModifyError", "도서 상세 정보 수정에 실패했습니다.");
