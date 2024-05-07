@@ -74,7 +74,7 @@ public class SecurityConfig {
                             // 관리자 권한이 없습니다. 메시지 추가
                             response.sendRedirect("/");
                         }
-                        if (request.getRequestURI().startsWith("/myPage")){
+                        if (request.getRequestURI().startsWith("/mypage")){
                             response.sendRedirect("/login");
                         }
                     }
