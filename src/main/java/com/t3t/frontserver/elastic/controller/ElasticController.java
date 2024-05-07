@@ -1,5 +1,7 @@
 package com.t3t.frontserver.elastic.controller;
 
+import com.t3t.frontserver.category.client.CategoryApiClient;
+import com.t3t.frontserver.category.response.CategoryTreeResponse;
 import com.t3t.frontserver.elastic.adaptor.ElasticAdaptor;
 import com.t3t.frontserver.elastic.model.response.ElasticResponse;
 import com.t3t.frontserver.model.response.BaseResponse;
@@ -16,6 +18,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 import static com.t3t.frontserver.util.ServiceUtils.handleResponse;
 
@@ -23,6 +26,7 @@ import static com.t3t.frontserver.util.ServiceUtils.handleResponse;
 @RequiredArgsConstructor
 public class ElasticController {
     private final ElasticAdaptor elasticAdaptor;
+    private final CategoryApiClient categoryAdaptor;
     /**
      *
      * elasticsearch 기반 text 검색
@@ -41,7 +45,7 @@ public class ElasticController {
                               @RequestParam(value = "pageNo", defaultValue = "0", required = false) int pageNo,
                               @RequestParam(value = "sortBy", defaultValue = "_score", required = false) String sortBy,
                               Model model) {
-
+        List<CategoryTreeResponse> categoryList = getDataFromCategoryAdaptor(1, 2);
         PageResponse<ElasticResponse> bookList = getSearchPageAdaptor(query, searchType, pageNo, categoryId, sortBy);
 
         if (bookList != null) {
@@ -60,6 +64,7 @@ public class ElasticController {
             if (categoryId != null) {
                 model.addAttribute("categoryId", categoryId);
             }
+            model.addAttribute("categoryList", categoryList);
         }
         return "main/page/elasticSearch";
     }
@@ -74,5 +79,9 @@ public class ElasticController {
                 = elasticAdaptor.getSearchPage(query, searchType, pageNo, categoryId, sortBy);
 
         return handleResponse(elasticResponse);
+    }
+    private List<CategoryTreeResponse> getDataFromCategoryAdaptor(Integer startDepth, Integer maxDepth ) {
+        ResponseEntity<BaseResponse<List<CategoryTreeResponse>>> categoriesResponse = categoryAdaptor.getCategoryTreeByDepth(startDepth, maxDepth);
+        return handleResponse(categoriesResponse);
     }
 }
