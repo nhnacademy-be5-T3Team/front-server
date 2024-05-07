@@ -23,7 +23,17 @@ import static com.t3t.frontserver.util.ServiceUtils.handleResponse;
 @RequiredArgsConstructor
 public class ElasticController {
     private final ElasticAdaptor elasticAdaptor;
-
+    /**
+     *
+     * elasticsearch 기반 text 검색
+     *
+     * @param query      text 검색어
+     * @param searchType 검색 유형
+     * @param pageNo     페이지 번호
+     * @param categoryId  카테고리 검색을 위한 카테고리번호
+     * @param sortBy     정렬 기준 (기본값: "_socre")
+     * @return 페이지로 정보를 가지고 이동
+     */
     @GetMapping("/search")
     public String searchBooks(@RequestParam(value = "query") String query,
                               @RequestParam("searchType") String searchType,
