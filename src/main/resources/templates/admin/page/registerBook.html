@@ -164,7 +164,7 @@
                 <div class="row mb-3">
                     <label th:for="inputThumbnailImage" class="col-sm-2 col-form-label">도서 썸네일 이미지</label>
                     <div class="col-sm-10">
-                        <input class="form-control" type="file" th:field="*{thumbnailImage}" required>
+                        <input class="form-control" type="file" th:field="*{thumbnailImage}" required accept="image/*">
                     </div>
                 </div>
 
@@ -172,7 +172,7 @@
                 <div class="row mb-3">
                     <label th:for="inputBookImage" class="col-sm-2 col-form-label">도서 미리보기 이미지</label>
                     <div class="col-sm-10">
-                        <input class="form-control" type="file" th:field="*{bookImageList}" multiple>
+                        <input class="form-control" type="file" th:field="*{bookImageList}" multiple accept="image/*">
                     </div>
                 </div>
 
