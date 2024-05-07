@@ -36,4 +36,7 @@ public interface BookApiClient {
     @PutMapping(value = "/t3t/bookstore/books/{bookId}/book-detail")
     ResponseEntity<BaseResponse<Void>> updateBookDetail(@PathVariable Long bookId,
                                                         @RequestBody @Valid ModifyBookDetailRequest request);
+
+    @DeleteMapping(value = "/books/{bookId}")
+    ResponseEntity<BaseResponse<Void>> deleteBook(@PathVariable Long bookId);
 }
