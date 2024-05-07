@@ -2,6 +2,7 @@ package com.t3t.frontserver.book.controller;
 
 import com.t3t.frontserver.book.client.BookApiClient;
 import com.t3t.frontserver.book.client.BookFormApiClient;
+import com.t3t.frontserver.book.model.dto.ParticipantMapDto;
 import com.t3t.frontserver.book.model.request.RegisterBookRequest;
 import com.t3t.frontserver.book.model.request.ModifyBookDetailRequest;
 import com.t3t.frontserver.book.model.response.BookDetailResponse;
@@ -18,6 +19,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.validation.Valid;
+import java.util.List;
 import java.util.Objects;
 
 @Slf4j
@@ -141,6 +144,89 @@ public class AdminBookController {
         } catch (FeignException e) {
             log.error(e.getMessage());
             redirectAttributes.addFlashAttribute("bookDetailModifyError", "도서 상세 정보 수정에 실패했습니다.");
+        }
+        return "redirect:/admin/books/"+bookId+"/edit";
+    }
+
+    /**
+     * 특정 도서의 출판사 정보를 수정
+     * @param bookId 수정할 도서의 식별자
+     * @param publisherId 수정할 출판사의 id
+     * @return  200 OK, 성공 메세지
+     * @author Yujin-nKim(김유진)
+     */
+    @PutMapping("/{bookId}/publisher")
+    public String updateBookPublisher(@PathVariable Long bookId,
+                                      @RequestParam Long publisherId,
+                                      RedirectAttributes redirectAttributes) {
+        try {
+            ResponseEntity<BaseResponse<Void>> response = bookApiClient.updateBookPublisher(bookId, publisherId);
+            redirectAttributes.addFlashAttribute("bookDetailModifySuccess", Objects.requireNonNull(response.getBody()).getMessage());
+        } catch (FeignException e) {
+            log.error(e.getMessage());
+            redirectAttributes.addFlashAttribute("bookDetailModifyError", "도서 출판사 정보 수정에 실패했습니다.");
+        }
+        return "redirect:/admin/books/"+bookId+"/edit";
+    }
+
+    /**
+     * 특정 도서의 참여자를 수정
+     * @param bookId          수정할 도서의 식별자
+     * @param participantList 수정할 참여자 매핑 리스트
+     * @return 200 OK, 성공 메세지
+     * @author Yujin-nKim(김유진)
+     */
+    @PutMapping("/{bookId}/participant")
+    public String updateBookParticipant(@PathVariable Long bookId,
+                                        @RequestBody @Valid List<ParticipantMapDto> participantList,
+                                        RedirectAttributes redirectAttributes) {
+        try {
+            ResponseEntity<BaseResponse<Void>> response = bookApiClient.updateBookParticipant(bookId, participantList);
+            redirectAttributes.addFlashAttribute("bookDetailModifySuccess", Objects.requireNonNull(response.getBody()).getMessage());
+        } catch (FeignException e) {
+            log.error(e.getMessage());
+            redirectAttributes.addFlashAttribute("bookDetailModifyError", "도서 참여자 정보 수정에 실패했습니다.");
+        }
+        return "redirect:/admin/books/"+bookId+"/edit";
+    }
+
+    /**
+     * 특정 도서의 태그를 수정
+     * @param bookId   수정할 도서의 식별자
+     * @param tagList  수정할 태그 리스트
+     * @return 200 OK, 성공 메세지
+     * @author Yujin-nKim(김유진)
+     */
+    @PutMapping("/{bookId}/tag")
+    public String updateBookTag(@PathVariable Long bookId, @RequestBody @Valid List<Long> tagList,
+                                RedirectAttributes redirectAttributes) {
+        try {
+            ResponseEntity<BaseResponse<Void>> response = bookApiClient.updateBookTag(bookId, tagList);
+            redirectAttributes.addFlashAttribute("bookDetailModifySuccess", Objects.requireNonNull(response.getBody()).getMessage());
+        } catch (FeignException e) {
+            log.error(e.getMessage());
+            redirectAttributes.addFlashAttribute("bookDetailModifyError", "도서 태그 정보 수정에 실패했습니다.");
+        }
+        return "redirect:/admin/books/"+bookId+"/edit";
+    }
+
+    /**
+     * 특정 도서의 카테고리를 수정
+     * @param bookId       수정할 도서의 식별자
+     * @param categoryList 수정할 카테고리 리스트
+     * @return 200 OK, 성공 메세지
+     * @author Yujin-nKim(김유진)
+     */
+    @PutMapping("{bookId}/category")
+    public String updateBookCategory(@PathVariable Long bookId,
+                                     @RequestBody @Valid List<Integer> categoryList,
+                                     RedirectAttributes redirectAttributes) {
+        try {
+            ResponseEntity<BaseResponse<Void>> response = bookApiClient.updateBookCategory(bookId, categoryList);
+            redirectAttributes.addFlashAttribute("bookDetailModifySuccess", Objects.requireNonNull(response.getBody()).getMessage());
+        } catch (FeignException e) {
+            log.error(e.getMessage());
+            redirectAttributes.addFlashAttribute("bookDetailModifyError", "도서 카테고리 정보 수정에 실패했습니다.");
         }
         return "redirect:/admin/books/"+bookId+"/edit";
     }

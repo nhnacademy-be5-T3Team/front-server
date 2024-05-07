@@ -1,6 +1,6 @@
 package com.t3t.frontserver.book.client;
 
-import com.t3t.frontserver.book.model.request.BookRegisterRequest;
+import com.t3t.frontserver.book.model.request.RegisterBookRequest;
 import com.t3t.frontserver.config.FormConfiguration;
 import com.t3t.frontserver.model.response.BaseResponse;
 import org.springframework.cloud.openfeign.FeignClient;
@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
  * 이 인터페이스는 Feign을 사용하여 원격 서버에 HTTP 요청을 보내고, BookRegisterRequest 객체를 멀티파트 폼 데이터로 전송함
  * @author Yujin-nKim(김유진)
  */
-@FeignClient(name = "test", url = "${t3t.feignClient.url}", configuration = FormConfiguration.class)
+@FeignClient(name = "bookFormApiClient", url = "${t3t.feignClient.url}", configuration = FormConfiguration.class)
 public interface BookFormApiClient {
 
     /**
@@ -26,5 +26,5 @@ public interface BookFormApiClient {
      * @author Yujin-nKim(김유진)
      */
     @PostMapping(value = "/t3t/bookstore/books", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    ResponseEntity<BaseResponse<Long>> createBook(@ModelAttribute BookRegisterRequest request);
+    ResponseEntity<BaseResponse<Long>> createBook(@ModelAttribute RegisterBookRequest request);
 }
