@@ -23,6 +23,7 @@ public class ElasticResponse {
     private String coverImageUrl;//썸네일
     private String authorName;//참여자
     private String authorRole;//참여자 역할
+    private BigDecimal categoryId;
     private float score; //유사도 점수
     private long count; //검색한 책의 수
 }
