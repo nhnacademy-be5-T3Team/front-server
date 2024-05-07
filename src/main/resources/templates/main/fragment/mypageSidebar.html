@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<aside th:fragment="sidebarFragment" id="sidebar" class="sidebar" style="height: 100vh; overflow-y: auto;">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <!-- 회원 정보 관련 -->
+                <h4>회원 정보</h4>
+                <ul class="list-unstyled">
+                    <li id="member-info">
+                        <a href="/mypage/info">기본 정보 관리 </a>
+                    </li>
+                    <li id="member-address">
+                        <a href="/mypage/address">회원 주소 관리</a>
+                    </li>
+                    <li id="member-grade">
+                        <a href="/mypage/grade">회원 등급</a>
+                    </li>
+                    <li id="member-withdrawal">
+                        <a href="/mypage/withdrawal">회원 탈퇴</a>
+                    </li>
+                </ul>
+
+                <!-- 주문 관련 -->
+                <h4>주문 정보</h4>
+                <ul class="list-unstyled">
+                    <li id="order-history">
+                        <a href="/mypage/order">주문 내역</a>
+                    </li>
+                    <li id="return-exchange">
+                        <a href="#">반품/교환 내역</a>
+                    </li>
+                    <li id="cancelled-orders">
+                        <a href="#">취소한 주문 내역</a>
+                    </li>
+                </ul>
+
+                <!-- 쿠폰 및 포인트 관련 -->
+                <h4>쿠폰 및 포인트 정보</h4>
+                <ul class="list-unstyled">
+                    <li id="coupon-history">
+                        <a href="#">보유 쿠폰 내역</a>
+                    </li>
+                    <li id="point-history">
+                        <a href="#">포인트 이력</a>
+                    </li>
+                    <li id="coupon-usage">
+                        <a href="#">쿠폰 이력</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</aside>
+
+</html>
