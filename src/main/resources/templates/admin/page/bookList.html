@@ -3,6 +3,13 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="admin/layout/layout">
 <th:block layout:fragment="content">
+    <script th:inline="javascript">
+        /* 에러 메시지 */
+        var errorMessage = /*[[${errorMessage}]]*/ null;
+        if(errorMessage) {
+            alert(errorMessage);
+        }
+    </script>
     <div>
         <div class="ml-3 mb-3">
             <button type="button" class="btn btn-danger" onclick="deleteSelectedBooks()">삭제</button>
@@ -53,25 +60,27 @@
             </tbody>
         </table>
     </div>
-    <nav aria-label="Page navigation example">
-        <ul class="pagination">
-            <li class="page-item" th:classappend="${nowPage == 1} ? 'disabled'">
-                <a class="page-link" th:href="@{'/?pageNo=' + ${nowPage - 1}}" aria-label="Previous">
-                    <span aria-hidden="true">&laquo;</span>
-                </a>
-            </li>
-            <th:block th:each="page : ${#numbers.sequence(startPage, endPage)}">
-                <li class="page-item" th:classappend="${page == nowPage} ? 'active'">
-                    <a class="page-link" th:href="@{'?pageNo=' + ${page - 1}}" th:text="${page}"></a>
+    <div th:unless="${#lists.isEmpty(bookList)}">
+        <nav aria-label="Page navigation example">
+            <ul class="pagination">
+                <li class="page-item" th:classappend="${nowPage == 1} ? 'disabled'">
+                    <a class="page-link" th:href="@{'?pageNo=' + ${nowPage - 1}}" aria-label="Previous">
+                        <span aria-hidden="true">&laquo;</span>
+                    </a>
                 </li>
-            </th:block>
-            <li class="page-item" th:classappend="${nowPage == endPage} ? 'disabled'">
-                <a class="page-link" th:href="@{'?pageNo=' + ${nowPage + 1}}" aria-label="Next">
-                    <span aria-hidden="true">&raquo;</span>
-                </a>
-            </li>
-        </ul>
-    </nav>
+                <th:block th:each="page : ${#numbers.sequence(startPage, endPage)}">
+                    <li class="page-item" th:classappend="${page == nowPage} ? 'active'">
+                        <a class="page-link" th:href="@{'?pageNo=' + ${page - 1}}" th:text="${page}"></a>
+                    </li>
+                </th:block>
+                <li class="page-item" th:classappend="${nowPage == endPage} ? 'disabled'">
+                    <a class="page-link" th:href="@{'?pageNo=' + ${nowPage + 1}}" aria-label="Next">
+                        <span aria-hidden="true">&raquo;</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </div>
     <script th:inline="javascript">
         function selectOnlyOneCheckbox() {
             var checkboxes = document.getElementsByClassName('bookCheckbox');

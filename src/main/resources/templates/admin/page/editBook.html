@@ -21,6 +21,11 @@
             if(bookDetailModifyError) {
                 alert(bookDetailModifyError);
             }
+            /* 에러 메시지 */
+            var errorMessage = /*[[${errorMessage}]]*/ null;
+            if(errorMessage) {
+                alert(errorMessage);
+            }
         </script>
 
         <h5 class="card-title">도서 수정하기</h5>

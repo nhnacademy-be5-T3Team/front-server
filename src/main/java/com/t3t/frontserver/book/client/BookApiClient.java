@@ -13,6 +13,12 @@ import javax.validation.Valid;
 
 @FeignClient(name = "bookApiClient", url = "${t3t.feignClient.url}")
 public interface BookApiClient {
+
+    /**
+     * 책의 상세 정보를 조회
+     * @param bookId 도서의 ID
+     * @return 200 OK, 성공 메세지
+     */
     @GetMapping(value = "/t3t/bookstore/books/{bookId}")
     ResponseEntity<BaseResponse<BookDetailResponse>> getBook(@PathVariable Long bookId);
 
