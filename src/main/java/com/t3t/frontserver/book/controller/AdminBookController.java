@@ -138,14 +138,19 @@ public class AdminBookController {
         return "redirect:/admin/books/"+bookId+"/edit";
     }
 
+    /**
+     * 도서 삭제 요청을 처리
+     * @param bookId 삭제하고자 하는 도서 id
+     * @author Yujin-nKim(김유진)
+     */
     @GetMapping("/{bookId}/delete")
     public String deleteBook(@PathVariable Long bookId, RedirectAttributes redirectAttributes) {
         try {
             ResponseEntity<BaseResponse<Void>> response = bookApiClient.deleteBook(bookId);
-            redirectAttributes.addFlashAttribute("bookDeleteSuccess", response.getBody().getMessage());
+            redirectAttributes.addFlashAttribute("successMessage", response.getBody().getMessage());
         } catch (FeignException e) {
             log.error(e.getMessage());
-            redirectAttributes.addFlashAttribute("bookDeleteError", "도서 삭제에 실패했습니다.");
+            redirectAttributes.addFlashAttribute("errorMessage", "도서 삭제에 실패했습니다.");
         }
         return "redirect:/admin/books";
     }

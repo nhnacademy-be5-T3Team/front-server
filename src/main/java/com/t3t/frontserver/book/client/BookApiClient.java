@@ -13,7 +13,6 @@ import javax.validation.Valid;
 
 @FeignClient(name = "bookApiClient", url = "${t3t.feignClient.url}")
 public interface BookApiClient {
-
     /**
      * 책의 상세 정보를 조회
      * @param bookId 도서의 ID
@@ -43,6 +42,11 @@ public interface BookApiClient {
     ResponseEntity<BaseResponse<Void>> updateBookDetail(@PathVariable Long bookId,
                                                         @RequestBody @Valid ModifyBookDetailRequest request);
 
+    /**
+     * 도서 삭제 요청을 처리
+     * @param bookId 삭제하고자 하는 도서 id
+     * @author Yujin-nKim(김유진)
+     */
     @DeleteMapping(value = "/books/{bookId}")
     ResponseEntity<BaseResponse<Void>> deleteBook(@PathVariable Long bookId);
 }
