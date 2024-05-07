@@ -6,7 +6,6 @@
     <div>
         <div class="ml-3 mb-3">
             <button type="button" class="btn btn-danger" onclick="deleteSelectedBooks()">삭제</button>
-            <button type="button" class="btn btn-primary" onclick="editSelectedBook()">수정</button>
         </div>
         <table id="bookTable" class="table">
             <thead class="table-light">
@@ -23,16 +22,17 @@
                 <th>좋아요수</th>
                 <th>재고</th>
                 <th>포장가능 여부</th>
+                <th>삭제 여부</th>
             </tr>
             </thead>
             <tbody>
             <tr th:if="${#lists.isEmpty(bookList)}">
                 <td colspan="12">등록된 도서가 없습니다.</td>
             </tr>
-            <tr th:each="book : ${bookList}">
+            <tr th:each="book : ${bookList}" th:class="${book.deletedStatus eq true} ? 'table-secondary' : ''">
                 <td><input type="checkbox" th:value="${book.id}" th:id="'bookCheckbox_' + ${book.id}" name="bookCheckbox" class="bookCheckbox"></td>
                 <td th:text="${book.id}"></td>
-                <td><a th:href="@{'/admin/books/' + ${book.id}}"><span th:text="${book.bookName}"></span></a></td>
+                <td><a th:href="@{'/admin/books/' + ${book.id} + '/edit'}"><span th:text="${book.bookName}"></span></a></td>
                 <td th:text="${book.isbn}"></td>
                 <td th:text="${#numbers.formatInteger(book.price, 0, 'COMMA')}"></td>
                 <td th:text="${book.discountRate}"></td>
@@ -44,6 +44,10 @@
                 <td>
                     <span th:if="${book.packagingAvailableStatus}">포장 가능</span>
                     <span th:unless="${book.packagingAvailableStatus}">포장 불가능</span>
+                </td>
+                <td>
+                    <span th:if="${book.deletedStatus}">Y</span>
+                    <span th:unless="${book.deletedStatus}">N</span>
                 </td>
             </tr>
             </tbody>
@@ -88,16 +92,6 @@
                 alert("도서를 삭제하시겠습니까?");
                 var selectedBookId = selectedCheckbox.value;
                 window.location.href = '/admin/books/' + selectedBookId + '/delete';
-            } else {
-                alert("도서를 선택하세요.");
-            }
-        }
-
-        function editSelectedBook() {
-            var selectedCheckbox = document.querySelector('input[name="bookCheckbox"]:checked');
-            if (selectedCheckbox) {
-                var selectedBookId = selectedCheckbox.value;
-                window.location.href = '/admin/books/' + selectedBookId + '/edit';
             } else {
                 alert("도서를 선택하세요.");
             }

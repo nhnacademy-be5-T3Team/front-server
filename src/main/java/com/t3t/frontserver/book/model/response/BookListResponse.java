@@ -28,4 +28,5 @@ public class BookListResponse {
     private Integer stock; // 재고 수
     private BigDecimal discountedPrice; // 할인가
     private boolean packagingAvailableStatus; // 포장 가능 여부
+    private boolean deletedStatus; // 삭제 여부
 }
