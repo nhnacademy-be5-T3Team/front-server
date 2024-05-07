@@ -2,12 +2,10 @@ package com.t3t.frontserver.book.model.request;
 
 import com.t3t.frontserver.book.model.dto.ParticipantMapDto;
 import lombok.Data;
-import lombok.ToString;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.constraints.*;
 import java.math.BigDecimal;
-import java.time.LocalDate;
 import java.util.List;
 
 /**
@@ -15,7 +13,7 @@ import java.util.List;
  * @author Yujin-nKim(김유진)
  */
 @Data
-public class BookRegisterRequest {
+public class RegisterBookRequest {
     @NotBlank(message = "도서 제목을 입력해주세요.")
     private String bookTitle; // 도서 제목
 
@@ -58,9 +56,7 @@ public class BookRegisterRequest {
 
     private List<MultipartFile> bookImageList; // 도서 미리보기 이미지
 
-    @NotEmpty(message = "카테고리를 선택해주세요.")
     private List<Integer> categoryList; // 카테고리 id 리스트
 
-    @NotEmpty(message = "태그를 선택해주세요.")
     private List<Long> tagList; // 태그 id 리스트
 }
