@@ -136,7 +136,7 @@
             <hr class="row mb-3">
             <!-- 도서 상세 정보 수정 요청 버튼 -->
             <div class="row mb-3">
-                <label class="col-sm-2 col-form-label">Submit Button</label>
+                <label class="col-sm-2 col-form-label"></label>
                 <div class="col-sm-10">
                     <button type="submit" class="btn btn-primary" id="submitBtn">도서 상세 정보 수정</button>
                 </div>
@@ -159,14 +159,14 @@
         <hr class=" row mb-3 border border-primary border-3 opacity-75">
 
         <!-- 도서 참여자 -->
-        <div class="row mb-3">
-            <label class="col-sm-2 col-form-label">도서 참여자 선택</label>
-            <div class="col-sm-3">
-                <div class="row g-3">
+        <div class="row mb-4">
+            <label class="col-sm-2 col-form-label">수정 전 도서 참여자</label>
+            <div class="col-sm-2">
+                <div class="row g-4">
                     <h5 style="color: darkblue;"><span th:text="${#lists.size(bookDetail.participantList)}"></span>명</h5>
                 </div>
             </div>
-            <div class="col-sm-5">
+            <div class="col-sm-4">
                 <table id="beforeParticipantTable" class="table">
                     <thead class="table-light">
                     <tr>
@@ -183,6 +183,7 @@
                 </table>
             </div>
         </div>
+        <hr class="row mb-3">
         <!-- 도서 참여자 선택 -->
         <div class="row mb-3">
             <label class="col-sm-2 col-form-label">도서 참여자 선택</label>
@@ -221,6 +222,74 @@
         <th:block th:replace="admin/fragment/participantRoleModal :: participantRoleModalFragment"></th:block>
         <hr class=" row mb-3 border border-primary border-3 opacity-75">
 
+        <!-- 도서 썸네일 이미지 선택 -->
+        <div class="row mb-3">
+            <label th:for="inputThumbnailImage" class="col-sm-2 col-form-label">수정 전 썸네일 이미지</label>
+            <div class="col-sm-10">
+                <img th:src="${bookDetail.thumbnailImageUrl}" alt="이미지">
+            </div>
+        </div>
+        <hr class="row mb-3">
+        <div class="row mb-3">
+            <label th:for="inputThumbnailImage" class="col-sm-2 col-form-label">도서 썸네일 이미지</label>
+            <div class="col-sm-10">
+                <input id="inputThumbnailImage" class="form-control" type="file" required>
+                <button type="button" class="btn btn-primary" style="margin-top: 20px; margin-bottom: 20px;" id="modifyThumbnailBtn">썸네일 변경 요청</button>
+            </div>
+        </div>
+        <hr class=" row mb-3 border border-primary border-3 opacity-75">
+
+        <!-- 도서 미리보기 이미지 선택 -->
+        <div class="row mb-3">
+            <label th:for="inputThumbnailImage" class="col-sm-2 col-form-label">수정 전 미리보기 이미지</label>
+            <div class="col-sm-10">
+                <th:block th:each="image : ${bookDetail.bookImageUrlList}">
+                    <img th:src="${image}" alt="이미지">
+                </th:block>
+            </div>
+        </div>
+        <hr class="row mb-3">
+        <div class="row mb-3">
+            <label th:for="inputBookImage" class="col-sm-2 col-form-label">도서 미리보기 이미지</label>
+            <div class="col-sm-10">
+                <input class="form-control" type="file" multiple>
+                <button type="button" class="btn btn-primary" style="margin-top: 20px; margin-bottom: 20px;" id="modifyImageBtn">이미지 변경 요청</button>
+            </div>
+        </div>
+        <hr class=" row mb-3 border border-primary border-3 opacity-75">
+
+        <!-- 카테고리 선택 -->
+        <div class="row mb-3">
+            <label class="col-sm-2 col-form-label">카테고리 선택</label>
+            <div class="col-sm-10">
+                <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#categoryModal" id="openCategoryModal" style="margin-bottom: 20px">카테고리 선택</button>
+                <div id="selectedCategory" class="list-group">
+                    <th:block th:each="category : ${bookDetail.categoryList}">
+                        <li class="selected-value-category list-group-item" th:value="${category.id}" th:text="${category.id + ' | ' + category.name}"></li>
+                    </th:block>
+                </div>
+                <button type="button" class="btn btn-primary" style="margin-top: 20px; margin-bottom: 20px;" id="modifyCategoryBtn" >카테고리 변경 요청</button>
+            </div>
+        </div>
+        <!-- 카테고리 선택을 위한 모달 -->
+        <th:block th:replace="admin/fragment/categoryModal :: categoryModalFragment"></th:block>
+        <hr class=" row mb-3 border border-primary border-3 opacity-75">
+
+        <!-- 태그 선택 -->
+        <div class="row mb-3">
+            <label class="col-sm-2 col-form-label">태그 선택</label>
+            <div class="col-sm-10">
+                <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#tagModal" id="openTagModal" style="margin-bottom: 20px">태그 선택</button>
+                <div id="selectedTag" class="list-group">
+                    <th:block th:each="tag : ${bookDetail.tagList}">
+                        <li class="selected-value-tag list-group-item" th:value="${tag.id}" th:text="${tag.id + ' | ' + tag.name}"></li>
+                    </th:block>
+                </div>
+                <button type="button" class="btn btn-primary" style="margin-top: 20px; margin-bottom: 20px;" id="modifyTagBtn" >태그 변경 요청</button>
+            </div>
+        </div>
+        <!-- 태그 선택을 위한 모달 -->
+        <th:block th:replace="admin/fragment/tagModal :: tagModalFragment"></th:block>
     </div>
     <input type="hidden" id="bookId" th:value="${bookDetail.id}">
     <link id="appKey" th:data-contextPath="${@environment.getProperty('t3t.feignClient.url')}"/><!-- TOAST UI Editor CDN URL(JS) -->

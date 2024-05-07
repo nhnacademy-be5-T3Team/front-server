@@ -5,7 +5,7 @@
 var indexViewer = new toastui.Editor.factory({
     el: document.querySelector('#indexViewer'),
     viewer: true,
-    initialValue: document.querySelector('#indexViewer').getAttribute('value')
+    initialValue: document.querySelector('#indexViewer').getAttribute('value'),
 });
 
 var descViewer = new toastui.Editor.factory({
@@ -13,6 +13,11 @@ var descViewer = new toastui.Editor.factory({
     viewer: true,
     initialValue: document.querySelector('#descViewer').getAttribute('value')
 });
+// viewer 글자 크기 설정
+var indexViewerElement = document.querySelector('#indexViewer .toastui-editor-contents');
+indexViewerElement.style.fontSize = '20px';
+var descViewerElement = document.querySelector('#descViewer .toastui-editor-contents');
+descViewerElement.style.fontSize = '20px';
 
 document.addEventListener("DOMContentLoaded", function() {
     var bookModifyForm = document.getElementsByName('BookDetailModifyForm')[0];
