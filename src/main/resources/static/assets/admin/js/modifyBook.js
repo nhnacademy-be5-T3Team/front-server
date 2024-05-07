@@ -1,3 +1,19 @@
+
+/*
+ * TOAST UI Viewer 생성 JavaScript 코드
+ */
+var indexViewer = new toastui.Editor.factory({
+    el: document.querySelector('#indexViewer'),
+    viewer: true,
+    initialValue: document.querySelector('#indexViewer').getAttribute('value')
+});
+
+var descViewer = new toastui.Editor.factory({
+    el: document.querySelector('#descViewer'),
+    viewer: true,
+    initialValue: document.querySelector('#descViewer').getAttribute('value')
+});
+
 document.addEventListener("DOMContentLoaded", function() {
     var bookModifyForm = document.getElementsByName('BookDetailModifyForm')[0];
 
@@ -171,7 +187,7 @@ document.getElementById('modifyPublisherBtn').addEventListener('click', function
     } else {
         var publisherId = document.getElementById('selected-value-publisher').value;
         var bookId = document.getElementById('bookId').value;
-        sendPublisherRequest(bookId, publisherId);
+        sendPublisherUpdateRequest(bookId, publisherId);
     }
 });
 
@@ -235,4 +251,61 @@ function isParticipantMapValid(count, participantList, participantRoleList) {
         participantMapList.push(participantMapDto);
     }
     return participantMapList;
+}
+
+/**
+ * '카테고리 변경 요청' 버튼 클릭시 실행되는 이벤트 핸들러
+ * @author Yujin-nKim(김유진)
+ */
+document.getElementById('modifyCategoryBtn').addEventListener('click', function() {
+    var categoryList = document.querySelectorAll('.selected-value-category');
+    var bookId = document.getElementById('bookId').value;
+    var categoryListRequest = isCategoryValid(categoryList);
+    updateBookCategoryRequest(bookId, categoryListRequest);
+
+});
+
+function isCategoryValid(categoryList) {
+    if (categoryList.length == 0 ) {
+        alert("카테고리를 선택해주세요.");
+        return;
+    }
+
+    var newCategoryList = [];
+    for(var i = 0; i < categoryList.length; i++) {
+        var categoryValue = categoryList[i].value;
+
+        newCategoryList.push(categoryValue);
+    }
+
+    return newCategoryList;
+}
+
+
+/**
+ * '태그 변경 요청' 버튼 클릭시 실행되는 이벤트 핸들러
+ * @author Yujin-nKim(김유진)
+ */
+document.getElementById('modifyTagBtn').addEventListener('click', function() {
+    var tagList = document.querySelectorAll('.selected-value-tag');
+    var bookId = document.getElementById('bookId').value;
+    var tagListRequest = isTagValid(tagList);
+    updateBookTagRequest(bookId, tagListRequest);
+
+});
+
+function isTagValid(tagList) {
+    if (tagList.length == 0 ) {
+        alert("태그를 선택해주세요.");
+        return;
+    }
+
+    var newTagList = [];
+    for(var i = 0; i < tagList.length; i++) {
+        var tagValue = tagList[i].value;
+
+        newTagList.push(tagValue);
+    }
+
+    return newTagList;
 }
