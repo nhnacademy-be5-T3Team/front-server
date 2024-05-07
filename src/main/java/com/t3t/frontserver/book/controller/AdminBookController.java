@@ -2,7 +2,7 @@ package com.t3t.frontserver.book.controller;
 
 import com.t3t.frontserver.book.client.BookApiClient;
 import com.t3t.frontserver.book.client.BookFormApiClient;
-import com.t3t.frontserver.book.model.request.BookRegisterRequest;
+import com.t3t.frontserver.book.model.request.RegisterBookRequest;
 import com.t3t.frontserver.book.model.request.ModifyBookDetailRequest;
 import com.t3t.frontserver.book.model.response.BookDetailResponse;
 import com.t3t.frontserver.book.model.response.BookListResponse;
@@ -37,7 +37,7 @@ public class AdminBookController {
      */
     @GetMapping("/new")
     public String getRegisterBookAdminPage(Model model) {
-        model.addAttribute("bookRegisterRequest", new BookRegisterRequest());
+        model.addAttribute("bookRegisterRequest", new RegisterBookRequest());
         return "admin/page/registerBook";
     }
 
@@ -105,18 +105,16 @@ public class AdminBookController {
      * @author Yujin-nKim(김유진)
      */
     @PostMapping
-    public String createBook(@ModelAttribute(value = "bookRegisterRequest") BookRegisterRequest request, RedirectAttributes redirectAttributes) {
+    public String createBook(@ModelAttribute(value = "bookRegisterRequest") RegisterBookRequest request, RedirectAttributes redirectAttributes) {
 
         log.info("도서 등록 요청 = {}", request.toString());
 
         try {
             ResponseEntity<BaseResponse<Long>> response = bookFormApiClient.createBook(request);
-
-            Long bookId = response.getBody().getData();
+            Long bookId = Objects.requireNonNull(response.getBody()).getData();
             String message = response.getBody().getMessage();
             redirectAttributes.addFlashAttribute("successMessage", message + "\n저장된 도서 Id : " + bookId);
             return "redirect:/admin/books/new";
-
         } catch (FeignException e) {
             log.error(e.getMessage());
             redirectAttributes.addFlashAttribute("bookRegisterRequest", request);

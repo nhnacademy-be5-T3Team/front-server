@@ -12,12 +12,12 @@
 
     <div class="card">
         <script th:inline="javascript">
-            /* 성공 메시지가 있는 경우 */
+            /* 성공 메시지*/
             var successMessage = /*[[${successMessage}]]*/ null;
             if(successMessage) {
                 alert(successMessage);
             }
-            /* 성공 메시지가 있는 경우 */
+            /* 에러 메시지*/
             var errorMessage = /*[[${errorMessage}]]*/ null;
             if(errorMessage) {
                 alert(errorMessage);
@@ -181,6 +181,7 @@
                     <label class="col-sm-2 col-form-label">카테고리 선택</label>
                     <div class="col-sm-10">
                         <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#categoryModal" id="openCategoryModal">카테고리 선택</button>
+                        <button type="button" class="btn btn-secondary" id="clearSelectedCategory">선택 카테고리 지우기</button>
                         <div id="selectedCategory" class="list-group">
                         </div>
                     </div>
@@ -193,6 +194,7 @@
                     <label class="col-sm-2 col-form-label">태그 선택</label>
                     <div class="col-sm-10">
                         <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#tagModal" id="openTagModal">태그 선택</button>
+                        <button type="button" class="btn btn-secondary" id="clearSelectedTag">선택 태그 지우기</button>
                         <div id="selectedTag" class="list-group">
                         </div>
                     </div>
