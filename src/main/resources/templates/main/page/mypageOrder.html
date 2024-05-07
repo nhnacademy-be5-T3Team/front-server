@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="main/layout/mypageLayout">
+
+<th:block layout:fragment="content">
+    <div class="container mt-5">
+        <h1>주문 목록</h1>
+        <div class="row mt-5">
+            <div class="col-md-4">
+                <h5><i>주문번호: 111-1250912120</i></h5>
+            </div>
+            <div class="col-md-4 text-right">
+                <a href="#">주문 상세 조회 ></a>
+            </div>
+            <div class="card mb-3 col-md-8">
+                <div class="row no-gutters">
+                    <div class="col-md-4">
+                        <img class="square-img"
+                             src="#"
+                             alt="상품 이미지">
+                    </div>
+                    <div class="col-md-8">
+                        <div class="card-body d-flex flex-column">
+                            <h5 class="card-title">배송 중 <small> (배송 예정일: 2024-05-01) </small></h5>
+                            <p class="card-text">상품명: 상품 A</p>
+                            <p class="card-text">상품 가격: 10,000원</p>
+                            <div class="ml-auto mt-5">
+                                <button class="btn btn-outline-danger">주문 취소</button>
+                                <button class="btn btn-outline-dark">환불하기</button>
+                                <button class="btn btn-outline-dark">리뷰 작성하기</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row mt-5">
+            <div class="col-md-4">
+                <h5><i>주문번호: 111-1250912120</i></h5>
+            </div>
+            <div class="col-md-4 text-right">
+                <a href="#">주문 상세 조회 ></a>
+            </div>
+
+            <div class="card mb-3 col-md-8">
+                <div class="row no-gutters">
+                    <div class="col-md-4">
+                        <img class="square-img"
+                             src="#"
+                             alt="상품 이미지">
+                    </div>
+                    <div class="col-md-8">
+                        <div class="card-body d-flex flex-column">
+                            <h5 class="card-title">배송 중 <small> (배송 예정일: 2024-05-01) </small></h5>
+                            <p class="card-text">상품명: 상품 A</p>
+                            <p class="card-text">상품 가격: 10,000원</p>
+                            <div class="ml-auto mt-5">
+                                <button class="btn btn-outline-danger">주문 취소</button>
+                                <button class="btn btn-outline-dark">환불하기</button>
+                                <button class="btn btn-outline-dark">리뷰 작성하기</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</th:block>
+</html>

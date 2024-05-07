@@ -32,51 +32,51 @@
                     </div>
                 </div>
                 <div class="search_results">
-                    <div th:unless="${bookList}">
-                        <h2>검색 결과가 없습니다..</h2>
-                    </div>
-                    <th:block th:if="bookList" th:each="book : ${bookList}">
-                        <div class="col">
-                            <div class="card">
-                                <div class="row g-0">
-                                    <!-- 도서 썸네일 이미지 -->
-                                    <div class="col-md-4 d-flex justify-content-center align-items-center"
-                                         style="padding: 30px;">
-                                        <img th:if="${imgUrl != 'no-image'}" th:src="${book.coverImageUrl}"
-                                             class="img-fluid rounded-start"
-                                             style="width: 200px; max-height: 100%; margin: auto;" alt="...">
-                                        <img th:unless="${imgUrl != 'no-image'}"
-                                             th:src="@{/main/assets/images/no-image.png}" class="img-fluid rounded-start"
-                                             style="width: 200px; max-height: 100%; margin: auto;" alt="...">
-                                    </div>
-                                    <div class="col-md-8">
-                                        <div class="card-body">
-                                            <a th:href="@{'/books/' + ${book.bookId}}">
-                                                <p>도서 제목 : <span th:text="${book.name}"></span></p>
-                                            </a>
-                                            <div class="fs-5 mb-5">
-                                                <th:block th:if="${book.discountRate > 0}">
+                <div th:unless="${bookList}">
+                    <h2>검색 결과가 없습니다..</h2>
+                </div>
+                <th:block th:if="bookList" th:each="book : ${bookList}">
+                    <div class="col">
+                        <div class="card">
+                            <div class="row g-0">
+                                <!-- 도서 썸네일 이미지 -->
+                                <div class="col-md-4 d-flex justify-content-center align-items-center"
+                                     style="padding: 30px;">
+                                    <img th:if="${imgUrl != 'no-image'}" th:src="${book.coverImageUrl}"
+                                         class="img-fluid rounded-start"
+                                         style="width: 200px; max-height: 100%; margin: auto;" alt="...">
+                                    <img th:unless="${imgUrl != 'no-image'}"
+                                         th:src="@{/main/assets/images/no-image.png}" class="img-fluid rounded-start"
+                                         style="width: 200px; max-height: 100%; margin: auto;" alt="...">
+                                </div>
+                                <div class="col-md-8">
+                                    <div class="card-body">
+                                        <a th:href="@{'/books/' + ${book.bookId}}">
+                                            <p>도서 제목 : <span th:text="${book.name}"></span></p>
+                                        </a>
+                                        <div class="fs-5 mb-5">
+                                            <th:block th:if="${book.discountRate > 0}">
                                                 <span class="text-decoration-line-through"
                                                       th:text="${#numbers.formatInteger(book.price, 0, 'COMMA')}">$45</span>
-                                                    <span style="font-size: smaller; color: blue;"><span
-                                                            th:text="${book.discountRate}"></span>% OFF</span>
-                                                    <span th:text="${#numbers.formatInteger(book.discountedPrice, 0, 'COMMA')}">$40.00</span>
-                                                </th:block>
-                                                <th:block th:unless="${book.discountRate > 0}">
-                                                    <span th:text="${#numbers.formatInteger(book.price, 0, 'COMMA')}">$40.00</span>
-                                                </th:block>
-                                            </div>
-                                            <p>출판 일시 : <span
-                                                    th:text="${#temporals.format(book.published, 'yyyy-MM-dd')}"></span></p>
-                                            <p>출판사 : <span th:text="${book.publisher}"></span></p>
-                                            <p>평균 평점 : <span th:text="${book.averageScore}"></span></p>
-                                            <p>좋아요 수 : <span th:text="${book.likeCount}"></span></p>
+                                                <span style="font-size: smaller; color: blue;"><span
+                                                        th:text="${book.discountRate}"></span>% OFF</span>
+                                                <span th:text="${#numbers.formatInteger(book.discountedPrice, 0, 'COMMA')}">$40.00</span>
+                                            </th:block>
+                                            <th:block th:unless="${book.discountRate > 0}">
+                                                <span th:text="${#numbers.formatInteger(book.price, 0, 'COMMA')}">$40.00</span>
+                                            </th:block>
                                         </div>
+                                        <p>출판 일시 : <span
+                                                th:text="${#temporals.format(book.published, 'yyyy-MM-dd')}"></span></p>
+                                        <p>출판사 : <span th:text="${book.publisher}"></span></p>
+                                        <p>평균 평점 : <span th:text="${book.averageScore}"></span></p>
+                                        <p>좋아요 수 : <span th:text="${book.likeCount}"></span></p>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </th:block>
+                    </div>
+                </th:block>
                 </div>
 
                 <!-- 페이지네이션 바 -->
@@ -84,7 +84,7 @@
                     <ul class="pagination">
                         <li class="page-item" th:classappend="${nowPage == 1} ? 'disabled'">
                             <a class="page-link"
-                               th:href="@{'/search'(query=${query},searchType=${searchType},sortBy=${sortBy}, pageNo = ${nowPage - 2}) }"
+                               th:href="@{|/search?query=${query}&searchType=${searchType}&sortBy=${sortBy}&pageNo=${nowPage - 2}${(categoryId != null) ? ('&categoryId=' + categoryId) : ''}|}"
                                aria-label="Previous">
                                 <span aria-hidden="true">&laquo;</span>
                             </a>
@@ -92,14 +92,14 @@
                         <th:block th:each="page : ${#numbers.sequence(startPage, endPage)}">
                             <li class="page-item" th:classappend="${page == nowPage} ? 'active'">
                                 <a class="page-link"
-                                   th:href="@{'/search'(query=${query}, searchType=${searchType},sortBy=${sortBy}, pageNo = ${page - 1})}"
-                                   th:text="${page}"></a>
+                                th:href="@{|/search?query=${query}&searchType=${searchType}&sortBy=${sortBy}&pageNo=${page - 1}${(categoryId != null) ? ('&categoryId=' + categoryId) : ''}|}"
+                                th:text="${page}"></a>
                             </li>
                         </th:block>
                         <li class="page-item" th:classappend="${nowPage == endPage} ? 'disabled'">
                             <a class="page-link"
-                               th:href="@{'/search'(query=${query}, searchType=${searchType},sortBy=${sortBy}, pageNo = ${nowPage})}"
-                               aria-label="Next">
+                            th:href="@{|/search?query=${query}&searchType=${searchType}&sortBy=${sortBy}&pageNo=${pageNo}${(categoryId != null) ? ('&categoryId=' + categoryId) : ''}|}"
+                            aria-label="Next">
                                 <span aria-hidden="true">&raquo;</span>
                             </a>
                         </li>

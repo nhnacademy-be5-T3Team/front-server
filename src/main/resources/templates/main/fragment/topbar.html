@@ -16,7 +16,7 @@
                     <a class="cart_link" href="#">
                         <i class="bi bi-cart-fill" aria-hidden="true"></i>
                     </a>
-                    <a class="user_link" href="#">
+                    <a class="user_link" sec:authorize="isAuthenticated()" href="/mypage/info">
                         <i class="fa fa-user" aria-hidden="true"></i>
                     </a>
                 </div>
@@ -27,6 +27,13 @@
                     <a href="/member/register" class="order_online">
                         Sign Up
                     </a>
+                </div>
+                <div sec:authorize="hasRole('ADMIN')" style="margin-right: 10px; margin-left: 10px">
+                    <form action="/admin" method="get">
+                        <button type="submit" class="order_online">
+                            Admin-Page
+                        </button>
+                    </form>
                 </div>
                 <div sec:authorize="isAuthenticated()">
                     <form action="/logout" method="post">

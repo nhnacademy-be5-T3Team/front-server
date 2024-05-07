@@ -1,6 +1,8 @@
 package com.t3t.frontserver.config;
 
+import com.t3t.frontserver.auth.decoder.CustomErrorDecoder;
 import feign.RequestInterceptor;
+import feign.codec.ErrorDecoder;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -31,5 +33,9 @@ public class FeignClientConfig {
                 }
             }
         };
+    }
+    @Bean
+    public ErrorDecoder errorDecoder(){
+        return new CustomErrorDecoder();
     }
 }

@@ -54,7 +54,7 @@ public class SecurityConfig {
                 .httpBasic().disable()
                 .authorizeRequests((auth) -> auth
                         .antMatchers("/admin/**").hasRole("ADMIN")
-                        .antMatchers("/myPage/**").authenticated()
+                        .antMatchers("/mypage/**").authenticated()
                         .antMatchers("/logout").authenticated()
                         .antMatchers("/**").permitAll())
                 .addFilterAt(new GlobalTokenFilter(), SessionManagementFilter.class)
@@ -74,7 +74,7 @@ public class SecurityConfig {
                             // 관리자 권한이 없습니다. 메시지 추가
                             response.sendRedirect("/");
                         }
-                        if (request.getRequestURI().startsWith("/myPage")){
+                        if (request.getRequestURI().startsWith("/mypage")){
                             response.sendRedirect("/login");
                         }
                     }
