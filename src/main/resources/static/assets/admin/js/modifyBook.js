@@ -219,6 +219,44 @@ document.getElementById('modifyParticipantBtn').addEventListener('click', functi
 });
 
 /**
+ * '썸네일 이미지 변경 요청' 버튼 클릭시 실행되는 이벤트 핸들러
+ * @author Yujin-nKim(김유진)
+ */
+document.getElementById('modifyThumbnailBtn').addEventListener('click', function() {
+    var thumbnailImageInput = document.getElementById('inputThumbnailImage');
+    var thumbnailImage = thumbnailImageInput.files[0];
+    if (!thumbnailImage) {
+        alert("썸네일 이미지를 선택해주세요.");
+        return;
+    } else {
+        var bookId = document.getElementById('bookId').value;
+        var formData = new FormData();
+        formData.append('image', thumbnailImage);
+        sendThumbnailUpdateRequest(bookId, formData);
+    }
+});
+
+/**
+ * '도서 이미지 변경 요청' 버튼 클릭시 실행되는 이벤트 핸들러
+ * @author Yujin-nKim(김유진)
+ */
+document.getElementById('modifyImageBtn').addEventListener('click', function() {
+    var bookImageInput = document.getElementById('inputBookImage');
+    var bookImage = bookImageInput.files;
+    if (bookImage.length == 0) {
+        alert("도서 이미지를 선택해주세요.");
+        return;
+    } else {
+        var bookId = document.getElementById('bookId').value;
+        var formData = new FormData();
+        for (var i = 0; i < bookImage.length; i++) {
+            formData.append('imageList', bookImage[i]);
+        }
+        sendBookImageUpdateRequest(bookId, formData);
+    }
+});
+
+/**
  * 도서 참여자와 역할 매핑 입력값의 유효성을 검사하고, 유효한 경우 맵핑 리스트 생성
  * @param {number} count 도서 참여자 수
  * @param {NodeListOf<Element>} participantList 도서 참여자 목록

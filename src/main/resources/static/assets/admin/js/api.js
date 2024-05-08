@@ -209,31 +209,37 @@ function sendParticipantUpdateRequest(bookId, participantList) {
     });
 }
 
-// /**
-//  * 도서 썸네일 변경 요청을 보내는 함수
-//  * @param {number} bookId - 도서의 ID
-//  * @param {FormData} data - 변경할 도서 썸네일
-//  * @author Yujin-nKim(김유진)
-//  */
-// function sendThumbnailUpdateRequest(bookId, data) {
-//     $.ajax({
-//         url: `http://localhost:8081/books/${bookId}/book-thumbnail`,
-//         // url: APP_KEY + '/t3t/bookstore/books/${bookId}/book-thumbnail',
-//         type: 'PUT',
-//         data: data,
-//         success: function(response, textStatus, xhr) {
-//             if (xhr.status === 200) {
-//                 // 성공적인 응답인 경우
-//                 alert(response.message);
-//             }
-//         },
-//         error: function(xhr, status, error) {
-//             // 그 외의 에러 처리
-//             console.error('Error:', error);
-//             alert("도서 썸네일 수정에 실패했습니다.");
-//         }
-//     });
-// }
+/**
+ * 도서 썸네일 변경 요청을 보내는 함수
+ * @param {number} bookId - 도서의 ID
+ * @param {FormData} data - 변경할 도서 썸네일
+ * @author Yujin-nKim(김유진)
+ */
+function sendThumbnailUpdateRequest(bookId, formData) {
+    $.ajax({
+        url: `/admin/books/${bookId}/book-thumbnail`,
+        type: 'PUT',
+        data: formData,
+        processData: false,
+        contentType: false
+    });
+}
+
+/**
+ * 도서 미리보기 이미지 변경 요청을 보내는 함수
+ * @param {number} bookId - 도서의 ID
+ * @param {FormData} data - 변경할 도서 이미지
+ * @author Yujin-nKim(김유진)
+ */
+function sendBookImageUpdateRequest(bookId, formData) {
+    $.ajax({
+        url: `/admin/books/${bookId}/book-image`,
+        type: 'PUT',
+        data: formData,
+        processData: false,
+        contentType: false
+    });
+}
 
 function updateBookCategoryRequest(bookId, categoryList) {
     $.ajax({

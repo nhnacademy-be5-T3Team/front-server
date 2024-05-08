@@ -231,7 +231,7 @@
         <div class="row mb-3">
             <label th:for="inputThumbnailImage" class="col-sm-2 col-form-label">수정 전 썸네일 이미지</label>
             <div class="col-sm-10">
-                <img th:src="${bookDetail.thumbnailImageUrl}" alt="이미지">
+                <img th:src="${bookDetail.thumbnailImageUrl}" alt="이미지"  width="100" height="auto">
             </div>
         </div>
         <hr class="row mb-3">
@@ -249,7 +249,7 @@
             <label th:for="inputThumbnailImage" class="col-sm-2 col-form-label">수정 전 미리보기 이미지</label>
             <div class="col-sm-10">
                 <th:block th:each="image : ${bookDetail.bookImageUrlList}">
-                    <img th:src="${image}" alt="이미지">
+                    <img th:src="${image}" alt="이미지"  width="100" height="auto">
                 </th:block>
             </div>
         </div>
@@ -257,7 +257,7 @@
         <div class="row mb-3">
             <label th:for="inputBookImage" class="col-sm-2 col-form-label">도서 미리보기 이미지</label>
             <div class="col-sm-10">
-                <input class="form-control" type="file" multiple>
+                <input id="inputBookImage" class="form-control" type="file" multiple>
                 <button type="button" class="btn btn-primary" style="margin-top: 20px; margin-bottom: 20px;" id="modifyImageBtn">이미지 변경 요청</button>
             </div>
         </div>
@@ -286,13 +286,13 @@
             <label class="col-sm-2 col-form-label">태그 선택</label>
             <div class="col-sm-10">
                 <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#tagModal" id="openTagModal" style="margin-bottom: 20px">태그 선택</button>
-                <button type="button" class="btn btn-secondary" id="clearSelectedTag">선택 태그 지우기</button>
                 <div id="selectedTag" class="list-group">
                     <th:block th:each="tag : ${bookDetail.tagList}">
                         <li class="selected-value-tag list-group-item" th:value="${tag.id}" th:text="${tag.id + ' | ' + tag.name}"></li>
                     </th:block>
                 </div>
                 <button type="button" class="btn btn-primary" style="margin-top: 20px; margin-bottom: 20px;" id="modifyTagBtn" >태그 변경 요청</button>
+                <button type="button" class="btn btn-secondary" id="clearSelectedTag">선택 태그 지우기</button>
             </div>
         </div>
         <!-- 태그 선택을 위한 모달 -->
