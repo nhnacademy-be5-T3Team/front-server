@@ -6,8 +6,10 @@ import com.t3t.frontserver.model.response.BaseResponse;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.util.List;
 
 /**
  * Feign을 사용하여 멀티파트 폼 데이터를 전송하는 BookFormApiClient 인터페이스
@@ -27,4 +29,27 @@ public interface BookFormApiClient {
      */
     @PostMapping(value = "/t3t/bookstore/books", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     ResponseEntity<BaseResponse<Long>> createBook(@ModelAttribute RegisterBookRequest request);
+
+    /**
+     * 특정 도서의 썸네일을 수정
+     * @param bookId  수정할 도서의 식별자
+     * @param image   수정할 썸네일 이미지
+     * @return 200 OK, 성공 메세지
+     * @author Yujin-nKim(김유진)
+     */
+    @PutMapping(value = "/t3t/bookstore/books/{bookId}/book-thumbnail", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    ResponseEntity<BaseResponse<Void>> updateBookThumbnail(@PathVariable Long bookId,
+                                                           @ModelAttribute MultipartFile image);
+
+    /**
+     * 특정 도서의 이미지를 수정
+     * @param bookId     수정할 도서의 식별자
+     * @param imageList  수정할 이미지 리스트
+     * @return 200 OK, 성공 메세지
+     * @author Yujin-nKim(김유진)
+     */
+    @PutMapping("/t3t/bookstore/books/{bookId}/book-image")
+    ResponseEntity<BaseResponse<Void>> updateBookImage(@PathVariable Long bookId,
+                                                       @ModelAttribute List<MultipartFile> imageList);
+
 }

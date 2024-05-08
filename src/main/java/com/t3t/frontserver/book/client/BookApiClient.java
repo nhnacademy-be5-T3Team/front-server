@@ -73,7 +73,7 @@ public interface BookApiClient {
      * @return 200 OK, 성공 메세지
      * @author Yujin-nKim(김유진)
      */
-    @PutMapping("/books/{bookId}/tag")
+    @PutMapping("/t3t/bookstore/books/{bookId}/tag")
     ResponseEntity<BaseResponse<Void>> updateBookTag(@PathVariable Long bookId,
                                                      @RequestBody @Valid List<Long> tagList);
 
@@ -84,7 +84,7 @@ public interface BookApiClient {
      * @return 200 OK, 성공 메세지
      * @author Yujin-nKim(김유진)
      */
-    @PutMapping("/books/{bookId}/category")
+    @PutMapping("/t3t/bookstore/books/{bookId}/category")
     ResponseEntity<BaseResponse<Void>> updateBookCategory(@PathVariable Long bookId,
                                                           @RequestBody @Valid List<Integer> categoryList);
 
