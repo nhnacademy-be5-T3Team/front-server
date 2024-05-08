@@ -1,12 +1,13 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-    <th:block th:fragment="searchbarFragment">
-        <div class="container mt-5">
-            <div class="row d-flex justify-content-center">
-                <div class="col-md-10">
-                    <div class="card p-3  py-4">
-                        <h5>찾고 싶으신 도서가 있으신가요?</h5>
-                        <form th:action="@{/search}" method="get">
+<th:block th:fragment="searchbarFragment">
+    <div class="container mt-5">
+        <div class="row d-flex justify-content-center">
+            <div class="col-md-10">
+                <div class="card p-3  py-4">
+                    <h5>찾고 싶으신 도서가 있으신가요?</h5>
+                    <form th:action="@{${categoryId != null} ? '/category/' + ${categoryId} + '/search' : '/search'}" method="get">
+
                         <div class="row g-3 mt-2">
                             <div class="col-md-3">
                                 <div class="dropdown">
@@ -16,18 +17,18 @@
                                     <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                         <li>
                                             <a class="dropdown-item" href="#" onclick="setSearchType('all')">
-                                            통합검색</a>
+                                                통합검색</a>
                                         </li>
                                         <li>
                                             <a class="dropdown-item" href="#" onclick="setSearchType('book_name')">
-                                            책이름</a></li>
+                                                책이름</a></li>
                                         <li>
                                             <a class="dropdown-item" href="#" onclick="setSearchType('publisher_name')">
-                                            출판사</a>
+                                                출판사</a>
                                         </li>
                                         <li>
                                             <a class="dropdown-item" href="#" onclick="setSearchType('participant_name')">
-                                            참여자</a>
+                                                참여자</a>
                                         </li>
                                     </ul>
                                 </div>
@@ -39,53 +40,53 @@
                                 <button class="btn btn-secondary btn-block">검색하기</button>
                             </div>
                         </div>
-                            <input type="hidden" id="searchTypeInput" name="searchType" value="all" />
-                            <input type="hidden" id="categoryIdInput" name="categoryId" value="" />
-                        </form>
-                    </div>
+                        <input type="hidden" id="searchTypeInput" name="searchType" value="all" />
+                        <input type="hidden" id="categoryIdInput" name="categoryId" value="" />
+                    </form>
                 </div>
             </div>
         </div>
-        <script>
-            document.addEventListener('DOMContentLoaded', function() {
-                updateSearchTypeDisplay();
-                updateSearchQueryDisplay();
-                updateCategoryIdFromURL(); // 이 함수를 호출하여 categoryId를 설정
-            });
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            updateSearchTypeDisplay();
+            updateSearchQueryDisplay();
+            updateCategoryIdFromURL(); // 이 함수를 호출하여 categoryId를 설정
+        });
 
-            function updateCategoryIdFromURL() {
-                const path = window.location.pathname;
-                const categoryPattern = /\/category\/(\d+)/; // '/category/' 다음에 오는 숫자를 찾는 정규 표현식
-                const match = path.match(categoryPattern);
+        function updateCategoryIdFromURL() {
+            const path = window.location.pathname;
+            const categoryPattern = /\/category\/(\d+)/; // '/category/' 다음에 오는 숫자를 찾는 정규 표현식
+            const match = path.match(categoryPattern);
 
-                if (match && match[1]) {
-                    document.getElementById('categoryIdInput').value = match[1];
-                } else {
-                    document.getElementById('categoryIdInput').parentNode.removeChild(document.getElementById('categoryIdInput'));
-                }
+            if (match && match[1]) {
+                document.getElementById('categoryIdInput').value = match[1];
+            } else {
+                document.getElementById('categoryIdInput').parentNode.removeChild(document.getElementById('categoryIdInput'));
             }
-            function setSearchType(type) {
-                var typeNames = {
-                    'all': '통합검색',
-                    'book_name': '책 이름',
-                    'publisher_name': '출판사',
-                    'participant_name': '참여자'
-                };
-                document.getElementById('searchTypeInput').value = type;
-                document.getElementById('dropdownMenuButton').textContent = typeNames[type];
+        }
+        function setSearchType(type) {
+            var typeNames = {
+                'all': '통합검색',
+                'book_name': '책 이름',
+                'publisher_name': '출판사',
+                'participant_name': '참여자'
+            };
+            document.getElementById('searchTypeInput').value = type;
+            document.getElementById('dropdownMenuButton').textContent = typeNames[type];
+        }
+        function updateSearchTypeDisplay() {
+            var searchParams = new URLSearchParams(window.location.search);
+            var currentType = searchParams.get('searchType') || 'all';
+            setSearchType(currentType);
+        }
+        function updateSearchQueryDisplay() {
+            var searchParams = new URLSearchParams(window.location.search);
+            var currentQuery = searchParams.get('query');
+            if (currentQuery) {
+                document.getElementById('searchQueryInput').value = currentQuery;
             }
-            function updateSearchTypeDisplay() {
-                var searchParams = new URLSearchParams(window.location.search);
-                var currentType = searchParams.get('searchType') || 'all';
-                setSearchType(currentType);
-            }
-            function updateSearchQueryDisplay() {
-                var searchParams = new URLSearchParams(window.location.search);
-                var currentQuery = searchParams.get('query');
-                if (currentQuery) {
-                    document.getElementById('searchQueryInput').value = currentQuery;
-                }
-            }
-        </script>
-    </th:block>
+        }
+    </script>
+</th:block>
 </html>
