@@ -17,6 +17,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
@@ -217,7 +218,7 @@ public class AdminBookController {
      * @return 200 OK, 성공 메세지
      * @author Yujin-nKim(김유진)
      */
-    @PutMapping("{bookId}/category")
+    @PutMapping("/{bookId}/category")
     public String updateBookCategory(@PathVariable Long bookId,
                                      @RequestBody @Valid List<Integer> categoryList,
                                      RedirectAttributes redirectAttributes) {
@@ -227,6 +228,46 @@ public class AdminBookController {
         } catch (FeignException e) {
             log.error(e.getMessage());
             redirectAttributes.addFlashAttribute("bookDetailModifyError", "도서 카테고리 정보 수정에 실패했습니다.");
+        }
+        return "redirect:/admin/books/"+bookId+"/edit";
+    }
+
+    /**
+     * 특정 도서의 썸네일을 수정
+     * @param bookId  수정할 도서의 식별자
+     * @param image   수정할 썸네일 이미지
+     * @return 200 OK, 성공 메세지
+     * @author Yujin-nKim(김유진)
+     */
+    @PutMapping("/{bookId}/book-thumbnail")
+    public String updateBookThumbnail(@PathVariable Long bookId, @RequestParam MultipartFile image,
+                                      RedirectAttributes redirectAttributes) {
+        try {
+            ResponseEntity<BaseResponse<Void>> response = bookFormApiClient.updateBookThumbnail(bookId, image);
+            redirectAttributes.addFlashAttribute("bookDetailModifySuccess", Objects.requireNonNull(response.getBody()).getMessage());
+        } catch (FeignException e) {
+            log.error(e.getMessage());
+            redirectAttributes.addFlashAttribute("bookDetailModifyError", "도서 썸네일 정보 수정에 실패했습니다.");
+        }
+        return "redirect:/admin/books/"+bookId+"/edit";
+    }
+
+    /**
+     * 특정 도서의 이미지를 수정
+     * @param bookId     수정할 도서의 식별자
+     * @param imageList  수정할 이미지 리스트
+     * @return 200 OK, 성공 메세지
+     * @author Yujin-nKim(김유진)
+     */
+    @PutMapping("/{bookId}/book-image")
+    String updateBookImage(@PathVariable Long bookId, @RequestParam("imageList") List<MultipartFile> imageList,
+                           RedirectAttributes redirectAttributes) {
+        try {
+            ResponseEntity<BaseResponse<Void>> response = bookFormApiClient.updateBookImage(bookId, imageList);
+            redirectAttributes.addFlashAttribute("bookDetailModifySuccess", Objects.requireNonNull(response.getBody()).getMessage());
+        } catch (FeignException e) {
+            log.error(e.getMessage());
+            redirectAttributes.addFlashAttribute("bookDetailModifyError", "도서 이미지 정보 수정에 실패했습니다.");
         }
         return "redirect:/admin/books/"+bookId+"/edit";
     }
