@@ -2,7 +2,6 @@ package com.t3t.frontserver.book.model.request;
 
 import com.t3t.frontserver.book.model.dto.ParticipantMapDto;
 import lombok.Data;
-import lombok.ToString;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.constraints.*;
@@ -14,8 +13,7 @@ import java.util.List;
  * @author Yujin-nKim(김유진)
  */
 @Data
-@ToString
-public class BookRegisterRequest {
+public class RegisterBookRequest {
     @NotBlank(message = "도서 제목을 입력해주세요.")
     private String bookTitle; // 도서 제목
 
@@ -48,7 +46,7 @@ public class BookRegisterRequest {
     private String bookDesc; // 도서 설명
 
     @NotNull(message = "출판사 ID를 입력해주세요.")
-    private Integer publisherId; // 출판사 id
+    private Long publisherId; // 출판사 id
 
     @NotEmpty(message = "도서 참여자를 선택해주세요.")
     private List<ParticipantMapDto> participantMapList; // 도서 참여자 - 참여자 역할 선택 리스트
@@ -58,9 +56,7 @@ public class BookRegisterRequest {
 
     private List<MultipartFile> bookImageList; // 도서 미리보기 이미지
 
-    @NotEmpty(message = "카테고리를 선택해주세요.")
     private List<Integer> categoryList; // 카테고리 id 리스트
 
-    @NotEmpty(message = "태그를 선택해주세요.")
-    private List<Integer> tagList; // 태그 id 리스트
+    private List<Long> tagList; // 태그 id 리스트
 }

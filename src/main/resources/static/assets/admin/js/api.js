@@ -176,3 +176,85 @@ function fetchTagsAndUpdateModal() {
         }
     });
 }
+
+/**
+ * 출판사 변경 요청을 보내는 함수
+ * @param {number} bookId - 도서 ID
+ * @param {number} publisherId - 변경할 출판사 ID
+ * @author Yujin-nKim(김유진)
+ */
+function sendPublisherUpdateRequest(bookId, publisherId) {
+    $.ajax({
+        url: `/admin/books/${bookId}/publisher`,
+        type: 'PUT',
+        data: {
+            publisherId: publisherId
+        }
+    });
+}
+
+/**
+ * 도서 참여자 변경 요청을 보내는 함수
+ * @param {number} bookId - 도서 ID
+ * @param {number} participantList - 변경할 도서 참여자 맵핑 리스트
+ * @author Yujin-nKim(김유진)
+ */
+function sendParticipantUpdateRequest(bookId, participantList) {
+    var jsonData = JSON.stringify(participantList);
+    $.ajax({
+        url: `/admin/books/${bookId}/participant`,
+        type: 'PUT',
+        contentType: 'application/json',
+        data: jsonData
+    });
+}
+
+/**
+ * 도서 썸네일 변경 요청을 보내는 함수
+ * @param {number} bookId - 도서의 ID
+ * @param {FormData} data - 변경할 도서 썸네일
+ * @author Yujin-nKim(김유진)
+ */
+function sendThumbnailUpdateRequest(bookId, formData) {
+    $.ajax({
+        url: `/admin/books/${bookId}/book-thumbnail`,
+        type: 'PUT',
+        data: formData,
+        processData: false,
+        contentType: false
+    });
+}
+
+/**
+ * 도서 미리보기 이미지 변경 요청을 보내는 함수
+ * @param {number} bookId - 도서의 ID
+ * @param {FormData} data - 변경할 도서 이미지
+ * @author Yujin-nKim(김유진)
+ */
+function sendBookImageUpdateRequest(bookId, formData) {
+    $.ajax({
+        url: `/admin/books/${bookId}/book-image`,
+        type: 'PUT',
+        data: formData,
+        processData: false,
+        contentType: false
+    });
+}
+
+function updateBookCategoryRequest(bookId, categoryList) {
+    $.ajax({
+        url: `/admin/books/${bookId}/category`,
+        type: 'PUT',
+        contentType: 'application/json',
+        data: JSON.stringify(categoryList)
+    });
+}
+
+function updateBookTagRequest(bookId, tagList) {
+    $.ajax({
+        url: `/admin/books/${bookId}/tag`,
+        type: 'PUT',
+        contentType: 'application/json',
+        data: JSON.stringify(tagList)
+    });
+}

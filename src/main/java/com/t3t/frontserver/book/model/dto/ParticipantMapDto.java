@@ -10,10 +10,9 @@ import lombok.ToString;
  * @author Yujin-nKim(김유진)
  */
 @Data
-@ToString
 @NoArgsConstructor
 @AllArgsConstructor
 public class ParticipantMapDto {
-    private Integer participantId; // 도서 참여자 id
+    private Long participantId; // 도서 참여자 id
     private Integer participantRoleId; // 도서 참여자 역할 id
 }
