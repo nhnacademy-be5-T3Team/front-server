@@ -11,10 +11,9 @@ public class CustomErrorDecoder implements ErrorDecoder {
         Response.Body responseBody = response.body();
         HttpStatus responseStatus = HttpStatus.valueOf(response.status());
 
-        if(responseStatus.is4xxClientError()){
-            return new RestApiClientException(response);
-        }else{
-            return new Exception(responseBody.toString());
+        if(responseStatus.value()==HttpStatus.UNAUTHORIZED.value()){
+            return new RestApiClientException("Login again");
         }
+        return new Exception(response.reason());
     }
 }
