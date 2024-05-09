@@ -60,9 +60,17 @@ public interface MemberApiClient {
 
     /**
      * 회원 탈퇴 API
+     *
      * @param memberId 탈퇴할 회원 식별자
      * @author woody35545(구건모)
      */
     @DeleteMapping("/t3t/bookstore/members/{memberId}")
     BaseResponse<Void> withdrawMember(@PathVariable("memberId") long memberId);
+
+    /**
+     * 회원 휴면 계정 활성화 인증 코드 발급 및 검증 API
+     * @author wooody35545(구건모)
+     */
+    @PostMapping("/t3t/bookstore/members/{memberId}/codes")
+    BaseResponse<Void> issueMemberActivationCertCode(@RequestParam("type") String type, @PathVariable("memberId") Long memberId);
 }
