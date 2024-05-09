@@ -100,4 +100,12 @@ public class MemberAdaptor {
         }
     }
 
+    /**
+     * 회원 휴면 계정 활성화 코드 발급
+     * @param memberId 대상 회원 식별자
+     * @author woody35545(구건모)
+     */
+    public void issueMemberActivationCode(long memberId){
+        memberApiClient.issueMemberActivationCertCode("issue", memberId);
+    }
 }
