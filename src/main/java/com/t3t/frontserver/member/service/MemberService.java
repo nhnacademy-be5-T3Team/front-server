@@ -13,7 +13,6 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 
-@Slf4j
 @Service
 @RequiredArgsConstructor
 public class MemberService {
@@ -71,5 +70,26 @@ public class MemberService {
      */
     public void withdrawMember(long memberId) {
         memberAdaptor.withdrawMember(memberId);
+    }
+
+    /**
+     * 휴면 회원 활성화 인증 코드 발급
+     *
+     * @param memberId 회원 식별자
+     * @author woody35545(구건모)
+     */
+    public void issueMemberActivationCode(long memberId) {
+        memberAdaptor.issueMemberActivationCode(memberId);
+    }
+
+    /**
+     * 휴면 회원 활성화 인증 코드 검증
+     *
+     * @param memberId       회원 식별자
+     * @param activationCode 활성화 코드
+     * @author woody35545(구건모)
+     */
+    public void verifyMemberActivationCode(long memberId, String activationCode) {
+        memberAdaptor.verifyMemberActivationCode(memberId, activationCode);
     }
 }

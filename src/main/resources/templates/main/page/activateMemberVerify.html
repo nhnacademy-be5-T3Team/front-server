@@ -1,0 +1,65 @@
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="main/layout/layout">
+
+
+<th:block layout:fragment="content">
+    <div class="container mt-3 mb-5">
+        <h1>휴면 계정 안내</h1>
+                <p><span th:text="${memberName}"></span> 회원님의 계정은 3개월 이상 로그인하지 않아서 휴면 처리되었습니다.</p>
+
+        <div class="alert alert-warning" role="alert">
+                        마지막 로그인 일시: <span th:text="${memberLatestLogin}"></span>
+        </div>
+
+        <p>인증 번호가 발송되었습니다. 인증 번호를 입력 후 <b>[휴면 해제하기]</b> 를 눌러 휴면 해제를 완료해주세요.</p>
+
+        <div class="md-5">
+            <form id="verifyActivationCodeForm" action="/member/activation/verify" method="post">
+                <div class="d-flex">
+                    <input type="hidden" name="memberId" th:value="${memberId}">
+                    <input id='activationCode'
+                           type="text"
+                           class="form-control col-md-2"
+                           name="activationCode"
+                           placeholder="인증 번호 입력">
+
+                    <button id='activationCodeVerifyButton'
+                            type="submit"
+                            class="btn btn-outline-primary col-md-2 ml-2">
+                        휴면 해제하기
+                    </button>
+                </div>
+            </form>
+        </div>
+
+    </div>
+
+    <script th:inline="javascript">
+        startTimer();
+
+        function startTimer() {
+            let timeLeft = 300;
+            let timerInterval = setInterval(function () {
+                let minutes = Math.floor(timeLeft / 60);
+                let seconds = timeLeft % 60;
+
+                let formattedTime = padNumber(minutes) + ":" + padNumber(seconds);
+                document.getElementById("activationCode").placeholder = "남은 시간: " + formattedTime;
+
+                timeLeft--;
+
+                if (timeLeft < 0) {
+                    clearInterval(timerInterval);
+                    document.getElementById("activationCode").placeholder = "시간이 초과되었습니다.";
+                }
+            }, 1000);
+        }
+
+        function padNumber(number) {
+            return (number < 10 ? "0" : "") + number;
+        }
+
+    </script>
+</th:block>
+</html>
