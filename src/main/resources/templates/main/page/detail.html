@@ -5,6 +5,12 @@
       layout:decorate="main/layout/layout">
 
 <th:block layout:fragment="content">
+
+    <!-- WYSIWYG(위즈윅) Editor css -->
+    <head>
+        <link rel="stylesheet" href="https://uicdn.toast.com/editor/latest/toastui-editor.min.css"/>
+    </head>
+
     <div class="container-fluid">
         <section class="py-5">
             <div class="container px-4 px-lg-5 my-5">
@@ -71,7 +77,8 @@
                             </div>
                         </div>
                         <!-- 도서 소개 -->
-                        <p class="lead" th:utext="${bookDetailList.desc}">Lorem ipsum dolor sit amet consectetur adipisicing elit. Praesentium at dolorem quidem modi. Nam sequi consequatur obcaecati excepturi alias magni, accusamus eius blanditiis delectus ipsam minima ea iste laborum vero?</p>
+<!--                        <p class="lead" th:utext="${bookDetailList.desc}">Lorem ipsum dolor sit amet consectetur adipisicing elit. Praesentium at dolorem quidem modi. Nam sequi consequatur obcaecati excepturi alias magni, accusamus eius blanditiis delectus ipsam minima ea iste laborum vero?</p>-->
+                        <div id="descViewer" th:value="${bookDetailList.desc}"></div>
                         <!-- 주문 option 선택 -->
                         <div th:if="${bookDetailList.orderAvailableStatus}">
                             <form th:object="${orderFormRequest}" method="post">
@@ -170,7 +177,8 @@
                                 <h2>도서 목차</h2>
                             </div>
                             <div class="col-md-8" style="padding: 30px;">
-                                <p class="lead" th:utext="${bookDetailList.index}"></p>
+<!--                                <p class="lead" th:utext="${bookDetailList.index}"></p>-->
+                                <div id="indexViewer" th:value="${bookDetailList.index}"></div>
                             </div>
                         </div>
                     </div>
@@ -217,5 +225,29 @@
             </div>
         </section>
     </div>
+    <script th:src="@{https://uicdn.toast.com/editor/latest/toastui-editor-all.min.js}"></script>
+    <script>
+        /*
+        * TOAST UI Viewer 생성 JavaScript 코드
+        */
+        var indexViewer = new toastui.Editor.factory({
+            el: document.querySelector('#indexViewer'),
+            viewer: true,
+            initialValue: document.querySelector('#indexViewer').getAttribute('value'),
+        });
+
+        var descViewer = new toastui.Editor.factory({
+            el: document.querySelector('#descViewer'),
+            viewer: true,
+            initialValue: document.querySelector('#descViewer').getAttribute('value')
+        });
+
+        // viewer 글자 크기 설정
+        var indexViewerElement = document.querySelector('#indexViewer .toastui-editor-contents');
+        indexViewerElement.style.fontSize = '20px';
+        var descViewerElement = document.querySelector('#descViewer .toastui-editor-contents');
+        descViewerElement.style.fontSize = '20px';
+
+    </script>
 </th:block>
 </html>
