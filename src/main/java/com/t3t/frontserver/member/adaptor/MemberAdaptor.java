@@ -102,10 +102,30 @@ public class MemberAdaptor {
 
     /**
      * 회원 휴면 계정 활성화 코드 발급
+     *
      * @param memberId 대상 회원 식별자
      * @author woody35545(구건모)
      */
-    public void issueMemberActivationCode(long memberId){
-        memberApiClient.issueMemberActivationCertCode("issue", memberId);
+    public void issueMemberActivationCode(long memberId) {
+        try {
+            memberApiClient.issueMemberActivationCertCode(memberId);
+        } catch (FeignException e) {
+            throw new MemberApiClientException("회원 활성화 코드 발급에 실패하였습니다. " + FeignClientUtils.getMessageFromFeignException(e));
+        }
+    }
+
+    /**
+     * 회원 휴면 계정 활성화 코드 검증
+     *
+     * @param memberId 대상 회원 식별자
+     * @param code     인증 코드
+     * @author woody35545(구건모)
+     */
+    public void verifyMemberActivationCode(long memberId, String code) {
+        try {
+            memberApiClient.verifyMemberActivationCertCode(memberId, code);
+        } catch (FeignException e) {
+            throw new MemberApiClientException("회원 활성화 코드 검증에 실패하였습니다. " + FeignClientUtils.getMessageFromFeignException(e));
+        }
     }
 }
