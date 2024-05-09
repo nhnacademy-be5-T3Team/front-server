@@ -104,4 +104,40 @@ public class MemberController {
 
         return "redirect:/message";
     }
+
+    /**
+     * 휴면 회원 활성화 인증 코드 발급
+     * @author woody35545(구건모)
+     */
+    @PostMapping("/member/activation/issue")
+    public String issueMemberActivationCertCode(@RequestParam("memberId") long memberId,
+                                                @RequestParam("memberLatestLogin") String memberLatestLogin,
+                                                @RequestParam("memberName") String memberName,
+                                                Model model) {
+        memberService.issueMemberActivationCode(memberId);
+
+        model.addAttribute("memberLatestLogin", memberLatestLogin);
+        model.addAttribute("memberId", memberId);
+        model.addAttribute("memberName", memberName);
+
+        return "main/page/activateMemberVerify";
+    }
+
+    /**
+     * 휴면 회원 활성화 인증 코드 검증
+     *
+     * @param memberId 회원 식별자
+     * @param code     인증 코드
+     * @author woody35545(구건모)
+     */
+    @PostMapping("/member/activation/verify")
+    public String verifyMemberActivationCertCode(@RequestParam("memberId") long memberId,
+                                                 @RequestParam("activationCode") String code,
+                                                 RedirectAttributes redirectAttributes) {
+
+        memberService.verifyMemberActivationCode(memberId, code);
+
+        redirectAttributes.addAttribute("message", "회원 활성화가 완료되었습니다. 다시 로그인 해주세요.");
+        return "redirect:/message";
+    }
 }
