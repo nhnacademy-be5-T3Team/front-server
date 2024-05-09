@@ -68,9 +68,10 @@ public interface MemberApiClient {
     BaseResponse<Void> withdrawMember(@PathVariable("memberId") long memberId);
 
     /**
-     * 회원 휴면 계정 활성화 인증 코드 발급 및 검증 API
+     * 회원 휴면 계정 활성화 인증 코드 발급 API
+     *
      * @author wooody35545(구건모)
      */
-    @PostMapping("/t3t/bookstore/members/{memberId}/codes")
-    BaseResponse<Void> issueMemberActivationCertCode(@RequestParam("type") String type, @PathVariable("memberId") Long memberId);
+    @PostMapping("/t3t/bookstore/members/{memberId}/codes?type=issue")
+    BaseResponse<Void> issueMemberActivationCertCode(@PathVariable("memberId") Long memberId);
 }

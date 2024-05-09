@@ -57,6 +57,7 @@ public class LoginController {
             ResponseEntity responseEntity = loginService.login(loginRequestDto);
             String access = responseEntity.getHeaders().getFirst(HttpHeaders.AUTHORIZATION).trim().split(" ")[1];
 
+
             Cookie cookie = new Cookie("t3t", access);
             cookie.setHttpOnly(true);
             cookie.setMaxAge(-1);
