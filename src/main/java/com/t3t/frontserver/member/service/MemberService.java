@@ -72,4 +72,14 @@ public class MemberService {
     public void withdrawMember(long memberId) {
         memberAdaptor.withdrawMember(memberId);
     }
+
+    /**
+     * 휴면 회원 활성화 인증 코드 발급
+     *
+     * @param memberId 회원 식별자
+     * @author woody35545(구건모)
+     */
+    public void issueMemberActivationCode(long memberId) {
+        memberAdaptor.issueMemberActivationCode(memberId);
+    }
 }
