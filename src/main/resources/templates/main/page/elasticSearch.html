@@ -98,7 +98,7 @@
                         </th:block>
                         <li class="page-item" th:classappend="${nowPage == endPage} ? 'disabled'">
                             <a class="page-link"
-                            th:href="@{|/search?query=${query}&searchType=${searchType}&sortBy=${sortBy}&pageNo=${pageNo}${(categoryId != null) ? ('&categoryId=' + categoryId) : ''}|}"
+                            th:href="@{|/search?query=${query}&searchType=${searchType}&sortBy=${sortBy}&pageNo=${nowPage}${(categoryId != null) ? ('&categoryId=' + categoryId) : ''}|}"
                             aria-label="Next">
                                 <span aria-hidden="true">&raquo;</span>
                             </a>

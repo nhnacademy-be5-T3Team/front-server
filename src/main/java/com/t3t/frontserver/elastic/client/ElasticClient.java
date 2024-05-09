@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 @FeignClient(name = "ElasticAdaptor", url = "${t3t.feignClient.url}")
 public interface ElasticClient {
@@ -43,8 +44,12 @@ public interface ElasticClient {
     @GetMapping("/t3t/bookstore/category/{categoryId}/search")
     ResponseEntity<BaseResponse<PageResponse<ElasticResponse>>>
     getCategorySearchPage(@RequestParam String query,
-                  @RequestParam String searchType,
-                  @RequestParam int pageNo,
-                  @PathVariable(value = "categoryId",required = false) BigDecimal categoryId,
-                  @RequestParam(value = "sortBy", defaultValue = "_score", required = false) String sortBy);
+                          @RequestParam String searchType,
+                          @RequestParam int pageNo,
+                          @PathVariable(value = "categoryId",required = false) BigDecimal categoryId,
+                          @RequestParam(value = "sortBy", defaultValue = "_score", required = false) String sortBy);
+    @GetMapping("/t3t/bookstore/autocomplete")
+    ResponseEntity<BaseResponse<List<String>>> autocomplete(@RequestParam String prefix);
 }
+
+
