@@ -74,4 +74,13 @@ public interface MemberApiClient {
      */
     @PostMapping("/t3t/bookstore/members/{memberId}/codes?type=issue")
     BaseResponse<Void> issueMemberActivationCertCode(@PathVariable("memberId") Long memberId);
+
+    /**
+     * 회원 휴면 계정 활성화 인증 코드 검증 API
+     *
+     * @author wooody35545(구건모)
+     */
+    @PostMapping("/t3t/bookstore/members/{memberId}/codes?type=verify")
+    BaseResponse<Void> verifyMemberActivationCertCode(@PathVariable("memberId") Long memberId, @RequestParam("value") String code);
+
 }
