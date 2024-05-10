@@ -1,5 +1,6 @@
 package com.t3t.frontserver.pointdetail.model.response;
 
+import com.t3t.frontserver.pointdetail.model.dto.PointDetailDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -26,4 +27,3 @@ public class PointDetailResponse {
 
     private BigDecimal pointAmount;
 }
-

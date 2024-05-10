@@ -1,8 +1,7 @@
 package com.t3t.frontserver.pointdetail.model.dto;
 
 import com.t3t.frontserver.member.model.dto.MemberDto;
-import lombok.Builder;
-import lombok.Getter;
+import lombok.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -13,6 +12,8 @@ import java.time.LocalDateTime;
  */
 @Getter
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class PointDetailDto {
     private Long pointDetailId;
     private MemberDto member;
