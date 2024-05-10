@@ -12,8 +12,7 @@ const APP_KEY = document.querySelector("#appKey").getAttribute("data-contextPath
  */
 function fetchPublishersAndUpdateModal() {
     $.ajax({
-        // url: 'http://localhost:8081/publishers',
-        url: APP_KEY + '/t3t/bookstore/publishers',
+        url : '/publishers',
         type: 'GET',
         data: {
             pageNo: currentPage,
@@ -47,8 +46,7 @@ function fetchPublishersAndUpdateModal() {
  */
 function fetchParticipantsAndUpdateModal() {
     $.ajax({
-        // url: 'http://localhost:8081/participants',
-        url: APP_KEY + '/t3t/bookstore/participants',
+        url: '/participants',
         type: 'GET',
         data: {
             pageNo: currentPage,
@@ -82,8 +80,7 @@ function fetchParticipantsAndUpdateModal() {
  */
 function fetchParticipantRolesAndUpdateModal() {
     $.ajax({
-        // url: 'http://localhost:8081/participantRoles',
-        url: APP_KEY + '/t3t/bookstore/participantRoles',
+        url: '/participantRoles',
         type: 'GET',
         data: {
             pageNo: currentPage,
@@ -116,8 +113,7 @@ function fetchParticipantRolesAndUpdateModal() {
  */
 function fetchCategoriesAndUpdateModal(startDepth, maxDepth) {
     $.ajax({
-        // url: 'http://localhost:8081/categories',
-        url: APP_KEY + '/t3t/bookstore/categories',
+        url: '/categories',
         type: 'GET',
         data: {
             startDepth: startDepth,
@@ -148,8 +144,7 @@ function fetchCategoriesAndUpdateModal(startDepth, maxDepth) {
  */
 function fetchTagsAndUpdateModal() {
     $.ajax({
-        // url: 'http://localhost:8081/tags',
-        url: APP_KEY + '/t3t/bookstore/tags',
+        url: '/tags',
         type: 'GET',
         data: {
             pageNo: currentPage,
