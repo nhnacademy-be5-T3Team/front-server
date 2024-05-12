@@ -1,5 +1,6 @@
 package com.t3t.frontserver.pointdetail.controller;
 
+import com.t3t.frontserver.auth.util.SecurityContextUtils;
 import com.t3t.frontserver.pointdetail.model.response.PointDetailResponse;
 import com.t3t.frontserver.pointdetail.service.UserPointDetailService;
 import lombok.RequiredArgsConstructor;
@@ -24,16 +25,16 @@ public class UserPointDetailController {
     @GetMapping("/member/point-details")
     public String pointDetailView(Model model, @Valid @ModelAttribute String pointDetailType) {
 
-/*if(!SecurityContextUtils.isLoggedIn()){
-return "redirect:/login";
-}*/
+        if(!SecurityContextUtils.isLoggedIn()){
+        return "redirect:/login";
+        }
 
 //        Long memberId = SecurityContextUtils.getMemberId();
 
 
 //        List<PointDetailResponse> pointDetails = userPointDetailService.getPointDetailByPointDetailType(pointDetailType);
 
-//        model.addAttribute("pointDetails", userPointDetailService.getPointDetailByPointDetailType(pointDetailType));
+        model.addAttribute("pointDetails", userPointDetailService.getPointDetailByPointDetailType(pointDetailType));
 
         return "main/pointdetails/pointdetail";
     }
