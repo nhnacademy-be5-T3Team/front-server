@@ -24,6 +24,10 @@ public class CustomAuthenticationPoint implements AuthenticationEntryPoint {
             return;
         }
 
+        if(Objects.isNull(authentication) && request.getRequestURI().startsWith("/mypage")){
+            response.sendRedirect("/login");
+        }
+
         if(response.getStatus()==HttpServletResponse.SC_FORBIDDEN || response.getStatus()==HttpServletResponse.SC_UNAUTHORIZED){
             request.setAttribute("errorMessage", "인증시간이 지났습니다. 다시 로그인 해주세요");
             response.sendRedirect("/login");

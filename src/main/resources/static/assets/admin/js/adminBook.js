@@ -14,7 +14,6 @@ var bookDescEditor = new toastui.Editor({
     height: '500px',
 });
 
-
 /*
  * 문서가 로드되었을 때 실행되는 이벤트 핸들러
  * 폼 데이터를 유효성 검사하고, 유효한 경우 폼을 제출
@@ -104,10 +103,6 @@ document.addEventListener("DOMContentLoaded", function() {
             this.appendChild(tagInput);
         }, this);
 
-        // TODO : API 연동 후에 제거
-        alert("성공")
-        event.preventDefault();
-        return;
     });
 
     /**
@@ -190,9 +185,9 @@ document.addEventListener("DOMContentLoaded", function() {
         var discountRate = discountRateInput.value.trim();
         // 입력값이 숫자로 이루어져 있는지 확인하는 정규표현식
         var regex = /^\d+$/;
-        // 숫자로만 이루어져 있고 1 이상 99 이하의 값인지 확인
-        if (!regex.test(discountRate) || parseInt(discountRate) < 1 || parseInt(discountRate) > 99) {
-            discountRateValidationMessage.textContent = "할인율은 숫자로 이루어진 1 이상 99 이하의 정수값이어야 합니다.";
+        // 숫자로만 이루어져 있고 0 이상 99 이하의 값인지 확인
+        if (!regex.test(discountRate) || parseInt(discountRate) < 0 || parseInt(discountRate) > 99.9) {
+            discountRateValidationMessage.textContent = "할인율은 숫자로 이루어진 0 이상 99.9 이하의 정수값이어야 합니다.";
             discountRateValidationMessage.style.color = "red";
             return false;
         } else {
@@ -239,7 +234,6 @@ document.addEventListener("DOMContentLoaded", function() {
      */
     function isPublisherIdValid(publisherIdInput) {
         if (publisherIdInput) {
-            // publisherIdValue = publisherIdInput.split(',')[0];
             publisherIdValue = publisherIdInput.value;
             return [true, publisherIdValue];
         } else {
@@ -309,24 +303,18 @@ document.addEventListener("DOMContentLoaded", function() {
      * @author Yujin-nKim(김유진)
      */
     function isCategoryValid(categoryList) {
-        if (categoryList.length == 0 ) {
-            alert("카테고리를 선택해주세요.");
-            event.preventDefault();
-            return false;
-        }
-
         var newCategoryList = [];
-        for(var i = 0; i < categoryList.length; i++) {
-            var categoryValue = categoryList[i].value;
-
-            var categoryInput = document.createElement('input');
-            categoryInput.type = 'hidden';
-            categoryInput.id = 'categoryId' + i;
-            categoryInput.name = 'categoryList[' + i + ']';
-            categoryInput.value = categoryValue;
-            newCategoryList.push(categoryInput);
+        if(categoryList.length > 0) {
+            for(var i = 0; i < categoryList.length; i++) {
+                var categoryValue = categoryList[i].value;
+                var categoryInput = document.createElement('input');
+                categoryInput.type = 'hidden';
+                categoryInput.id = 'categoryId' + i;
+                categoryInput.name = 'categoryList[' + i + ']';
+                categoryInput.value = categoryValue;
+                newCategoryList.push(categoryInput);
+            }
         }
-
         return[true, newCategoryList];
     }
 
@@ -337,24 +325,18 @@ document.addEventListener("DOMContentLoaded", function() {
      * @author Yujin-nKim(김유진)
      */
     function isTagValid(tagList) {
-        if (tagList.length == 0 ) {
-            alert("태그를 선택해주세요.");
-            event.preventDefault();
-            return false;
-        }
-
         var newTagList = [];
-        for(var i = 0; i < tagList.length; i++) {
-            var tagValue = tagList[i].value;
-
-            var tagInput = document.createElement('input');
-            tagInput.type = 'hidden';
-            tagInput.id = 'tagId' + i;
-            tagInput.name = 'tagList[' + i + ']';
-            tagInput.value = tagValue;
-            newTagList.push(tagInput);
+        if (tagList.length > 0) {
+            for(var i = 0; i < tagList.length; i++) {
+                var tagValue = tagList[i].value;
+                var tagInput = document.createElement('input');
+                tagInput.type = 'hidden';
+                tagInput.id = 'tagId' + i;
+                tagInput.name = 'tagList[' + i + ']';
+                tagInput.value = tagValue;
+                newTagList.push(tagInput);
+            }
         }
-
         return[true, newTagList];
     }
 });
@@ -427,6 +409,21 @@ document.getElementById('openTagModal').addEventListener('click', function() {
     fetchTagsAndUpdateModal();
 })
 
+// '선택 카테고리 지우기' 버튼 클릭 이벤트 핸들러
+document.getElementById('clearSelectedCategory').addEventListener('click', function() {
+    const selectedCategoryContainer = $('#selectedCategory');
+    const selectedCategoryInModal = $('#selectedCategoryInModal');
+    selectedCategoryContainer.empty();
+    selectedCategoryInModal.empty();
+})
+
+// '선택 태그 지우기' 버튼 클릭 이벤트 핸들러
+document.getElementById('clearSelectedTag').addEventListener('click', function() {
+    const selectedTagContainer = $('#selectedTag');
+    const selectedTagInModal = $('#selectedTagInModal');
+    selectedTagContainer.empty();
+    selectedTagInModal.empty();
+})
 
 /*
  * '도서 관련 정보 선택' 모달이 닫힐때 실행되는 함수

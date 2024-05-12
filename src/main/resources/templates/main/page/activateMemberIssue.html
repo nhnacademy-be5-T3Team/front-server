@@ -1,0 +1,27 @@
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="main/layout/layout">
+
+<th:block layout:fragment="content">
+    <div class="container mt-3 mb-5">
+        <h1>휴면 계정 안내</h1>
+        <p><span th:text="${memberName}"></span> 회원님의 계정은 3개월 이상 로그인하지 않아서 휴면 처리되었습니다.</p>
+
+        <div class="alert alert-warning" role="alert">
+            마지막 로그인 일시: <span th:text="${memberLatestLogin}"></span>
+        </div>
+
+        <p>계속 서비스를 이용하시려면 <b>[휴면 해제하기]</b> 를 눌러 휴면 해제를 진행해주세요.</p>
+
+        <div class="md-5">
+            <form action="/member/activation/issue" method="post">
+                <input type="hidden" name="memberId" th:value="${memberId}">
+                <input type="hidden" name="memberLatestLogin" th:value="${memberLatestLogin}">
+                <input type="hidden" name="memberName" th:value="${memberName}">
+
+                <button type="submit" class="btn btn-primary">휴면 해제하기</button>
+            </form>
+        </div>
+
+    </div>
+</th:block>

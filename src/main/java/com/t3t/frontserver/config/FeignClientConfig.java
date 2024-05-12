@@ -34,7 +34,7 @@ public class FeignClientConfig {
             }
         };
     }
-    @Bean
+//    @Bean
     public ErrorDecoder errorDecoder(){
         return new CustomErrorDecoder();
     }
