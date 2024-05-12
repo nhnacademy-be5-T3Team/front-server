@@ -19,7 +19,7 @@
                         <thread>
                             <tr>
                                 <td>No</td>
-                                <td>날짜</td>
+                                <td>날짜 및 시간</td>
                                 <td>포인트</td>
                                 <td>구분</td>
                                 <td>내용</td>
@@ -27,17 +27,20 @@
                         </thread>
                         <tbody>
                         <!-- Thymeleaf를 사용하여 반복문 처리 -->
-                        <tr th:each="pointDetail : ${pointDetails}">
-                            <td th:text="${pointDetail.count}"></td>
-                            <td th:text="${pointDetail.pointDetailDate}"></td>
+                        <tr th:each="pointDetail, no : ${pointDetails}">
+                            <td th:text="${no.index + 1}"></td>
+                            <td th:text="${#temporals.format(pointDetail.pointDetailDate, 'yyyy-MM-dd HH:mm:ss')}"></td>
                             <td th:text="${pointDetail.pointAmount}"></td>
-                            <td th:text="${pointDetail.pointDetailType}"></td>
+                            <td th:switch="${pointDetail.pointDetailType}">
+                                <span th:case="used" th:text="사용"></span>
+                                <span th:case="saved" th:text="적립"></span>
+                            </td>
                             <td th:text="${pointDetail.content}"></td>
                         </tr>
                         </tbody>
 
                     </table>
-                    <a href="/member/" class="btn btn-secondary">메인 화면 바로가기</a>
+                    <a href="/" class="btn btn-secondary">메인 화면 바로가기</a>
                     <p></p>
                 </div>
             </div>

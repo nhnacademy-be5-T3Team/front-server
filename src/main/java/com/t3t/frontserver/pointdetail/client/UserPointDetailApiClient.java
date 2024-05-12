@@ -1,11 +1,11 @@
 package com.t3t.frontserver.pointdetail.client;
 
+import com.t3t.frontserver.model.response.BaseResponse;
 import com.t3t.frontserver.pointdetail.model.response.PointDetailResponse;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.ws.rs.Path;
 import java.util.List;
 
 /**
@@ -15,18 +15,11 @@ import java.util.List;
 @FeignClient(name = "UserPointDetailApiClient", url = "${t3t.feignClient.url}")
 public interface UserPointDetailApiClient {
 
-/**
- * 회원의 모든 포인트 상세 내역 조회 API 호출
- * @author hydrationn(박수화)
- */
-/*@GetMapping("/t3t/bookstore/members/point-details")
-public ResponseEntity<List<PointDetailResponse>> getPointDetailList();*/
-
     /**
      * 회원의 포인트 타입에 따른 포인트 사용/적립 내역 조회 API 호출
      * @param pointDetailType 조회할 포인트 타입(사용/적립)
      * @author hydrationn(박수화)
      */
     @GetMapping("/t3t/bookstore/members/point-details")
-    public ResponseEntity<List<PointDetailResponse>> getPointDetailByPointDetailType(@RequestParam String pointDetailType);
+    public ResponseEntity<BaseResponse<List<PointDetailResponse>>> getPointDetailByPointDetailType(@RequestParam(name = "pointDetailType", required = false) String pointDetailType);
 }
