@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout(categoryList)"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
+      layout:decorate="main/layout/layout">
+
+<th:block layout:fragment="content">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-10">
+                <h2 class="text-center mb-5">회원 포인트 내역 조회</h2>
+                <div class="d-flex justify-content-end mb-3">
+                    <a href="/member/point-details" class="btn btn-primary mx-1">전체</a>
+                    <a href="/member/point-details?pointDetailType=used" class="btn btn-primary mx-1">사용</a>
+                    <a href="/member/point-details?pointDetailType=saved" class="btn btn-primary mx-1">적립</a>
+                </div>
+                <div class="text-center mb-5">
+                    <table id="pointDetailTable" class="table table-bordered table-striped centered-table">
+                        <thread>
+                            <tr>
+                                <td>No</td>
+                                <td>날짜 및 시간</td>
+                                <td>포인트</td>
+                                <td>구분</td>
+                                <td>내용</td>
+                            </tr>
+                        </thread>
+                        <tbody>
+                        <!-- Thymeleaf를 사용하여 반복문 처리 -->
+                        <tr th:each="pointDetail, no : ${pointDetails}">
+                            <td th:text="${no.index + 1}"></td>
+                            <td th:text="${#temporals.format(pointDetail.pointDetailDate, 'yyyy-MM-dd HH:mm:ss')}"></td>
+                            <td th:text="${pointDetail.pointAmount}"></td>
+                            <td th:switch="${pointDetail.pointDetailType}">
+                                <span th:case="used" th:text="사용"></span>
+                                <span th:case="saved" th:text="적립"></span>
+                            </td>
+                            <td th:text="${pointDetail.content}"></td>
+                        </tr>
+                        </tbody>
+
+                    </table>
+                    <a href="/" class="btn btn-secondary">메인 화면 바로가기</a>
+                    <p></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</th:block>
+</html>
