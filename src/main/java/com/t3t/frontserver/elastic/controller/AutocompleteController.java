@@ -14,7 +14,13 @@ import java.util.List;
 @RequiredArgsConstructor
 public class AutocompleteController {
     private final ElasticClient elasticAdaptor;
-
+    /**
+     *
+     * elasticsearch 기반 실시간 자동완성
+     *
+     * @param prefix      text 검색어
+     * @return 페이지로 정보를 가지고 이동
+     */
 
     @GetMapping("/autocomplete")
     public ResponseEntity<BaseResponse<List<String>>> proxyAutocomplete(@RequestParam String prefix) {

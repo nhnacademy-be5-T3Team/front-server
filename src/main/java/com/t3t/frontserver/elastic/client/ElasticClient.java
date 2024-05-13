@@ -48,6 +48,13 @@ public interface ElasticClient {
                           @RequestParam int pageNo,
                           @PathVariable(value = "categoryId",required = false) BigDecimal categoryId,
                           @RequestParam(value = "sortBy", defaultValue = "_score", required = false) String sortBy);
+    /**
+     *
+     * elasticsearch 기반 실시간 자동완성
+     *
+     * @param prefix      text 검색어
+     * @return 서버의 데이터를 가지고 옴
+     */
     @GetMapping("/t3t/bookstore/autocomplete")
     ResponseEntity<BaseResponse<List<String>>> autocomplete(@RequestParam String prefix);
 }
