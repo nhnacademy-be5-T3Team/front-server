@@ -34,7 +34,8 @@
                                 </div>
                             </div>
                             <div class="col-md-6">
-                                <input type="text" class="form-control" placeholder="도서 검색하기" id="searchQueryInput" th:name="query" required>
+                                <input type="text" class="form-control" placeholder="도서 검색하기" id="searchQueryInput" th:name="query" required autocomplete="off">
+                                <div id="autocompleteResults" class="autocomplete-items"></div>
                             </div>
                             <div class="col-md-3">
                                 <button class="btn btn-secondary btn-block">검색하기</button>
@@ -47,46 +48,7 @@
             </div>
         </div>
     </div>
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            updateSearchTypeDisplay();
-            updateSearchQueryDisplay();
-            updateCategoryIdFromURL(); // 이 함수를 호출하여 categoryId를 설정
-        });
-
-        function updateCategoryIdFromURL() {
-            const path = window.location.pathname;
-            const categoryPattern = /\/category\/(\d+)/; // '/category/' 다음에 오는 숫자를 찾는 정규 표현식
-            const match = path.match(categoryPattern);
-
-            if (match && match[1]) {
-                document.getElementById('categoryIdInput').value = match[1];
-            } else {
-                document.getElementById('categoryIdInput').parentNode.removeChild(document.getElementById('categoryIdInput'));
-            }
-        }
-        function setSearchType(type) {
-            var typeNames = {
-                'all': '통합검색',
-                'book_name': '책 이름',
-                'publisher_name': '출판사',
-                'participant_name': '참여자'
-            };
-            document.getElementById('searchTypeInput').value = type;
-            document.getElementById('dropdownMenuButton').textContent = typeNames[type];
-        }
-        function updateSearchTypeDisplay() {
-            var searchParams = new URLSearchParams(window.location.search);
-            var currentType = searchParams.get('searchType') || 'all';
-            setSearchType(currentType);
-        }
-        function updateSearchQueryDisplay() {
-            var searchParams = new URLSearchParams(window.location.search);
-            var currentQuery = searchParams.get('query');
-            if (currentQuery) {
-                document.getElementById('searchQueryInput').value = currentQuery;
-            }
-        }
-    </script>
+    <script th:src="@{/assets/main/js/elastic.js}"></script>
+    <link th:href="@{/assets/main/css/elastic.css}" rel="stylesheet">
 </th:block>
 </html>
