@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout(categoryList)"
+      layout:decorate="main/layout/layout">
+
+<th:block layout:fragment="content">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-10">
+                <h2 class="text-center mb-5">회원 등급 정책</h2>
+                <div class="d-flex justify-content-end mb-3">
+                    <a class="btn btn-primary mx-1">등록</a>
+                </div>
+                <div class="text-center mb-5">
+                    <table id="pointDetailTable" class="table table-bordered table-striped centered-table">
+                        <thread>
+                            <tr>
+                                <td>No</td>
+                                <td>기준 시작 금액</td>
+                                <td>기준 종료 금액</td>
+                                <td>적립 비율</td>
+                                <td>편집</td>
+                            </tr>
+                        </thread>
+                        <tbody>
+                        <!-- Thymeleaf를 사용하여 반복문 처리 -->
+                        <tr th:each="memberGradePolicy, no : ${memberGradePolicyList}">
+                            <td th:text="${no.index + 1}"></td>
+                            <td th:text="${memberGradePolicy.startAmount}"></td>
+                            <td th:text="${memberGradePolicy.endAmount}"></td>
+                            <td th:switch="${memberGradePolicy.rate}"></td>
+                            <td><button>수정</button><button>삭제</button></td>
+                        </tr>
+                        </tbody>
+
+                    </table>
+                    <a href="/" class="btn btn-secondary">메인 화면 바로가기</a>
+                    <p></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</th:block>
+</html>
