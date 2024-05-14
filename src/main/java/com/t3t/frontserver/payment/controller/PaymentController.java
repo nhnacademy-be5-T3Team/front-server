@@ -1,4 +1,4 @@
-package com.t3t.frontserver.payments.controller;
+package com.t3t.frontserver.payment.controller;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
