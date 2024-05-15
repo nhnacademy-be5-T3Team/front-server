@@ -29,7 +29,6 @@ public interface OrderApiClient {
      *
      * @author woody35545(구건모)
      */
-    @PostMapping("/orders/confirm")
-    @ResponseStatus(HttpStatus.OK)
-    ResponseEntity<BaseResponse<Void>> confirmOrder(OrderConfirmRequest orderConfirmRequest);
+    @PostMapping("/t3t/bookstore/orders/confirm")
+    ResponseEntity<BaseResponse<Void>> confirmOrder(@RequestBody OrderConfirmRequest orderConfirmRequest);
 }
