@@ -2,6 +2,7 @@ package com.t3t.frontserver.payment.controller;
 
 import com.t3t.frontserver.auth.util.SecurityContextUtils;
 import com.t3t.frontserver.order.model.request.MemberOrderPreparationRequest;
+import com.t3t.frontserver.order.model.request.OrderConfirmRequest;
 import com.t3t.frontserver.order.model.response.MemberOrderPreparationResponse;
 import com.t3t.frontserver.order.service.OrderService;
 import com.t3t.frontserver.payment.constant.PaymentProviderType;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
 @Slf4j
@@ -52,10 +54,13 @@ public class PaymentController {
         // 총 결제해야할 금액
         model.addAttribute("amount", memberOrderPreparationResponse.getTotalPrice());
 
-        // 결제 제공처에서 사용할 주문 식별자
-        model.addAttribute("orderId", memberOrderPreparationResponse.getProviderOrderId());
+        // 북스토에서 사용하는 주문 식별자
+        model.addAttribute("orderId", memberOrderPreparationResponse.getOrderId());
 
-        return "main/payments/checkout";
+        // 결제 제공처에서 사용할 주문 식별자
+        model.addAttribute("providerOrderId", memberOrderPreparationResponse.getProviderOrderId());
+
+        return "main/payment/checkout";
     }
 
 
@@ -66,14 +71,32 @@ public class PaymentController {
      * @author woody35545(구건모)
      */
     @GetMapping("/payment/success")
-    public String paymentRequest(Model model, @RequestParam String paymentKey, @RequestParam String orderId, @RequestParam String amount) {
+    public String paymentRequest(Model model,
+                                 @RequestParam Long serviceOrderId,
+                                 @RequestParam String paymentKey,
+                                 @RequestParam("orderId") String providerOrderId,
+                                 @RequestParam String amount) {
+
+        log.info("serviceOrderId => {}", serviceOrderId);
+
+        OrderConfirmRequest orderConfirmRequest = OrderConfirmRequest.builder()
+                .paymentOrderId(providerOrderId)
+                .orderId(serviceOrderId)
+                .paymentKey(paymentKey)
+                .paymentProviderType(PaymentProviderType.TOSS)
+                .paidAmount(new BigDecimal(amount)).build();
+
+        log.info("[*] orderConfirmRequest => {}", orderConfirmRequest);
+
+        log.info("[*] confirmOrder request ... ");
+        orderService.confirmOrder(orderConfirmRequest);
 
         model.addAttribute("feignClientUrl", feignClientUrl);
         model.addAttribute("paymentKey", paymentKey);
-        model.addAttribute("orderId", orderId);
+        model.addAttribute("orderId", providerOrderId);
         model.addAttribute("amount", amount);
 
-        return "main/payments/success";
+        return "main/payment/success";
     }
 
     /**
@@ -87,7 +110,7 @@ public class PaymentController {
         model.addAttribute("code", failCode);
         model.addAttribute("message", failMessage);
 
-        return "main/payments/fail";
+        return "main/payment/fail";
     }
 }
 
