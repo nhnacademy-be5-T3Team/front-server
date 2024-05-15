@@ -1,6 +1,8 @@
 package com.t3t.frontserver.member.controller;
 
 import com.t3t.frontserver.auth.util.SecurityContextUtils;
+import com.t3t.frontserver.coupon.model.response.CouponDetailFindResponse;
+import com.t3t.frontserver.coupon.model.response.CouponDetailResponse;
 import com.t3t.frontserver.member.model.request.MemberPasswordModifyRequest;
 import com.t3t.frontserver.member.model.request.MemberRegistrationRequest;
 import com.t3t.frontserver.member.service.MemberService;
@@ -15,6 +17,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
+import java.util.ArrayList;
+import java.util.List;
 
 @Slf4j
 @Controller
@@ -32,6 +36,20 @@ public class MemberController {
     public String registerView(Model model) {
         model.addAttribute("memberRegistrationRequest", new MemberRegistrationRequest());
         return "main/page/register";
+    }
+
+    @GetMapping("/members/coupons")
+    public String couponView(Model model){
+        List<CouponDetailResponse> responseList = memberService.findAllCouponsByMemberId();
+        List<CouponDetailFindResponse> couponDetailFindResponseList = new ArrayList<>();
+        for (CouponDetailResponse couponDetailResponse : responseList) {
+            CouponDetailFindResponse response = memberService.findCouponDetails(couponDetailResponse.getCouponId());
+            response.setCouponId(couponDetailResponse.getCouponId());
+
+            couponDetailFindResponseList.add(response);
+        }
+        model.addAttribute("couponList", couponDetailFindResponseList);
+        return "main/page/coupon";
     }
 
     /**

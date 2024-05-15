@@ -1,5 +1,7 @@
 package com.t3t.frontserver.member.adaptor;
 
+import com.t3t.frontserver.coupon.model.response.CouponDetailFindResponse;
+import com.t3t.frontserver.coupon.model.response.CouponDetailResponse;
 import com.t3t.frontserver.member.client.MemberApiClient;
 import com.t3t.frontserver.member.exception.CouponApiClientException;
 import com.t3t.frontserver.member.exception.MemberApiClientException;
@@ -160,4 +162,23 @@ public class MemberAdaptor {
         }
     }
 
+    public List<CouponDetailResponse> findAllCouponsByMemberId(){
+        try {
+            return Optional.ofNullable(memberApiClient.findAllCoupon().getBody())
+                    .map(BaseResponse::getData)
+                    .orElseThrow(CouponApiClientException::new);
+        } catch (FeignException e) {
+            throw new CouponApiClientException("쿠폰 목록 조회에 실패하였습니다. " + FeignClientUtils.getMessageFromFeignException(e));
+        }
+    }
+
+    public CouponDetailFindResponse getCouponDetails(String id){
+        try {
+            return Optional.ofNullable(memberApiClient.getCouponDetails(id).getBody())
+                    .map(BaseResponse::getData)
+                    .orElseThrow(CouponApiClientException::new);
+        } catch (FeignException e) {
+            throw new CouponApiClientException("쿠폰 세부사항 조회에 실패하였습니다. " + FeignClientUtils.getMessageFromFeignException(e));
+        }
+    }
 }

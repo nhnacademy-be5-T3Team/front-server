@@ -1,5 +1,7 @@
 package com.t3t.frontserver.member.client;
 
+import com.t3t.frontserver.coupon.model.response.CouponDetailFindResponse;
+import com.t3t.frontserver.coupon.model.response.CouponDetailResponse;
 import com.t3t.frontserver.member.model.dto.MemberAddressDto;
 import com.t3t.frontserver.member.model.request.MemberPasswordModifyRequest;
 import com.t3t.frontserver.member.model.request.MemberRegistrationRequest;
@@ -101,4 +103,10 @@ public interface MemberApiClient {
     @PostMapping("/at/bookstore/members/coupons/{memberId}/{couponType}")
     BaseResponse<Void> registerCouponToMemberByAdmin(@PathVariable("couponType") String couponType,
                                                      @PathVariable("memberId") Long memberId);
+
+    @GetMapping("/at/bookstore/members/coupons")
+    ResponseEntity<BaseResponse<List<CouponDetailResponse>>> findAllCoupon();
+
+    @GetMapping("/at/coupon/details/{couponId}")
+    ResponseEntity<BaseResponse<CouponDetailFindResponse>> getCouponDetails(@PathVariable("couponId") String id);
 }

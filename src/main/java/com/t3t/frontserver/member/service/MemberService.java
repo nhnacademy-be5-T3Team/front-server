@@ -1,5 +1,7 @@
 package com.t3t.frontserver.member.service;
 
+import com.t3t.frontserver.coupon.model.response.CouponDetailFindResponse;
+import com.t3t.frontserver.coupon.model.response.CouponDetailResponse;
 import com.t3t.frontserver.member.adaptor.MemberAdaptor;
 import com.t3t.frontserver.member.model.dto.MemberAddressDto;
 import com.t3t.frontserver.member.model.request.MemberPasswordModifyRequest;
@@ -99,5 +101,13 @@ public class MemberService {
 
     public String registCouponToMemberByAdmin(String couponType, Long memberId){
         return memberAdaptor.registerCouponToMemberByAdmin(couponType, memberId);
+    }
+
+    public List<CouponDetailResponse> findAllCouponsByMemberId(){
+        return memberAdaptor.findAllCouponsByMemberId();
+    }
+
+    public CouponDetailFindResponse findCouponDetails(String id){
+        return memberAdaptor.getCouponDetails(id);
     }
 }
