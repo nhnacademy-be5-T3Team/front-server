@@ -16,6 +16,8 @@ public class ReviewRegisterRequest {
 
     private Long bookId; // 리뷰를 작성할 도서 id
 
+    private Long orderDetailId; // 주문 상세 id
+
     @NotBlank(message = "리뷰 내용을 입력해주세요.")
     private String comment; // 리뷰 내용
 
