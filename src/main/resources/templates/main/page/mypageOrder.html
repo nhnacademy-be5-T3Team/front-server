@@ -36,7 +36,6 @@
                                 <button class="btn btn-outline-danger">주문 취소</button>
                                 <button class="btn btn-outline-dark">환불하기</button>
                                 <!-- TODO : 리뷰 작성 테스트를 위해 임의로 button onClick 지정, 추후에 코드 변경시 주문상품의 bookId에 맞게 변경해야함-->
-<!--                                <button class="btn btn-outline-dark" onclick="location.href='/reviews/register?bookId=3&orderDetailId=3'">리뷰 작성하기</button>-->
                                 <button class="btn btn-outline-dark" th:onclick="|location.href='@{/reviews/register(bookId=${100}, orderDetailId=${137})}'|">리뷰 작성하기</button>
                             </div>
                         </div>
@@ -68,7 +67,6 @@
                             <div class="ml-auto mt-5">
                                 <button class="btn btn-outline-danger">주문 취소</button>
                                 <button class="btn btn-outline-dark">환불하기</button>
-                                <button class="btn btn-outline-dark">리뷰 작성하기</button>
                                 <!-- TODO : 리뷰 작성 테스트를 위해 임의로 button onClick 지정, 추후에 코드 변경시 주문상품의 bookId에 맞게 변경해야함-->
                                 <button class="btn btn-outline-dark" th:onclick="|location.href='@{/reviews/register(bookId=${150}, orderDetailId=${139})}'|">리뷰 작성하기</button>
                             </div>

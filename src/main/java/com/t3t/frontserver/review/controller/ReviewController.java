@@ -59,7 +59,7 @@ public class ReviewController {
         Long memberId = SecurityContextUtils.getMemberId();
 
         // 리뷰 작성 가능한지 확인
-        if(!reviewService.checkReviewCapability(memberId, bookId, orderDetailId)) {
+        if(reviewService.checkReviewCapability(memberId, bookId, orderDetailId)) {
             // 리뷰를 작성 가능한 경우 리뷰 작성 페이지로 이동
             model.addAttribute("reviewRegisterRequest", new ReviewRegisterRequest());
             model.addAttribute("bookId", bookId);
