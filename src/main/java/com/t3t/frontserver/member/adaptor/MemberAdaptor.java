@@ -1,10 +1,12 @@
 package com.t3t.frontserver.member.adaptor;
 
 import com.t3t.frontserver.member.client.MemberApiClient;
+import com.t3t.frontserver.member.exception.CouponApiClientException;
 import com.t3t.frontserver.member.exception.MemberApiClientException;
 import com.t3t.frontserver.member.model.dto.MemberAddressDto;
 import com.t3t.frontserver.member.model.request.MemberPasswordModifyRequest;
 import com.t3t.frontserver.member.model.request.MemberRegistrationRequest;
+import com.t3t.frontserver.member.model.response.MemberAdminResponse;
 import com.t3t.frontserver.member.model.response.MemberInfoResponse;
 import com.t3t.frontserver.member.model.response.MemberRegistrationResponse;
 import com.t3t.frontserver.model.response.BaseResponse;
@@ -128,4 +130,34 @@ public class MemberAdaptor {
             throw new MemberApiClientException("회원 활성화 코드 검증에 실패하였습니다. " + FeignClientUtils.getMessageFromFeignException(e));
         }
     }
+
+    /**
+     * 회원 목록 이름으로 조회
+     * @param name
+     * @author joohyun1996(이주현)
+     */
+    public List<MemberAdminResponse> findMemberByName(String name) {
+        try {
+            return Optional.ofNullable(memberApiClient.findMemberByName(name).getBody())
+                    .map(BaseResponse::getData)
+                     .orElseThrow(MemberApiClientException::new);
+        } catch (FeignException e) {
+            throw new MemberApiClientException("회원 이름 목록 조회에 실패하였습니다. " + FeignClientUtils.getMessageFromFeignException(e));
+        }
+    }
+
+    /**
+     * 회원에게 관리자가 쿠폰 등록
+     * @author joohyun1996(이주현)
+     */
+
+    public String registerCouponToMemberByAdmin(String couponType, Long memberId){
+        try{
+            memberApiClient.registerCouponToMemberByAdmin(couponType, memberId);
+            return "쿠폰 등록에 성공하였습니다";
+        }catch (FeignException e){
+            throw new CouponApiClientException("쿠폰 등록에 실패하였습니다 " + FeignClientUtils.getMessageFromFeignException(e));
+        }
+    }
+
 }
