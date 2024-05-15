@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="main/layout/reviewLayout">
+
+<th:block layout:fragment="content">
+    <div style="padding: 100px;">
+        <!-- 리뷰 comment -->
+        <div class="row mb-3">
+            <h4> 기존 리뷰 : </h4>
+            <h6 id="reviewComment" th:text="${review.comment}" style="color: darkblue;"></h6>
+            <h4> 수정할 리뷰 내용을 작성해주세요.</h4>
+            <label>
+                <textarea class="form-control" rows="10" id="updateReviewComment" required></textarea>
+            </label>
+            <button type="button" class="btn btn-primary" th:onclick="updateReviewComment([[${review.reviewId}]])">코멘트 수정하기</button>
+        </div>
+
+        <!-- 리뷰 평점 -->
+        <div class="row mb-3">
+            <h4> 기존 평점 : </h4>
+            <h6 id="reviewScore" th:text="${review.reviewScore}" style="color: darkblue;"></h6>
+            <h4>수정할 도서의 평점은 몇점인가요?</h4>
+            <div class="col-sm-10">
+                <div th:each="score : ${score}" class="form-check form-check-inline">
+                    <label>
+                        <input type="radio" th:field="*{score}" th:value="${score.key}" class="form-check-input" required>
+                    </label>
+                    <label th:text="${score.value}" class="form-check-label">0점</label>
+                </div>
+            </div>
+            <button type="button" class="btn btn-primary" th:onclick="updateReviewScore([[${review.reviewId}]])">평점 수정하기</button>
+        </div>
+
+        <div class="row mb-3">
+            <h4> 기존에 등록된 이미지 : </h4>
+            <div col>
+                <th:block th:each="image, imageStat : ${review.reviewImgUrlList}">
+                    <div class="image-container">
+                        <img th:src="${image}" alt="이미지" width="100" height="auto">
+                        <button type="button" class="btn btn-danger btn-sm" th:onclick="deleteImage([[${review.reviewId}]], [[${image}]])">삭제</button>
+                    </div>
+                </th:block>
+            </div>
+
+            <h4>이미지를 추가할 수 있습니다.</h4>
+            <input type="file" class="form-control" name="reviewImageList" multiple accept="image/*">
+            <button type="button" class="btn btn-danger btn-sm" th:onclick="addImage([[${review.reviewId}]])">이미지 추가</button>
+        </div>
+    </div>
+    <script th:src="@{/assets/main/js/api.js}"></script>
+</th:block>
+</html>
