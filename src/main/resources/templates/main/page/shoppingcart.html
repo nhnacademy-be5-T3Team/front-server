@@ -60,10 +60,9 @@
                                         <div class="media mt-5">
 
                                         <form method="post">
-                                            <input type="hidden" name="_method" value="DELETE"/>
                                             <input type="hidden" name="bookId" th:value="${shoppingCartItem.bookId}"/>
                                             <button type="submit" class="btn btn-outline-danger btn-sm"
-                                                    formaction="/shoppingcart">
+                                                    formaction="/shoppingcart/delete">
                                                 삭제
                                             </button>
                                         </form>

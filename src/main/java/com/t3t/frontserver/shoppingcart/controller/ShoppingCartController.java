@@ -1,19 +1,21 @@
 package com.t3t.frontserver.shoppingcart.controller;
 
 import com.t3t.frontserver.auth.util.SecurityContextUtils;
-import com.t3t.frontserver.shoppingcart.model.entity.ShoppingCart;
+import com.t3t.frontserver.order.model.request.ShoppingCartOrderRequest;
 import com.t3t.frontserver.shoppingcart.model.request.AddShoppingCartItemRequest;
 import com.t3t.frontserver.shoppingcart.service.ShoppingCartService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.CookieValue;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 import java.math.BigDecimal;
-import java.util.List;
 import java.util.UUID;
 
 @Slf4j
@@ -25,6 +27,7 @@ public class ShoppingCartController {
 
     /**
      * 장바구니 페이지 조회
+     *
      * @author woody35545(구건모)
      */
     @GetMapping("/shoppingcart")
@@ -46,12 +49,14 @@ public class ShoppingCartController {
         }
 
         model.addAttribute("shoppingCartItemList", shoppingCartService.getShoppingCartItemList(shoppingCartId));
+        model.addAttribute("shoppingCartOrderRequest", new ShoppingCartOrderRequest());
 
         return "main/page/shoppingcart";
     }
 
     /**
      * 장바구니 항목 추가 요청 처리
+     *
      * @author woody35545(구건모)
      */
     @PostMapping("/shoppingcart")
@@ -87,9 +92,11 @@ public class ShoppingCartController {
 
     /**
      * 장바구니 상품 삭제 요청 처리
+     *
      * @author woody35545(구건모)
      */
-    @DeleteMapping("/shoppingcart")
+    @PostMapping("/shoppingcart/delete")
+    // hidden method로 delete 호출기 바로 주문하기 버튼에서도 delete 요청이 보내져서 임시로 메서드를 POST 로 변경하고 구분을 위해 url 변경
     public String deleteShoppingCartItem(@CookieValue(value = "shoppingCartId", required = false) String shoppingCartId,
                                          @RequestParam("bookId") String bookId) {
 
