@@ -10,4 +10,8 @@ public class ApiDataFetchException extends RuntimeException{
     public ApiDataFetchException(int statusCode) {
         super(String.format("%s (%s)", DEFAULT_MESSAGE, statusCode));
     }
+
+    public ApiDataFetchException(String message) {
+        super(DEFAULT_MESSAGE + message);
+    }
 }
