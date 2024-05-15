@@ -9,15 +9,16 @@
         let type = '카드'
         let amount = [[${amount}]]
         let orderId = [[${orderId}]]
+        let providerOrderId = [[${providerOrderId}]]
         let tossPayments = TossPayments(clientKey);
 
         tossPayments.requestPayment(type,
             {
                 amount: amount,
-                orderId: orderId,
+                orderId: providerOrderId,
                 orderName: '상품 주문',
                 customerName: ' ',
-                successUrl: window.location.origin + "/payment/success",
+                successUrl: window.location.origin + "/payment/success?serviceOrderId=" + orderId,
                 failUrl: window.location.origin + "/payment/fail",
             })
     </script>
