@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout(categoryList)"
       layout:decorate="main/layout/layout">
 
@@ -36,7 +35,7 @@
                     <td th:text="${orderDetailInfo.getBookName()}"></td>
                     <td th:text="${orderDetailInfo.getPublisher()}"></td>
                     <td th:text="${orderDetailInfo.getQuantity()}"></td>
-                    <td th:text="${orderDetailInfo.getTotalPrice()}"></td>
+                    <td th:text="${orderDetailInfo.getTotalPrice()} + ' ₩'"></td>
                 </tr>
                 </tbody>
             </table>
@@ -114,6 +113,7 @@
                 <tr>
                     <th scope="row">받으시는 분</th>
                     <td>
+                        <label>받으시는 분 이름</label>
                         <input type="text" class="form-control"
                                th:if="${orderCheckoutViewDto.memberName == null}"
                                placeholder="받으시는 분 이름"/>
@@ -122,20 +122,23 @@
                                th:name="recipientName"
                                th:value="${orderCheckoutViewDto.memberName}"
                                placeholder="받으시는 분 이름"
-                               required>
 
-                        <input type="text" class="form-control"
-                               th:if="${orderCheckoutViewDto.memberPhoneNumber == null}"
-                               th:name="recipientPhoneNumber"
-                               placeholder="받으시는 분 전화번호"/>
-                        <input type="text" class="form-control"
-                               th:if="${orderCheckoutViewDto.memberPhoneNumber != null}"
-                               th:name="recipientPhoneNumber"
-                               th:value="${orderCheckoutViewDto.memberPhoneNumber}"
-                               placeholder="받으시는 분 이름"
                                required>
+                        <label>받으시는 분 전화번호</label>
+                    <input type="text" class="form-control"
+                           th:if="${orderCheckoutViewDto.memberPhoneNumber == null}"
+                           th:name="recipientPhoneNumber"
+                           placeholder="받으시는 분 전화번호"/>
+                    <input type="text" class="form-control"
+                           th:if="${orderCheckoutViewDto.memberPhoneNumber != null}"
+                           th:name="recipientPhoneNumber"
+                           th:value="${orderCheckoutViewDto.memberPhoneNumber}"
+                           placeholder="받으시는 분 이름"
+                           required>
                     </td>
+
                 </tr>
+
 
                 </tbody>
             </table>
