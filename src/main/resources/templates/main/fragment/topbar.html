@@ -13,7 +13,7 @@
             <div class="user_option ml-auto">
                 <!-- admin 페이지인 경우 비활성화 -->
                 <div th:if="${not #httpServletRequest.getRequestURI().startsWith('/testAdmin')}">
-                    <a class="cart_link" href="#">
+                    <a class="cart_link" href="/shoppingcart">
                         <i class="bi bi-cart-fill" aria-hidden="true"></i>
                     </a>
                     <a class="user_link" sec:authorize="isAuthenticated()" href="/mypage/info">
