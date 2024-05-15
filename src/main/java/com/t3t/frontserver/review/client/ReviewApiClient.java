@@ -19,7 +19,7 @@ public interface ReviewApiClient {
      * @return 주어진 책 식별자에 대한 리뷰 페이지 응답
      * @author Yujin-nKim(김유진)
      */
-    @GetMapping(value = "/t3t/bookstore/reviews/book/{bookId}")
+    @GetMapping(value = "/t3t/bookstore/reviews/books/{bookId}")
     ResponseEntity<BaseResponse<PageResponse<ReviewResponse>>> findReviewsByBookId(
             @PathVariable Long bookId,
             @RequestParam(value = "pageNo", defaultValue = "0", required = false) int pageNo);
