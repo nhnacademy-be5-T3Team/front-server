@@ -4,6 +4,7 @@ import com.t3t.frontserver.model.response.BaseResponse;
 import com.t3t.frontserver.order.client.OrderApiClient;
 import com.t3t.frontserver.order.exception.OrderApiClientException;
 import com.t3t.frontserver.order.model.request.MemberOrderPreparationRequest;
+import com.t3t.frontserver.order.model.request.OrderConfirmRequest;
 import com.t3t.frontserver.order.model.response.MemberOrderPreparationResponse;
 import com.t3t.frontserver.util.FeignClientUtils;
 import feign.FeignException;
@@ -30,6 +31,19 @@ public class OrderAdaptor {
                     .orElseThrow(RuntimeException::new);
         } catch (FeignException e) {
             throw new OrderApiClientException("주문 생성에 실패하였습니다. " + FeignClientUtils.getMessageFromFeignException(e));
+        }
+    }
+
+    /**
+     * 주문에 대한 결제 검증 및 주문 승인
+     *
+     * @author woody35545(구건모)
+     */
+    public void confirmOrder(OrderConfirmRequest request) {
+        try {
+            orderApiClient.confirmOrder(request);
+        } catch (FeignException e) {
+            throw new OrderApiClientException("주문에 대한 결제 검증에 실패하였습니다. " + FeignClientUtils.getMessageFromFeignException(e));
         }
     }
 }
