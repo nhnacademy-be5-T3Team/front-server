@@ -35,3 +35,9 @@ eureka:
 t3t:
     feignClient:
         url: http://localhost:9090
+
+    redis:
+        redisServerIpAddress: ${redisServerIpAddress}
+        redisServerPassword: ${redisServerPassword}
+        redisServerPort: ${redisServerPort}
+        redisDatabase: ${redisDatabase}
