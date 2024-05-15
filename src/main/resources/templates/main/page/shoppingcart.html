@@ -4,7 +4,7 @@
       layout:decorate="main/layout/layout">
 
 <th:block layout:fragment="content">
-    <div class="container">
+    <div class="container mb-5">
         <h1 class="my-4">장바구니</h1>
         <form id="checkoutForm" th:action="@{/shoppingcart/order/checkout}"
               th:object="${shoppingcartOrderRequest}"
@@ -93,35 +93,7 @@
                 </div>
             </div>
         </form>
-        <br/><br/><br/><br/><br/>
     </div>
-
-    <script th:inline="javascript">
-        function continueShopping(event) {
-            event.preventDefault();
-            window.location.href = "/";
-        }
-
-        function deleteItem(element) {
-            let bookId = element.getAttribute('data-bookId');
-            if (confirm('정말로 이 상품을 삭제하시겠습니까?')) {
-                fetch('/shoppingcart?bookId=' + bookId, {
-                    method: 'DELETE'
-                })
-                    .then(response => {
-                        if (!response.ok) {
-                            throw new Error('Network response was not ok');
-                        }
-                        console.log('삭제되었습니다.');
-                        location.href = '/shoppingcart';
-                    })
-                    .catch(error => {
-                        console.error('에러 발생:', error);
-                        alert('삭제할 수 없습니다. 에러가 발생했습니다.');
-                    });
-            }
-        }
-    </script>
 </th:block>
 
 </html>
