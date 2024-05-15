@@ -6,19 +6,29 @@ import com.t3t.frontserver.member.model.dto.MyPageAddressViewDto;
 import com.t3t.frontserver.member.model.dto.MyPageInfoViewDto;
 import com.t3t.frontserver.member.model.response.MemberInfoResponse;
 import com.t3t.frontserver.member.service.MemberService;
+import com.t3t.frontserver.model.response.PageResponse;
+import com.t3t.frontserver.order.model.response.OrderInfoResponse;
+import com.t3t.frontserver.order.service.OrderService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Slf4j
 @Controller
 @RequiredArgsConstructor
 public class MyPageController {
 
     private final MemberService memberService;
+    private final OrderService orderService;
 
     /**
      * 마이페이지 - 회원 기본 정보 관리 뷰
@@ -155,11 +165,39 @@ public class MyPageController {
 
     /**
      * 마이페이지 - 회원 주문 페이지 뷰
+     *
      * @author woody35545(구건모)
      */
     @GetMapping("/mypage/order")
-    public String orderView() {
+    public String orderView(Model model,
+                            @RequestParam(value = "pageNo", defaultValue = "0", required = false) int pageNo,
+                            @RequestParam(value = "pageSize", defaultValue = "3", required = false) int pageSize) {
+
+        if (!SecurityContextUtils.isLoggedIn()) {
+            return "redirect:/login";
+        }
+
+        PageResponse<OrderInfoResponse> orderInfoResponsePageResponse =
+                orderService.getMemberOrderInfoListByMemberId(SecurityContextUtils.getMemberId(),
+                        Pageable.ofSize(pageSize).withPage(pageNo));
+
+        List<OrderInfoResponse> orderInfoResponseList = new ArrayList<>();
+
+        if (orderInfoResponsePageResponse != null) {
+            orderInfoResponseList = orderInfoResponsePageResponse.getContent();
+
+            int blockLimit = 5;
+            int nextPage = orderInfoResponsePageResponse.getPageNo() + 1;
+            int startPage = Math.max(nextPage - blockLimit, 1);
+            int endPage = Math.min(nextPage + blockLimit, orderInfoResponsePageResponse.getTotalPages());
+
+            model.addAttribute("nextPage", nextPage);
+            model.addAttribute("startPage", startPage);
+            model.addAttribute("endPage", endPage);
+        }
+
+        model.addAttribute("orderInfoResponseList", orderInfoResponseList);
+
         return "main/page/mypageOrder";
     }
-
 }
