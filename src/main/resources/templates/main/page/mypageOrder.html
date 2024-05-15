@@ -4,6 +4,13 @@
       layout:decorate="main/layout/mypageLayout">
 
 <th:block layout:fragment="content">
+    <script th:inline="javascript">
+        /* 메시지*/
+        var message = /*[[${message}]]*/ null;
+        if(message) {
+            alert(message);
+        }
+    </script>
     <div class="container mt-5">
         <h1>주문 목록</h1>
         <div class="row mt-5">
@@ -28,7 +35,9 @@
                             <div class="ml-auto mt-5">
                                 <button class="btn btn-outline-danger">주문 취소</button>
                                 <button class="btn btn-outline-dark">환불하기</button>
-                                <button class="btn btn-outline-dark">리뷰 작성하기</button>
+                                <!-- TODO : 리뷰 작성 테스트를 위해 임의로 button onClick 지정, 추후에 코드 변경시 주문상품의 bookId에 맞게 변경해야함-->
+                                <button class="btn btn-outline-dark" onclick="location.href='/reviews/register?bookId=3'">리뷰 작성하기</button>
+<!--                                <button class="btn btn-outline-dark" th:onclick="|location.href='@{/reviews/register(bookId=${id})}'|">리뷰 작성하기</button>-->
                             </div>
                         </div>
                     </div>
