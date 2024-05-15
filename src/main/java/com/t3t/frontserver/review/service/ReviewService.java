@@ -18,14 +18,15 @@ public class ReviewService {
     private final ReviewAdaptor reviewAdaptor;
 
     /**
-     * 특정 회원과 특정 도서에 대한 리뷰가 이미 등록되어 있는지 확인
+     * 리뷰 작성 가능 여부를 확인
      * @param memberId 특정 회원의 식별자
      * @param bookId   특정 도서의 식별자
-     * @return 해당 회원이 해당 도서에 대해 리뷰를 작성했으면 true를 반환하고, 그렇지 않으면 false를 반환
+     * @param orderDetailId 주문상세 ID
+     * @return 리뷰 작성 가능하면 true를 반환하고, 그렇지 않으면 false를 반환
      * @author Yujin-nKim(김유진)
      */
-    public boolean existsReview(Long memberId, Long bookId) {
-        return reviewAdaptor.existsReview(memberId, bookId);
+    public boolean checkReviewCapability(Long memberId, Long bookId, Long orderDetailId) {
+        return reviewAdaptor.checkReviewCapability(memberId, bookId, orderDetailId);
     }
 
     /**

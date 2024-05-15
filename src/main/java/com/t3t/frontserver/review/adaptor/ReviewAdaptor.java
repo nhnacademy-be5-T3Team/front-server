@@ -30,15 +30,16 @@ public class ReviewAdaptor {
     private final ReviewFormApiClient reviewFormApiClient;
 
     /**
-     * 특정 회원과 특정 도서에 대한 리뷰가 이미 등록되어 있는지 확인
+     * 리뷰 작성 가능 여부를 확인
      * @param memberId 회원 식별자
      * @param bookId   도서 식별자
-     * @return 해당 회원이 해당 도서에 대해 리뷰를 작성했으면 true를 반환하고, 그렇지 않으면 false를 반환
+     * @param orderDetailId  주문상세 ID
+     * @return 리뷰 작성 가능 여부
      * @author Yujin-nKim(김유진)
      */
-    public boolean existsReview(Long memberId, Long bookId) {
+    public boolean checkReviewCapability(Long memberId, Long bookId, Long orderDetailId) {
         try {
-            return Optional.ofNullable(reviewApiClient.existsReview(memberId, bookId).getBody())
+            return Optional.ofNullable(reviewApiClient.checkReviewCapability(memberId, bookId, orderDetailId).getBody())
                     .map(BaseResponse::getData)
                     .orElseThrow(ApiDataFetchException::new);
         } catch (FeignException e) {

@@ -50,24 +50,25 @@ public class ReviewController {
      * @param model             뷰에 전달할 데이터를 담는 모델 객체
      * @param redirectAttributes 리다이렉트 속성 객체
      * @param bookId            리뷰를 작성할 도서의 식별자
+     * @param orderDetailId      주문상세 ID
      * @return 리뷰 등록 페이지 뷰
      * @author Yujin-nKim(김유진)
      */
     @GetMapping("/reviews/register")
-    public String reviewPage(Model model, RedirectAttributes redirectAttributes, @RequestParam Long bookId) {
-
+    public String reviewPage(Model model, RedirectAttributes redirectAttributes, @RequestParam Long bookId, @RequestParam Long orderDetailId) {
         Long memberId = SecurityContextUtils.getMemberId();
 
-        // 현재 회원이 해당 도서에 대해 이미 리뷰를 작성했는지 확인
-        if(!reviewService.existsReview(memberId, bookId)) {
-            // 리뷰를 작성하지 않은 경우 리뷰 작성 페이지로 이동
+        // 리뷰 작성 가능한지 확인
+        if(!reviewService.checkReviewCapability(memberId, bookId, orderDetailId)) {
+            // 리뷰를 작성 가능한 경우 리뷰 작성 페이지로 이동
             model.addAttribute("reviewRegisterRequest", new ReviewRegisterRequest());
             model.addAttribute("bookId", bookId);
+            model.addAttribute("orderDetailId", orderDetailId);
             return "main/page/registerReview";
         }
 
-        // 이미 리뷰를 작성한 경우, 메세지와 함께 리다이렉트
-        redirectAttributes.addFlashAttribute("message", "이미 리뷰를 작성했습니다.");
+        // 리뷰를 작성이 불가능한 경우, 메세지와 함께 리다이렉트
+        redirectAttributes.addFlashAttribute("message", "이미 리뷰를 작성했거나, 리뷰를 작성할 수 없습니다.");
         return "redirect:/mypage/order";
     }
 
