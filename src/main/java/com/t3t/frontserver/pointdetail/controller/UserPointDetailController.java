@@ -22,8 +22,9 @@ public class UserPointDetailController {
     private final UserPointDetailService userPointDetailService;
 
     /**
-     * 회원 포인트 사용/적립 내역 페이지 뷰 반환
-     * @return 포인트 사용/적립 내역 뷰
+     * 회원 포인트 전체/사용/적립 내역 페이지 뷰 반환
+     * @param pointDetailType 조회할 포인트 타입(사용/적립)
+     * @return 포인트 전체/사용/적립 내역 뷰
      * @author hydrationn(박수화)
      */
     @GetMapping("/mypage/point-details")
