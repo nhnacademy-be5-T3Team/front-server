@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
@@ -35,5 +36,5 @@ public interface ReviewFormApiClient {
      */
     @PostMapping(value = "/t3t/bookstore/reviews/{reviewId}/image", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     ResponseEntity<BaseResponse<Void>> addReviewImage(@PathVariable Long reviewId,
-                                                      @ModelAttribute List<MultipartFile> imageList);
+                                                      @RequestPart List<MultipartFile> imageList);
 }

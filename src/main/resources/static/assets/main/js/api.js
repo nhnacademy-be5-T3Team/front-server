@@ -20,6 +20,9 @@ function updateReviewComment(reviewId) {
             console.error('Error:', error);
         }
     });
+
+    alert("요청이 처리되었습니다");
+    window.location.reload();
 }
 
 /**
@@ -46,6 +49,9 @@ function updateReviewScore(reviewId) {
             console.error('Error:', error);
         }
     });
+
+    alert("요청이 처리되었습니다");
+    window.location.reload();
 }
 
 /**
@@ -69,6 +75,9 @@ function deleteImage(reviewId, imageUrl) {
             console.error('Error:', error);
         }
     });
+
+    alert("요청이 처리되었습니다");
+    window.location.reload();
 }
 
 /**
@@ -113,4 +122,7 @@ function addImage(reviewId) {
         error: function(xhr, status, error) {
         }
     });
+
+    alert("요청이 처리되었습니다");
+    window.location.reload();
 }
