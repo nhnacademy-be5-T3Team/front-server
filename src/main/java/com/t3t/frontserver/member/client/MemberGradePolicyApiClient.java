@@ -13,21 +13,21 @@ import java.util.List;
 @FeignClient(name = "MemberGradePolicyApiClient", url = "${t3t.feignClient.url}")
 public interface MemberGradePolicyApiClient {
 
-    @GetMapping("/t3t/bookstore/member-grade-policies")
+    @GetMapping("/at/bookstore/admin/member-grade-policies")
     ResponseEntity<BaseResponse<List<MemberGradePolicyDto>>> getMemberGradePolicyList();
 
-    @GetMapping("/t3t/bookstore/member-grade-policies/{policyId}")
+    @GetMapping("/admin/bookstore/member-grade-policies/{policyId}")
     ResponseEntity<BaseResponse<MemberGradePolicyDto>> getMemberGradePolicy(@PathVariable("policyId") Long policyId);
 
-    @PostMapping("/t3t/bookstore/member-grade-policy")
+    @PostMapping("/admin/bookstore/member-grade-policy")
     ResponseEntity<BaseResponse<MemberGradePolicyDto>> createMemberGradePolicy(@RequestBody MemberGradePolicyCreationRequest request);
 
-    @PutMapping("/t3t/bookstore/member-grade-policy/{policyId}/default")
-    ResponseEntity<BaseResponse<MemberGradePolicyDto>> updateMemberGradePolicy(@PathVariable Long policyId,
-                                                                                      @RequestParam BigDecimal startAmount,
-                                                                                      @RequestParam BigDecimal endAmount,
-                                                                                      @RequestParam int rate);
+    @PutMapping("/admin/bookstore/member-grade-policy/{policyId}/default")
+    ResponseEntity<BaseResponse<MemberGradePolicyDto>> updateMemberGradePolicy(@PathVariable("policyId") Long policyId,
+                                                                               @RequestParam("startAmount") BigDecimal startAmount,
+                                                                               @RequestParam("endAmount") BigDecimal endAmount,
+                                                                               @RequestParam("rate") int rate);
 
-    @DeleteMapping("/t3t/bookstore/member-grade-policy/{policyId}")
+    @DeleteMapping("/admin/bookstore/member-grade-policy/{policyId}")
     ResponseEntity<BaseResponse<Void>> deleteMemberGradePolicy(@PathVariable("policyId") Long policyId);
 }

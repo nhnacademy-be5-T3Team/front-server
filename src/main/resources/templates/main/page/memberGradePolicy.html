@@ -4,6 +4,21 @@
       layout:decorate="main/layout/layout">
 
 <th:block layout:fragment="content">
+    <script th:inline="javascript">
+        /* 에러 메시지 */
+        var errorMessage = /*[[${errorMessage}]]*/ null;
+        if(errorMessage) {
+            alert(errorMessage);
+        }
+        /* 성공 메시지 */
+        var successMessage = /*[[${successMessage}]]*/ null;
+        if(successMessage) {
+            alert(successMessage);
+        }
+    </script>
+    <div class="ml-3 mb-3">
+        <button type="button" class="btn btn-danger" onclick="deleteMemberGradePolicy()">삭제</button>
+    </div>
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-10">
@@ -15,7 +30,7 @@
                     <table id="pointDetailTable" class="table table-bordered table-striped centered-table">
                         <thread>
                             <tr>
-                                <td>No</td>
+                                <td>Check Box</td>
                                 <td>기준 시작 금액</td>
                                 <td>기준 종료 금액</td>
                                 <td>적립 비율</td>
@@ -25,14 +40,14 @@
                         <tbody>
                         <!-- Thymeleaf를 사용하여 반복문 처리 -->
                         <tr th:each="memberGradePolicy, no : ${memberGradePolicyList}">
-                            <td th:text="${no.index + 1}"></td>
+                            <td><input type="checkbox" th:value="${memberGradePolicy.policyId}" th:id="'policyCheckbox_' + ${memberGradePolicy}" name="policyCheckbox" class="policyCheckbox"></td>
+                            <td th:text="${memberGradePolicy}"></td>
                             <td th:text="${memberGradePolicy.startAmount}"></td>
                             <td th:text="${memberGradePolicy.endAmount}"></td>
                             <td th:switch="${memberGradePolicy.rate}"></td>
                             <td><button>수정</button><button>삭제</button></td>
                         </tr>
                         </tbody>
-
                     </table>
                     <a href="/" class="btn btn-secondary">메인 화면 바로가기</a>
                     <p></p>
