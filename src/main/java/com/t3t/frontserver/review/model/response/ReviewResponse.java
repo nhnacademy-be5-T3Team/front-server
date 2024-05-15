@@ -1,4 +1,4 @@
-package com.t3t.frontserver.review.response;
+package com.t3t.frontserver.review.model.response;
 
 import lombok.Getter;
 
@@ -7,6 +7,8 @@ import java.util.List;
 
 @Getter
 public class ReviewResponse {
+    private Long reviewId; // 리뷰 id
+    private Long bookId; // 도서 id
     private String name; // 리뷰 작성자 이름
     private String comment; // 리뷰 내용
     private Integer reviewScore; // 평가 점수
