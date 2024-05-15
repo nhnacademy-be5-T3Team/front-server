@@ -129,12 +129,37 @@
                                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                             </div>
                                             <div class="modal-body">
-<!--                                                <a href="#couponModal" role="button" class="btn-box" title="bookCoupon" data-bs-content="">도서 쿠폰</a>-->
-                                                <button> <!--javascript fetch or ajax to send request to coupon batch or api-->도서 쿠폰 발급받기</button>
-
+                                                <!--<form></form>
+                                                <form action="/coupons/book" method="post">
+                                                    <button id = "bookCouponButton" type="submit">도서 쿠폰 발급받기</button>
+                                                </form>
                                                 <hr>
-<!--                                                <a href="#couponModal" role="button" class="btn-block" title="categoryCoupon">카테고리 쿠폰</a>-->
-                                                <button> <!--javascript fetch or ajax to send request to coupon batch or api-->카테고리 쿠폰 발급받기</button>
+                                                <form action="/coupons/category" method="post">
+                                                    <button id = "categoryCouponButton" type="submit">카테고리 쿠폰 발급받기</button>
+                                                </form>-->
+                                                <button id="bookCouponButton" type="button"
+                                                        onclick="issueCoupon('/coupons/book', '도서 쿠폰이 발급되었습니다.', '도서 쿠폰 발급에 실패하였습니다. 다시 시도해 주세요.');">
+                                                    도서 쿠폰 발급받기
+                                                </button>
+                                                <button id="categoryCouponButton" type="button"
+                                                        onclick="issueCoupon('/coupons/category', '카테고리 쿠폰이 발급되었습니다.', '카테고리 쿠폰 발급에 실패하였습니다. 다시 시도해 주세요.');">
+                                                    카테고리 쿠폰 발급받기
+                                                </button>
+
+                                                <script>
+                                                    function issueCoupon(url, successMessage, errorMessage) {
+                                                        $.ajax({
+                                                            url: url,
+                                                            type: 'POST',
+                                                            success: function (response) {
+                                                                $('#couponModal').modal('hide');
+                                                            },
+                                                            error: function (error) {
+                                                                alert(errorMessage);
+                                                            }
+                                                        });
+                                                    }
+                                                </script>
                                             </div>
                                             <div class="modal-footer">
                                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -247,7 +272,6 @@
         indexViewerElement.style.fontSize = '20px';
         var descViewerElement = document.querySelector('#descViewer .toastui-editor-contents');
         descViewerElement.style.fontSize = '20px';
-
     </script>
 </th:block>
 </html>

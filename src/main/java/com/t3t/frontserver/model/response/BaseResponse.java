@@ -26,6 +26,7 @@ public class BaseResponse<T> {
         return this;
     }
 
+
     public BaseResponse<T> message(String message) {
         this.message = message;
         return this;
