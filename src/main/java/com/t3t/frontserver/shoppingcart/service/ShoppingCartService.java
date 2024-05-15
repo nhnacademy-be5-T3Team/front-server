@@ -87,4 +87,12 @@ public class ShoppingCartService {
         }
     }
 
+    /**
+     * 장바구니를 삭제한다.
+     * @author woody35545(구건모)
+     */
+    public void deleteShoppingCart(String shoppingCartId) {
+        shoppingCartRepository.deleteById(shoppingCartId);
+    }
+
 }
