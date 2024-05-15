@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="main/layout/reviewLayout">
+
+    <th:block layout:fragment="content">
+        <form name="ReviewRegisterForm" method="post" th:action="@{/reviews}" th:object="${reviewRegisterRequest}" enctype="multipart/form-data">
+            <div style="padding: 100px;">
+                <!-- 리뷰 Comment -->
+                <div class="row col-sm-10">
+                    <h4>리뷰 내용을 작성해주세요.</h4>
+                    <label>
+                        <textarea class="form-control" rows="10" th:field="*{comment}" required></textarea>
+                    </label>
+                </div>
+
+                <!-- 리뷰 평점 -->
+                <div class="row mb-3">
+                    <h4>도서의 평점은 몇점인가요?</h4>
+                    <div class="col-sm-10">
+                        <div th:each="score : ${score}" class="form-check form-check-inline">
+                            <label>
+                                <input type="radio" th:field="*{score}" th:value="${score.key}" class="form-check-input" required>
+                            </label>
+                            <label th:for="${#ids.prev('score')}"
+                                   th:text="${score.value}" class="form-check-label">0점</label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 리뷰 이미지 등록 -->
+                <div class="row mb-3">
+                    <h4>등록할 리뷰 이미지를 최대 5개까지 선택할 수 있습니다!</h4>
+                    <div class="col-sm-10">
+                        <input type="file" class="form-control" th:field="*{reviewImageList}" multiple accept="image/*">
+                    </div>
+                </div>
+                
+                <div class="row mb-3">
+                    <div class="col-sm-10">
+                        <button type="submit" class="btn btn-primary" id="submitBtn">리뷰 등록하기</button>
+                    </div>
+                </div>
+                <input type="hidden" name="bookId" th:value="${bookId}">
+            </div>
+        </form>
+        <script th:inline="javascript">
+            var error = /*[[${error}]]*/ null;
+            if(error) {
+                alert(error);
+            }
+        </script>
+    </th:block>
+</html>
