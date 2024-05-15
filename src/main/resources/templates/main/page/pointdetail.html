@@ -1,18 +1,20 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout(categoryList)"
-      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
-      layout:decorate="main/layout/layout">
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="main/layout/mypageLayout">
 
 <th:block layout:fragment="content">
     <div class="container">
         <div class="row justify-content-center">
+            <p></p>
+            <p></p>
+            <p></p>
             <div class="col-md-10">
                 <h2 class="text-center mb-5">회원 포인트 내역 조회</h2>
                 <div class="d-flex justify-content-end mb-3">
-                    <a href="/member/point-details" class="btn btn-primary mx-1">전체</a>
-                    <a href="/member/point-details?pointDetailType=used" class="btn btn-primary mx-1">사용</a>
-                    <a href="/member/point-details?pointDetailType=saved" class="btn btn-primary mx-1">적립</a>
+                    <a href="/mypage/point-details" class="btn btn-primary mx-1">전체</a>
+                    <a href="/mypage/point-details?pointDetailType=used" class="btn btn-primary mx-1">사용</a>
+                    <a href="/mypage/point-details?pointDetailType=saved" class="btn btn-primary mx-1">적립</a>
                 </div>
                 <div class="text-center mb-5">
                     <table id="pointDetailTable" class="table table-bordered table-striped centered-table">
