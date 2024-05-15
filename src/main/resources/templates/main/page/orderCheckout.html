@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout(categoryList)"
+      layout:decorate="main/layout/layout">
+
+<th:block layout:fragment="content">
+
+    <form action="/payment" method="post" th:object="${memberOrderPreparationRequest}">
+        <div class="container">
+
+            <input type="hidden" name="memberId" th:value="${orderCheckoutViewDto.memberId}"/>
+
+            <h1>주문 상품 정보</h1>
+            <table class="table">
+                <thead class="thead-light">
+                <tr>
+                    <th>상품명</th>
+                    <!--                <th>포장여부</th>-->
+                    <th>출판사</th>
+                    <th>주문 수량</th>
+                    <th>총금액</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="orderDetailInfo, i : ${orderCheckoutViewDto.orderDetailInfoList}">
+                    <input type="hidden"
+                           th:name="|orderDetailInfoList[${i.index}].bookId|"
+                           th:value="${orderDetailInfo.bookId}"/>
+                    <input type="hidden"
+                           th:name="|orderDetailInfoList[${i.index}].quantity|"
+                           th:value="${orderDetailInfo.quantity}"/>
+                    <input type="hidden"
+                           th:name="|orderDetailInfoList[${i.index}].packagingId|"
+                           th:value="${orderDetailInfo.packagingId}"/>
+                    <td th:text="${orderDetailInfo.getBookName()}"></td>
+                    <td th:text="${orderDetailInfo.getPublisher()}"></td>
+                    <td th:text="${orderDetailInfo.getQuantity()}"></td>
+                    <td th:text="${orderDetailInfo.getTotalPrice()}"></td>
+                </tr>
+                </tbody>
+            </table>
+            <br/>
+
+            <h1>배송 정보</h1>
+            <table class="table">
+                <tbody>
+                <tr>
+                    <th scope="row">주문인</th>
+                    <td>
+                        <input type="text" class="form-control" th:value="${orderCheckoutViewDto.memberName}"
+                               th:if="${orderCheckoutViewDto.memberName != null}" readonly required
+                               style="pointer-events: none;"/>
+                        <input type="text" class="form-control" placeholder="주문하시는 분의 이름"
+                               th:if="${orderCheckoutViewDto.memberName == null}" required/>
+                    </td>
+                </tr>
+
+                <tr>
+                    <th scope="row">휴대전화번호</th>
+                    <td>
+                        <input type="text" class="form-control" th:if="${orderCheckoutViewDto.memberId != null}"
+                               th:value="${orderCheckoutViewDto.memberPhoneNumber}"
+                               style="pointer-events: none;" readonly required/>
+
+                        <input type="text" class="form-control" placeholder="ex) 010-1234-5678"
+                               th:value="${orderCheckoutViewDto.memberPhoneNumber}"
+                               th:if="${orderCheckoutViewDto.memberId == null}" required/>
+
+                    </td>
+                </tr>
+
+                <tr>
+                    <th scope="row">배송지 선택</th>
+                    <td>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="addressOption" id="addressBook" checked>
+                            <label class="form-check-label" for="addressBook">배송 주소록에서 선택</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="addressOption" id="newAddress">
+                            <label class="form-check-label" for="newAddress">새 주소 입력</label>
+                        </div>
+                    </td>
+                </tr>
+
+                <tr id="addressBookSelection">
+                    <th scope="row">주소</th>
+                    <td style="width: 70%;">
+                        <select class="form-control" name="memberAddressId">
+
+                            <option th:if="${orderCheckoutViewDto.getAddressInfoList().isEmpty()}"
+                                    disabled selected>
+                                등록된 주소가 없습니다
+                            </option>
+
+                            <option th:each="address : ${orderCheckoutViewDto.getAddressInfoList()}"
+                                    th:text="${address.getRoadNameAddress() + ', ' + address.getAddressDetail() + ' (' + address.getNickName() + ')'}"
+                                    th:value="${address.getId()}">
+                                주소를 선택하세요
+                            </option>
+
+                        </select>
+                    </td>
+                </tr>
+
+                <tr id="newAddressInput" style="display: none;">
+                    <th scope="row">주소</th>
+                    <td style="width: 70%;">
+                        <input type="text" class="form-control">
+                    </td>
+                </tr>
+
+                <tr>
+                    <th scope="row">받으시는 분</th>
+                    <td>
+                        <input type="text" class="form-control"
+                               th:if="${orderCheckoutViewDto.memberName == null}"
+                               placeholder="받으시는 분 이름"/>
+                        <input type="text" class="form-control"
+                               th:if="${orderCheckoutViewDto.memberName != null}"
+                               th:name="recipientName"
+                               th:value="${orderCheckoutViewDto.memberName}"
+                               placeholder="받으시는 분 이름"
+                               required>
+
+                        <input type="text" class="form-control"
+                               th:if="${orderCheckoutViewDto.memberPhoneNumber == null}"
+                               th:name="recipientPhoneNumber"
+                               placeholder="받으시는 분 전화번호"/>
+                        <input type="text" class="form-control"
+                               th:if="${orderCheckoutViewDto.memberPhoneNumber != null}"
+                               th:name="recipientPhoneNumber"
+                               th:value="${orderCheckoutViewDto.memberPhoneNumber}"
+                               placeholder="받으시는 분 이름"
+                               required>
+                    </td>
+                </tr>
+
+                </tbody>
+            </table>
+            <br/>
+
+            <h1>추가 할인 받기</h1>
+            <div class="card">
+                <div class="card-body">
+                    보유 쿠폰 2 장<br/>
+                    <button class="btn btn-primary">쿠폰 조회/적용</button>
+                    <br/><br/>
+                    할인 금액: 0 원
+                </div>
+            </div>
+            <br/>
+
+            <h1>결제 내역 확인</h1>
+            <table class="table">
+                <thead class="thead-light">
+                <tr>
+                    <th colspan="2">주문상품금액정보</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>
+                        <b>주문 금액:</b> <span th:text="${orderCheckoutViewDto.totalOrderPrice}"/> 원<br/>
+                        <b>포장 금액:</b> <span th:text="${orderCheckoutViewDto.totalPackagingPrice}"/> 원<br/>
+                        <b>배송료:</b> <span th:text="${orderCheckoutViewDto.deliveryPrice}"/> 원<br/>
+                        <b>결제 총액:</b> <span th:text="${orderCheckoutViewDto.totalPaymentPrice}"/>원<br/>
+                    </td>
+                    <td>
+                        <b>도서 할인 금액:</b> <span th:text="${orderCheckoutViewDto.totalDiscountPrice}"/> 원<br/>
+                        <b>쿠폰 할인 금액:</b> <span th:text="0"/>원
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <b>남은 결제 금액:</b> <span th:text="${orderCheckoutViewDto.totalPaymentPrice}"/>원<br/>
+                </tr>
+                </tbody>
+            </table>
+            <br/>
+
+            <h1>결제 수단</h1>
+            <table class="table">
+                <tbody>
+                <tr>
+                    <td>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" checked/>
+                            <label class="form-check-label">토스 페이</label>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" disabled/>
+                            <label class="form-check-label">일반 결제(comming soon)</label>
+                        </div>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <br/>
+            <input type="hidden" th:value="${orderCheckoutViewDto.totalPaymentPrice}"/>
+            <button type="submit" class="btn btn-primary">결제하기</button>
+            <!--            </form>-->
+            <br/>
+            <br/>
+        </div>
+    </form>
+    <script>
+        <!-- 배송지 주소 토글 -->
+        let addressBookSelection = document.getElementById("addressBookSelection");
+        let newAddressInput = document.getElementById("newAddressInput");
+
+        document.querySelectorAll('input[name="addressOption"]').forEach(function (radio) {
+            radio.addEventListener("change", function () {
+                if (this.id === "addressBook") {
+                    addressBookSelection.style.display = "table-row"
+                    newAddressInput.style.display = "none";
+                } else if (this.id === "newAddress") {
+                    addressBookSelection.style.display = "none";
+                    newAddressInput.style.display = "table-row";
+                }
+            });
+        });
+    </script>
+</th:block>
+</html>
