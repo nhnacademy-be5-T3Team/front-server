@@ -7,8 +7,8 @@ import com.t3t.frontserver.category.response.CategoryTreeResponse;
 import com.t3t.frontserver.index.OrderFormRequest;
 import com.t3t.frontserver.model.response.BaseResponse;
 import com.t3t.frontserver.model.response.PageResponse;
-import com.t3t.frontserver.review.adaptor.ReviewAdaptor;
-import com.t3t.frontserver.review.response.ReviewResponse;
+import com.t3t.frontserver.review.client.ReviewApiClient;
+import com.t3t.frontserver.review.model.response.ReviewResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -26,7 +26,7 @@ import static com.t3t.frontserver.util.ServiceUtils.handleResponse;
 public class BookController {
     private final CategoryApiClient categoryAdaptor;
     private final BookApiClient bookApiClient;
-    private final ReviewAdaptor reviewAdaptor;
+    private final ReviewApiClient reviewApiClient;
 
     @GetMapping("books/{bookId}")
     public String getBook(Model model, @PathVariable Long bookId,
@@ -69,7 +69,7 @@ public class BookController {
     }
 
     private PageResponse<ReviewResponse> getDataFromReviewAdaptor(Long bookId, int pageNo) {
-        ResponseEntity<BaseResponse<PageResponse<ReviewResponse>>> reviewsResponse = reviewAdaptor.getBook(bookId, pageNo);
+        ResponseEntity<BaseResponse<PageResponse<ReviewResponse>>> reviewsResponse = reviewApiClient.findReviewsByBookId(bookId, pageNo);
         return handleResponse(reviewsResponse);
     }
 }
