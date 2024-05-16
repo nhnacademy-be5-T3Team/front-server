@@ -4,79 +4,161 @@
       layout:decorate="main/layout/mypageLayout">
 
 <th:block layout:fragment="content">
-    <script th:inline="javascript">
-        /* 메시지*/
-        var message = /*[[${message}]]*/ null;
-        if(message) {
-            alert(message);
-        }
-    </script>
     <div class="container mt-5">
         <h1>주문 목록</h1>
-        <div class="row mt-5">
-            <div class="col-md-4">
-                <h5><i>주문번호: 111-1250912120</i></h5>
-            </div>
-            <div class="col-md-4 text-right">
-                <a href="#">주문 상세 조회 ></a>
-            </div>
-            <div class="card mb-3 col-md-8">
-                <div class="row no-gutters">
-                    <div class="col-md-4">
-                        <img class="square-img"
-                             src="#"
-                             alt="상품 이미지">
-                    </div>
-                    <div class="col-md-8">
-                        <div class="card-body d-flex flex-column">
-                            <h5 class="card-title">배송 완료 <small> (배송 예정일: 2024-05-01) </small></h5>
-                            <p class="card-text">상품명: 내 몸에 꼭 맞는 사상체질 건강요리 - 태양인 이제마의 사상체질의 실용서 </p>
-                            <p class="card-text">상품 가격: 20000</p>
-                            <div class="ml-auto mt-5">
-                                <button class="btn btn-outline-danger">주문 취소</button>
-                                <button class="btn btn-outline-dark">환불하기</button>
-                                <!-- TODO : 리뷰 작성 테스트를 위해 임의로 button onClick 지정, 추후에 코드 변경시 주문상품의 bookId에 맞게 변경해야함-->
-                                <button class="btn btn-outline-dark" th:onclick="|location.href='@{/reviews/register(bookId=${100}, orderDetailId=${137})}'|">리뷰 작성하기</button>
+
+        <div th:if="${orderInfoResponseList.isEmpty()}"
+             class="alert alert-primary col-md-5 mt-5" role="alert">
+            주문 내역이 존재하지 않습니다.
+        </div>
+
+        <div th:each="orderInfoResponse, i : ${orderInfoResponseList}">
+            <div class="row mt-5">
+                <div class="col-md-6">
+                    <h5>
+                        주문번호:
+                        <b><i><span th:if="${orderInfoResponse.paymentProviderOrderId != null}"
+                                    th:text="${orderInfoResponse.paymentProviderOrderId}"></span></i></b>
+
+                        <b><i><small th:unless="${orderInfoResponse.paymentProviderOrderId != null}"
+                                     th:text="'결제가 진행중인 주문입니다'"></small></i></b>
+                    </h5>
+
+                </div>
+                <div class="col-md-2 text-right">
+                    <a href="#">주문 상세 조회 ></a>
+                </div>
+
+                <h6><span th:text="${orderInfoResponse.orderCreatedAt}"></span></h6>
+
+                <div th:each="orderDetailInfo, i : ${orderInfoResponse.orderDetailInfoList}">
+                    <div class="card mb-3 col-md-8">
+                        <div class="row no-gutters">
+                            <div class="col-md-4">
+                                <img class="square-img"
+                                     src="#"
+                                     alt="상품 이미지">
+                            </div>
+                            <div class="col-md-8">
+                                <div class="card-body d-flex flex-column">
+                                    <h5 class="card-title">
+                                        <div th:text="${orderDetailInfo.orderStatusName}"></div>
+                                        <small>
+                                            (배송 예정일:
+
+                                            <span th:if="${orderInfoResponse.paymentId != null}"
+                                                  th:text="${orderDetailInfo.deliveryDate}"></span>
+
+                                            <span th:unless="${orderInfoResponse.paymentId != null}"
+                                                  th:text="' 결제를 완료해주세요 '"></span>
+
+                                            )
+                                        </small>
+                                    </h5>
+                                    <p class="card-text">
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <b class="font-weight-bold">상품명</b>
+                                        </div>
+                                        <div class="col-md-9">
+                                            <span th:text="${orderDetailInfo.bookName}"
+                                                  class="text-primary-emphasis"></span>
+                                        </div>
+
+                                        <div class="col-md-3">
+                                            <b class="font-weight-bold">구매 수량</b>
+                                        </div>
+                                        <div class="col-md-9">
+                                            <span th:text="${orderDetailInfo.quantity} + ' 개'"
+                                                  class="text-primary-emphasis"></span>
+                                        </div>
+
+                                        <div class="col-md-3">
+                                            <b class="font-weight-bold">결제 금액</b>
+                                        </div>
+                                        <div class="col-md-9">
+                                            <span th:text="${orderDetailInfo.price} + ' ₩'"
+                                                  class="text-primary-emphasis"></span>
+                                        </div>
+
+                                        <div class="col-md-3">
+                                            <b class="font-weight-bold">결제 일시</b>
+                                        </div>
+                                        <div class="col-md-9">
+                                            <span
+                                                    th:if="${orderInfoResponse.paymentCreatedAt != null}"
+                                                    th:text="${orderInfoResponse.paymentCreatedAt}"
+                                                    class="text-primary-emphasis">
+                                            </span>
+                                            <span
+                                                    th:unless="${orderInfoResponse.paymentCreatedAt != null}"
+                                                    th:text="'결제 대기'"
+                                                    class="text-danger">
+                                            </span>
+                                        </div>
+                                    </div>
+                                    </p>
+
+
+                                    <div class="ml-auto mt-5">
+                                        <button th:if="${orderDetailInfo.orderStatusName != 'PENDING'}"
+                                                class="btn btn-outline-danger">
+                                            주문 취소
+                                        </button>
+
+                                        <button th:unless="${orderDetailInfo.orderStatusName != 'PENDING'}"
+                                                class="btn btn-outline-danger" disabled>
+                                            주문 취소
+                                        </button>
+
+                                        <button th:if="${orderDetailInfo.orderStatusName != 'PENDING'}"
+                                                class="btn btn-outline-dark">
+                                            환불하기
+                                        </button>
+
+                                        <button th:unless="${orderDetailInfo.orderStatusName != 'PENDING'}"
+                                                class="btn btn-outline-dark" disabled>
+                                            환불하기
+                                        </button>
+
+                                        <button th:if="${orderDetailInfo.orderStatusName != 'PENDING'}"
+                                                class="btn btn-outline-dark">
+                                            리뷰 작성하기
+                                        </button>
+
+                                        <button th:unless="${orderDetailInfo.orderStatusName != 'PENDING'}"
+                                                class="btn btn-outline-dark" disabled>
+                                            리뷰 작성하기
+                                        </button>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-
-        <div class="row mt-5">
-            <div class="col-md-4">
-                <h5><i>주문번호: 111-1250912120</i></h5>
-            </div>
-            <div class="col-md-4 text-right">
-                <a href="#">주문 상세 조회 ></a>
-            </div>
-
-            <div class="card mb-3 col-md-8">
-                <div class="row no-gutters">
-                    <div class="col-md-4">
-                        <img class="square-img"
-                             src="#"
-                             alt="상품 이미지">
-                    </div>
-                    <div class="col-md-8">
-                        <div class="card-body d-flex flex-column">
-                            <h5 class="card-title">배송 중<small> (배송 예정일: 2024-05-20) </small></h5>
-                            <p class="card-text">상품명: 요리하는 다이어터의 맛있게 살 빼는 다이어트 레시피</p>
-                            <p class="card-text">상품 가격: 10,000원</p>
-                            <div class="ml-auto mt-5">
-                                <button class="btn btn-outline-danger">주문 취소</button>
-                                <button class="btn btn-outline-dark">환불하기</button>
-                                <!-- TODO : 리뷰 작성 테스트를 위해 임의로 button onClick 지정, 추후에 코드 변경시 주문상품의 bookId에 맞게 변경해야함-->
-                                <button class="btn btn-outline-dark" th:onclick="|location.href='@{/reviews/register(bookId=${150}, orderDetailId=${139})}'|">리뷰 작성하기</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+        <div th:unless="${#lists.isEmpty(orderInfoResponseList)}">
+            <nav aria-label="Page navigation example">
+                <ul class="pagination">
+                    <li class="page-item" th:classappend="${nextPage == 1} ? 'disabled'">
+                        <a class="page-link" th:href="@{'?pageNo=' + ${nextPage - 2}}" aria-label="Previous">
+                            <span aria-hidden="true">&laquo;</span>
+                        </a>
+                    </li>
+                    <th:block th:each="page : ${#numbers.sequence(startPage, endPage)}">
+                        <li class="page-item" th:classappend="${page == nextPage} ? 'active'">
+                            <a class="page-link" th:href="@{'?pageNo=' + ${page - 1}}" th:text="${page}"></a>
+                        </li>
+                    </th:block>
+                    <li class="page-item" th:classappend="${nextPage == endPage} ? 'disabled'">
+                        <a class="page-link" th:href="@{'?pageNo=' + ${nextPage}}" aria-label="Next">
+                            <span aria-hidden="true">&raquo;</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
         </div>
     </div>
-
-
 </th:block>
 </html>

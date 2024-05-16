@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{main/layout/layout}">
+<head th:replace="main/component/tossHead :: headFragment"></head>
+<th:block layout:fragment="content">
+    <script th:inline="javascript">
+        let clientKey = 'test_ck_ex6BJGQOVDp2M14oMP9BVW4w2zNb';
+        let type = '카드'
+        let amount = [[${amount}]]
+        let orderId = [[${orderId}]]
+        let providerOrderId = [[${providerOrderId}]]
+        let tossPayments = TossPayments(clientKey);
+
+        tossPayments.requestPayment(type,
+            {
+                amount: amount,
+                orderId: providerOrderId,
+                orderName: '상품 주문',
+                customerName: ' ',
+                successUrl: window.location.origin + "/payment/success?serviceOrderId=" + orderId,
+                failUrl: window.location.origin + "/payment/fail",
+            })
+    </script>
+</th:block>
+</html>
