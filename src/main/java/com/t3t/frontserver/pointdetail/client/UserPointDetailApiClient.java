@@ -17,9 +17,11 @@ public interface UserPointDetailApiClient {
 
     /**
      * 회원의 포인트 타입에 따른 포인트 사용/적립 내역 조회 API 호출
+     * @param memberId 회원 ID
      * @param pointDetailType 조회할 포인트 타입(사용/적립)
      * @author hydrationn(박수화)
      */
-    @GetMapping("/t3t/bookstore/mypage/point-details")
-    public ResponseEntity<BaseResponse<List<PointDetailResponse>>> getPointDetailByPointDetailType(@RequestParam(name = "pointDetailType", required = false) String pointDetailType);
+    @GetMapping("/t3t/bookstore/member/{memberId}/point-details")
+    ResponseEntity<BaseResponse<List<PointDetailResponse>>> getPointDetailByPointDetailType(@PathVariable("memberId") Long memberId,
+                                                                                            @RequestParam(name = "pointDetailType", required = false) String pointDetailType);
 }
