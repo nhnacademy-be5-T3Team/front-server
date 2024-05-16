@@ -1,8 +1,11 @@
 package com.t3t.frontserver.member.client;
 
+import com.t3t.frontserver.coupon.model.response.CouponDetailFindResponse;
+import com.t3t.frontserver.coupon.model.response.CouponDetailResponse;
 import com.t3t.frontserver.member.model.dto.MemberAddressDto;
 import com.t3t.frontserver.member.model.request.MemberPasswordModifyRequest;
 import com.t3t.frontserver.member.model.request.MemberRegistrationRequest;
+import com.t3t.frontserver.member.model.response.MemberAdminResponse;
 import com.t3t.frontserver.member.model.response.MemberInfoResponse;
 import com.t3t.frontserver.member.model.response.MemberRegistrationResponse;
 import com.t3t.frontserver.model.response.BaseResponse;
@@ -36,6 +39,14 @@ public interface MemberApiClient {
      */
     @GetMapping(value = "/t3t/bookstore/members/{memberId}")
     ResponseEntity<BaseResponse<MemberInfoResponse>> getMemberById(@PathVariable("memberId") long memberId);
+
+    /**
+     * 회원 목록 이름으로 조회
+     * @param name
+     * @author joohyun1996(이주현)
+     */
+    @GetMapping(value = "/at/bookstore/members")
+    ResponseEntity<BaseResponse<List<MemberAdminResponse>>> findMemberByName(@RequestParam("name") String name);
 
     /**
      * 회원 식별자로 특정 회원이 등록한 모든 회원 주소 정보들을 조회하는 API
@@ -83,4 +94,19 @@ public interface MemberApiClient {
     @PostMapping("/t3t/bookstore/members/{memberId}/codes?type=verify")
     BaseResponse<Void> verifyMemberActivationCertCode(@PathVariable("memberId") Long memberId, @RequestParam("value") String code);
 
+
+    /**
+     * 관리자가 회원에게 쿠폰 등록하기 위한 API
+     *
+     * @author joohyun1996(이주현)
+     */
+    @PostMapping("/at/bookstore/members/coupons/{memberId}/{couponType}")
+    BaseResponse<Void> registerCouponToMemberByAdmin(@PathVariable("couponType") String couponType,
+                                                     @PathVariable("memberId") Long memberId);
+
+    @GetMapping("/at/bookstore/members/coupons")
+    ResponseEntity<BaseResponse<List<CouponDetailResponse>>> findAllCoupon();
+
+    @GetMapping("/at/coupon/details/{couponId}")
+    ResponseEntity<BaseResponse<CouponDetailFindResponse>> getCouponDetails(@PathVariable("couponId") String id);
 }
