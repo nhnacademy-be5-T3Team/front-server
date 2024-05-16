@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout(categoryList)"
+      layout:decorate="main/layout/mypageLayout">
+
+<th:block layout:fragment="content" th:method="get">
+    <div class="container mt-5">
+        <h1>보유 쿠폰 조회</h1>
+        <table class="table">
+            <thead>
+            <tr>
+                <th scope="row">쿠폰명</th>
+                <th scope="row">할인액</th>
+                <th scope="row">할인율</th>
+                <th scope="row">유효기간</th>
+                <th scope="row">쿠폰종류</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="coupon : ${couponList}">
+                <td th:text="${coupon.couponId}"></td>
+                <td th:text="${coupon.discountRate != null ? coupon.discountRate : 'N/A'}"></td>
+                <td th:text="${coupon.discountFee != null ? coupon.discountFee : 'N/A'}"></td>
+                <td th:text="${coupon.couponExpireDate}"></td>
+                <td th:text="${coupon.couponType}"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</th:block>
+</html>

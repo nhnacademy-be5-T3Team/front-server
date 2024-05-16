@@ -15,4 +15,20 @@ public class BaseResponse<T> {
         this.message = message;
         this.data = data;
     }
+
+    /**
+     * 응답 객체에 데이터를 설정한다.
+     * @param data 응답할 데이터
+     * @return BaseResponse
+     */
+    public BaseResponse<T> data(T data) {
+        this.data = data;
+        return this;
+    }
+
+
+    public BaseResponse<T> message(String message) {
+        this.message = message;
+        return this;
+    }
 }

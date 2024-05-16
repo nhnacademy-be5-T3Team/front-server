@@ -35,7 +35,12 @@
                         </button>
                     </form>
                 </div>
-                <div sec:authorize="isAuthenticated()">
+                <div sec:authorize="isAuthenticated()" style="display: flex; justify-content: space-between;">
+                    <form action="/mypage/info" method="get">
+                        <button type="submit" class="order_online" style="margin-right: 10px; margin-left: 10px">
+                            My Page
+                        </button>
+                    </form>
                     <form action="/logout" method="post">
                         <button type="submit" class="order_online">
                             Sign Out

@@ -1,13 +1,15 @@
 package com.t3t.frontserver.member.service;
 
+import com.t3t.frontserver.coupon.model.response.CouponDetailFindResponse;
+import com.t3t.frontserver.coupon.model.response.CouponDetailResponse;
 import com.t3t.frontserver.member.adaptor.MemberAdaptor;
 import com.t3t.frontserver.member.model.dto.MemberAddressDto;
 import com.t3t.frontserver.member.model.request.MemberPasswordModifyRequest;
 import com.t3t.frontserver.member.model.request.MemberRegistrationRequest;
+import com.t3t.frontserver.member.model.response.MemberAdminResponse;
 import com.t3t.frontserver.member.model.response.MemberInfoResponse;
 import com.t3t.frontserver.member.model.response.MemberRegistrationResponse;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -91,5 +93,21 @@ public class MemberService {
      */
     public void verifyMemberActivationCode(long memberId, String activationCode) {
         memberAdaptor.verifyMemberActivationCode(memberId, activationCode);
+    }
+
+    public List<MemberAdminResponse> findMemberByName(String name){
+        return memberAdaptor.findMemberByName(name);
+    }
+
+    public String registCouponToMemberByAdmin(String couponType, Long memberId){
+        return memberAdaptor.registerCouponToMemberByAdmin(couponType, memberId);
+    }
+
+    public List<CouponDetailResponse> findAllCouponsByMemberId(){
+        return memberAdaptor.findAllCouponsByMemberId();
+    }
+
+    public CouponDetailFindResponse findCouponDetails(String id){
+        return memberAdaptor.getCouponDetails(id);
     }
 }
