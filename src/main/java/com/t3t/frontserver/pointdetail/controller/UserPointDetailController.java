@@ -25,7 +25,7 @@ public class UserPointDetailController {
      * @return 포인트 사용/적립 내역 뷰
      * @author hydrationn(박수화)
      */
-    @GetMapping("/member/point-details")
+    @GetMapping("/mypage/point-details")
     public String pointDetailView(Model model, @Valid @RequestParam(value = "pointDetailType", required = false) String pointDetailType) {
 
         // 로그인 정보가 없으면 로그인 페이지로 이동
@@ -50,6 +50,6 @@ public class UserPointDetailController {
 
         model.addAttribute("pointDetails", pointDetails);
 
-        return "main/pointdetails/pointdetail";
+        return "main/page/pointdetail";
     }
 }
