@@ -2,8 +2,8 @@ package com.t3t.frontserver.member.adaptor;
 
 import com.t3t.frontserver.member.client.MemberGradePolicyApiClient;
 import com.t3t.frontserver.member.exception.MemberGradePolicyApiClientException;
-import com.t3t.frontserver.member.model.dto.MemberGradePolicyDto;
 import com.t3t.frontserver.member.model.request.MemberGradePolicyCreationRequest;
+import com.t3t.frontserver.member.model.response.MemberGradePolicyResponse;
 import com.t3t.frontserver.model.response.BaseResponse;
 import com.t3t.frontserver.util.FeignClientUtils;
 import feign.FeignException;
@@ -19,7 +19,7 @@ import java.util.Optional;
 public class MemberGradePolicyAdaptor {
     private final MemberGradePolicyApiClient memberGradePolicyApiClient;
 
-    public List<MemberGradePolicyDto> getMemberGradePolicyList() {
+    public List<MemberGradePolicyResponse> getMemberGradePolicyList() {
         try {
             return Optional.ofNullable(memberGradePolicyApiClient.getMemberGradePolicyList().getBody())
                     .map(BaseResponse::getData)
@@ -29,7 +29,7 @@ public class MemberGradePolicyAdaptor {
         }
     }
 
-    public MemberGradePolicyDto getMemberGradePolicy(Long policyId) {
+    public MemberGradePolicyResponse getMemberGradePolicy(Long policyId) {
         try {
             return Optional.ofNullable(memberGradePolicyApiClient.getMemberGradePolicy(policyId).getBody())
                     .map(BaseResponse::getData)
@@ -39,7 +39,7 @@ public class MemberGradePolicyAdaptor {
         }
     }
 
-    public MemberGradePolicyDto createMemberGradePolicy(MemberGradePolicyCreationRequest request) {
+    public MemberGradePolicyResponse createMemberGradePolicy(MemberGradePolicyCreationRequest request) {
         try {
             return Optional.ofNullable(memberGradePolicyApiClient.createMemberGradePolicy(request).getBody())
                     .map(BaseResponse::getData)

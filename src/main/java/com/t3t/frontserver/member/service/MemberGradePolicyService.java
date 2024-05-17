@@ -1,8 +1,8 @@
 package com.t3t.frontserver.member.service;
 
 import com.t3t.frontserver.member.adaptor.MemberGradePolicyAdaptor;
-import com.t3t.frontserver.member.model.dto.MemberGradePolicyDto;
 import com.t3t.frontserver.member.model.request.MemberGradePolicyCreationRequest;
+import com.t3t.frontserver.member.model.response.MemberGradePolicyResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -14,15 +14,15 @@ import java.util.List;
 public class MemberGradePolicyService {
     private final MemberGradePolicyAdaptor memberGradePolicyAdaptor;
 
-    public List<MemberGradePolicyDto> getMemberGradePolicyList() {
+    public List<MemberGradePolicyResponse> getMemberGradePolicyList() {
         return memberGradePolicyAdaptor.getMemberGradePolicyList();
     }
 
-    public MemberGradePolicyDto getMemberGradePolicy(Long policyId) {
+    public MemberGradePolicyResponse getMemberGradePolicy(Long policyId) {
         return memberGradePolicyAdaptor.getMemberGradePolicy(policyId);
     }
 
-    public MemberGradePolicyDto createMemberGradePolicy(MemberGradePolicyCreationRequest request) {
+    public MemberGradePolicyResponse createMemberGradePolicy(MemberGradePolicyCreationRequest request) {
         return memberGradePolicyAdaptor.createMemberGradePolicy(request);
     }
 

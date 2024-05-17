@@ -72,6 +72,30 @@
                 </li>
             </ul>
         </li>
+        <!-- 회원 등급 정책 관리 -->
+        <li class="nav-item">
+            <a class="nav-link collapsed" data-bs-target="#policy-nav" data-bs-toggle="collapse" href="#">
+                <i class="bi bi-menu-button-wide"></i><span>회원 등급 규정 관리</span><i class="bi bi-chevron-down ms-auto"></i>
+            </a>
+            <ul id="policy-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+                <li>
+                    <a href="/admin/member-grade-policies"> <!-- TODO : URL 수정 -->
+                        <i class="bi bi-circle"></i><span>회원 등급 조회 및 삭제</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="/admin/member-grade-policy"> <!-- TODO : URL 수정 -->
+                        <i class="bi bi-circle"></i><span>회원 등급 등록</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="/admin/member-grade-policy/{policyId}/default"> <!-- TODO : URL 수정 -->
+                        <i class="bi bi-circle"></i><span>회원 등급 수정</span>
+                    </a>
+                </li>
+            </ul>
+        </li>
+        <!-- ex -->
         <li class="nav-item">
             <a class="nav-link collapsed" data-bs-target="#example-nav" data-bs-toggle="collapse" href="#">
                 <i class="bi bi-menu-button-wide"></i><span>Example</span><i class="bi bi-chevron-down ms-auto"></i>

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout(categoryList)"
-      layout:decorate="main/layout/layout">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="admin/layout/layout">
 
 <th:block layout:fragment="content">
     <script th:inline="javascript">
@@ -17,7 +17,7 @@
         }
     </script>
     <div class="ml-3 mb-3">
-        <button type="button" class="btn btn-danger" onclick="deleteMemberGradePolicy()">삭제</button>
+        <button type="button" class="btn btn-danger" onclick="deleteSelectedPolicies()">삭제</button>
     </div>
     <div class="container">
         <div class="row justify-content-center">
@@ -40,12 +40,12 @@
                         <tbody>
                         <!-- Thymeleaf를 사용하여 반복문 처리 -->
                         <tr th:each="memberGradePolicy, no : ${memberGradePolicyList}">
-                            <td><input type="checkbox" th:value="${memberGradePolicy.policyId}" th:id="'policyCheckbox_' + ${memberGradePolicy}" name="policyCheckbox" class="policyCheckbox"></td>
-                            <td th:text="${memberGradePolicy}"></td>
+                            <td><input type="checkbox" th:value="${no}" th:id="'policyCheckbox_' + ${memberGradePolicy}" name="policyCheckbox" class="policyCheckbox"></td>
+                            <td th:text="${memberGradePolicy.grade}"></td>
                             <td th:text="${memberGradePolicy.startAmount}"></td>
                             <td th:text="${memberGradePolicy.endAmount}"></td>
                             <td th:switch="${memberGradePolicy.rate}"></td>
-                            <td><button>수정</button><button>삭제</button></td>
+                            <td><button>삭제</button></td>
                         </tr>
                         </tbody>
                     </table>
@@ -55,5 +55,35 @@
             </div>
         </div>
     </div>
+
+    <script th:inline="javascript">
+        function selectOnlyOneCheckbox() {
+            var checkboxes = document.getElementsByClassName('policyCheckbox');
+            for (var i = 0; i < checkboxes.length; i++) {
+                checkboxes[i].onclick = function() {
+                    for (var j = 0; j < checkboxes.length; j++) {
+                        if (checkboxes[j] != this) {
+                            checkboxes[j].checked = false;
+                        }
+                    }
+                };
+            }
+        }
+
+        function deleteSelectedPolicies() {
+            var selectedCheckbox = document.querySelector('input[name="policyCheckbox"]:checked');
+            if (selectedCheckbox) {
+                alert("회원 등급을 삭제하시겠습니까?");
+                var selectedPolicyId = selectedCheckbox.value;
+                window.location.href = '/admin/member-grade-policies/' + selectedPolicyId + '/delete';
+            } else {
+                alert("회원 등급을 선택하세요.");
+            }
+        }
+
+        window.onload = function() {
+            selectOnlyOneCheckbox();
+        };
+    </script>
 </th:block>
 </html>
