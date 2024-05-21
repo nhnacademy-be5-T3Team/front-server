@@ -38,4 +38,14 @@ public class GlobalExceptionHandler {
         response.addCookie(cookie);
         return "redirect:/login";
     }
+
+    @ExceptionHandler(FeignException.class)
+    public String handleJ2WTException(Model model, FeignException e, HttpServletResponse response){
+        Cookie cookie = new Cookie("t3t", null);
+        cookie.setMaxAge(0);
+        cookie.setPath("/");
+        SecurityContextHolder.clearContext();
+        response.addCookie(cookie);
+        return "redirect:/";
+    }
 }
