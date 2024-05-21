@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="admin/layout/layout">
+<th:block layout:fragment="content">
+    <!--        <div class="ml-3 mb-3">-->
+    <!--            <button type="button" class="btn btn-danger" onclick="deleteSelectedBooks()">삭제</button>-->
+    <!--        </div>-->
+    <table id="participantRoleTable" class="table">
+        <thead class="table-light">
+        <tr>
+            <th>CheckBox</th>
+            <th>ParticipantRole Id</th>
+            <th>ParticipantRole roleNameEn</th>
+            <th>ParticipantRole roleNameKr</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:if="${#lists.isEmpty(participantRoleList)}">
+            <td colspan="12">등록된 참여자 역할이 없습니다.</td>
+        </tr>
+        <tr th:each="participantRole : ${participantRoleList}">
+            <td><input type="checkbox" th:value="${participantRole.id}" th:id="'participantRoleCheckbox_' + ${participantRole.id}" name="participantRoleCheckbox" class="participantRoleCheckbox"></td>
+            <td th:text="${participantRole.id}"></td>
+            <!--                    <td><a th:href="@{'/admin/tags/' + ${tag.id} + '/edit'}"><span th:text="${tag.name}"></span></a></td>-->
+            <td><span th:text="${participantRole.roleNameEn}"></span></td>
+            <td><span th:text="${participantRole.roleNameKr}"></span></td>
+        </tr>
+        </tbody>
+    </table>
+    <div th:unless="${#lists.isEmpty(participantRoleList)}">
+        <nav aria-label="Page navigation example">
+            <ul class="pagination">
+                <li class="page-item" th:classappend="${nowPage == 1} ? 'disabled'">
+                    <a class="page-link" th:href="@{'?pageNo=' + ${nowPage - 1}}" aria-label="Previous">
+                        <span aria-hidden="true">&laquo;</span>
+                    </a>
+                </li>
+                <th:block th:each="page : ${#numbers.sequence(startPage, endPage)}">
+                    <li class="page-item" th:classappend="${page == nowPage} ? 'active'">
+                        <a class="page-link" th:href="@{'?pageNo=' + ${page - 1}}" th:text="${page}"></a>
+                    </li>
+                </th:block>
+                <li class="page-item" th:classappend="${nowPage == endPage} ? 'disabled'">
+                    <a class="page-link" th:href="@{'?pageNo=' + ${nowPage + 1}}" aria-label="Next">
+                        <span aria-hidden="true">&raquo;</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+
+    <script th:inline="javascript">
+        function selectOnlyOneCheckbox() {
+            var checkboxes = document.getElementsByClassName('participantRoleCheckbox');
+            for (var i = 0; i < checkboxes.length; i++) {
+                checkboxes[i].onclick = function() {
+                    for (var j = 0; j < checkboxes.length; j++) {
+                        if (checkboxes[j] != this) {
+                            checkboxes[j].checked = false;
+                        }
+                    }
+                };
+            }
+        }
+
+        // function deleteSelectedBooks() {
+        //     var selectedCheckbox = document.querySelector('input[name="bookCheckbox"]:checked');
+        //     if (selectedCheckbox) {
+        //         alert("도서를 삭제하시겠습니까?");
+        //         var selectedBookId = selectedCheckbox.value;
+        //         window.location.href = "";
+        //     } else {
+        //         alert("도서를 선택하세요.");
+        //     }
+        // }
+
+        window.onload = function() {
+            selectOnlyOneCheckbox();
+        };
+    </script>
+</th:block>
+</html>

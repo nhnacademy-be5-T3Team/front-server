@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="admin/layout/layout">
+<th:block layout:fragment="content">
+    <!--        <div class="ml-3 mb-3">-->
+    <!--            <button type="button" class="btn btn-danger" onclick="deleteSelectedBooks()">삭제</button>-->
+    <!--        </div>-->
+    <table id="categoryTable" class="table">
+        <thead class="table-light">
+        <tbody>
+        </tbody>
+    </table>
+
+    <script th:inline="javascript">
+        function selectOnlyOneCheckbox() {
+            var checkboxes = document.getElementsByClassName('tagCheckbox');
+            for (var i = 0; i < checkboxes.length; i++) {
+                checkboxes[i].onclick = function() {
+                    for (var j = 0; j < checkboxes.length; j++) {
+                        if (checkboxes[j] != this) {
+                            checkboxes[j].checked = false;
+                        }
+                    }
+                };
+            }
+        }
+
+        // function deleteSelectedBooks() {
+        //     var selectedCheckbox = document.querySelector('input[name="bookCheckbox"]:checked');
+        //     if (selectedCheckbox) {
+        //         alert("도서를 삭제하시겠습니까?");
+        //         var selectedBookId = selectedCheckbox.value;
+        //         window.location.href = "";
+        //     } else {
+        //         alert("도서를 선택하세요.");
+        //     }
+        // }
+
+        window.onload = function() {
+            selectOnlyOneCheckbox();
+            updateCategoryTable(1, 2, /*[[${categoryList}]]*/);
+        };
+
+        function updateCategoryTable(startDepth, maxDepth, data) {
+            var tableHead = $('#categoryTable thead');
+            var tableBody = $('#categoryTable tbody');
+
+            // 첫 번째 열 :  checkbox
+            var headerRow = $('<tr>');
+            headerRow.append('<th>Checkbox</th>');
+
+            // startDepth부터 maxDepth까지의 열을 추가
+            for (var depth = startDepth; depth <= maxDepth; depth++) {
+                headerRow.append('<th>' + depth + ' Depth</th>');
+            }
+
+            // thead에 행을 추가
+            tableHead.empty().append(headerRow);
+
+            tableBody.empty();
+
+            // 데이터를 처리하는 재귀 함수
+            function processCategories(categories, parentNames, parentId) {
+                categories.forEach(function(category) {
+                    var row = $('<tr>');
+
+                    // 카테고리 id를 설정합니다.
+                    var categoryId = category.categoryId || parentId; // 자식 카테고리가 없는 경우 parentId를 사용
+                    // 각 행에 첫 번째 열에는 checkbox를 추가
+                    var checkboxCell = $('<td>');
+                    var checkbox = $('<input>').attr('type', 'checkbox').attr('name', 'categoryCheckbox');
+                    checkboxCell.append(checkbox);
+                    row.append(checkboxCell);
+
+                    // 각 행에 카테고리 이름을 추가
+                    parentNames.forEach(function(parentName) {
+                        var parentCategoryCell = $('<td>').text(parentName);
+                        row.append(parentCategoryCell);
+                    });
+                    var categoryNameCell = $('<td>').text(category.categoryName);
+                    row.append(categoryNameCell);
+
+                    tableBody.append(row);
+
+                    // 해당 카테고리에 하위 항목이 있는 경우 재귀적으로 처리
+                    if (category.children && category.children.length > 0) {
+                        var newParentNames = parentNames.slice();
+                        newParentNames.push(category.categoryName);
+                        processCategories(category.children, newParentNames, categoryId);
+                    }
+                });
+            }
+            processCategories(data, [], null);
+        }
+    </script>
+</th:block>
+</html>

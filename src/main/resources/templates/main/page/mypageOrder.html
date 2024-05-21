@@ -122,7 +122,7 @@
                                         </button>
 
                                         <button th:if="${orderDetailInfo.orderStatusName != 'PENDING'}"
-                                                class="btn btn-outline-dark">
+                                                class="btn btn-outline-dark" th:onclick="|location.href='@{/reviews/register(bookId=${orderDetailInfo.bookId}, orderDetailId=${orderDetailInfo.orderDetailId})}'|">
                                             리뷰 작성하기
                                         </button>
 
