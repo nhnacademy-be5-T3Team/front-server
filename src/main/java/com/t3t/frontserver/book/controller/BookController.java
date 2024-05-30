@@ -4,6 +4,7 @@ import com.t3t.frontserver.book.client.BookApiClient;
 import com.t3t.frontserver.book.model.response.BookDetailResponse;
 import com.t3t.frontserver.category.client.CategoryApiClient;
 import com.t3t.frontserver.category.response.CategoryTreeResponse;
+import com.t3t.frontserver.category.service.CategoryService;
 import com.t3t.frontserver.index.OrderFormRequest;
 import com.t3t.frontserver.model.response.BaseResponse;
 import com.t3t.frontserver.model.response.PageResponse;
@@ -24,15 +25,15 @@ import static com.t3t.frontserver.util.ServiceUtils.handleResponse;
 @Controller
 @RequiredArgsConstructor
 public class BookController {
-    private final CategoryApiClient categoryAdaptor;
     private final BookApiClient bookApiClient;
     private final ReviewApiClient reviewApiClient;
+    private final CategoryService categoryService;
 
     @GetMapping("books/{bookId}")
     public String getBook(Model model, @PathVariable Long bookId,
                        @RequestParam(value = "pageNo", defaultValue = "0", required = false) int pageNo) {
 
-        List<CategoryTreeResponse> categoryList = getDataFromCategoryAdaptor(1, 2);
+        List<CategoryTreeResponse> categoryList = categoryService.getCategoryTreeByDepth(1, 2);
         BookDetailResponse bookDetailList = getDataFromBookAdaptor(bookId);
         PageResponse<ReviewResponse> reviewList = getDataFromReviewAdaptor(bookId, pageNo);
 
@@ -56,11 +57,6 @@ public class BookController {
         model.addAttribute("orderFormRequest", new OrderFormRequest());
 
         return "main/page/detail";
-    }
-
-    private List<CategoryTreeResponse> getDataFromCategoryAdaptor(Integer startDepth, Integer maxDepth ) {
-        ResponseEntity<BaseResponse<List<CategoryTreeResponse>>> categoriesResponse = categoryAdaptor.getCategoryTreeByDepth(startDepth, maxDepth);
-        return handleResponse(categoriesResponse);
     }
 
     private BookDetailResponse getDataFromBookAdaptor(Long bookId) {
